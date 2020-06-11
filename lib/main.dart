@@ -50,7 +50,6 @@ class Home extends StatelessWidget {
               child: Text('Giriş1S'),
             ),
           ),
-          //Container(child: Image.network('https://images.unsplash.com/photo-1531292843150-25556cdc7976?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'))
         ]),
       ),
       floatingActionButton: FloatingActionButton(
