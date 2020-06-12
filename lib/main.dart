@@ -1,21 +1,18 @@
+import 'package:flatform/screens/home.dart';
+import 'package:flatform/screens/person.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MaterialApp(
-      home: Home(),
+      home: Login(),
     ));
 
-class Home extends StatelessWidget {
+class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('flatform'),
-        centerTitle: true,
-        backgroundColor: Colors.blue[600],
-      ),
       body: Container(
         padding: EdgeInsets.fromLTRB(40.0,0.0,40.0,40.0),
-        margin: EdgeInsets.fromLTRB(50.0, 60.0, 50.0, 100.0),
+        margin: EdgeInsets.fromLTRB(50.0, 90.0, 50.0, 180.0),
         color: Colors.grey[300],
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,16 +59,13 @@ class Home extends StatelessWidget {
           ),
           Container(
             child: RaisedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+              },
               child: Text('Giriş'),
             ),
           ),
         ]),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Text('Menü'),
-        backgroundColor: Colors.blue[600],
       ),
     );
   }
