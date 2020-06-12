@@ -37,7 +37,7 @@ class PersonNotificationT extends StatefulWidget{
                     margin: EdgeInsets.fromLTRB(0.0,0,1,0),
                     child: RaisedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonNotification()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonNotificationT()));
                     },
                     child: Text('Önceliğe Göre'),
                   ),
@@ -46,7 +46,7 @@ class PersonNotificationT extends StatefulWidget{
                     padding: EdgeInsets.fromLTRB(40,10,40,10),
                     child: RaisedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonNotificationT()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PersonNotification()));
                     },
                     child: Text('Tarihe Göre'),
                   ),)
@@ -55,20 +55,10 @@ class PersonNotificationT extends StatefulWidget{
               Container(
                 padding: EdgeInsets.fromLTRB(10.0,0,10,10),
                 child: Container(
-                  color: Colors.green,
-                  padding: EdgeInsets.fromLTRB(20,20,20,20),
+                  color: Colors.red,
+                  padding: EdgeInsets.fromLTRB(20,20,150,20),
                   child: Text(
-                    '8.45-8.50 arasında 1. makineden veri alınamadı.'
-                    )
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(10.0,0,10,10),
-                child: Container(
-                  color: Colors.yellow,
-                  padding: EdgeInsets.fromLTRB(75,20,75,20),
-                  child: Text(
-                    '2. Makine Çalışmayı durdurdu'
+                    'Kibana Çalışmayı Durdurdu 02.02.2020 10.30'
                     )
                 ),
               ),
@@ -76,25 +66,36 @@ class PersonNotificationT extends StatefulWidget{
                 padding: EdgeInsets.fromLTRB(10.0,0,10,10),
                 child: Container(
                   color: Colors.orange,
-                  padding: EdgeInsets.fromLTRB(100,20,100,20),
+                  padding: EdgeInsets.fromLTRB(20,20,180,20),
                   child: Text(
-                    'Kibana Belleği Doldu'
+                    'Kibana Belleği Doldu 24.02.2020 10.30'
                     )
                 ),
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(10.0,0,10,10),
                 child: Container(
-                  color: Colors.red,
-                  padding: EdgeInsets.fromLTRB(85,20,85,20),
+                  color: Colors.yellow,
+                  padding: EdgeInsets.fromLTRB(20,20,130,20),
                   child: Text(
-                    'Kibana Çalışmayı Durdurdu'
+                    '2. Makine Çalışmayı durdurdu 17.03.2020 10.30'
+                    )
+                ),
+              ),
+              
+              Container(
+                padding: EdgeInsets.fromLTRB(10.0,0,10,10),
+                child: Container(
+                  color: Colors.green,
+                  padding: EdgeInsets.fromLTRB(20,20,20,20),
+                  child: Text(
+                    '8.45-8.50 arasında 1. makineden veri alınamadı. 24.03.2020 10.30'
                     )
                 ),
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(10.0,0,10,10),
-                margin: EdgeInsets.fromLTRB(0, 150.0, 0, 0),
+                margin: EdgeInsets.fromLTRB(0, 80.0, 0, 0),
                 child: Row(children: <Widget>[
                   Container(
                     color: Colors.white,
