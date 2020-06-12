@@ -11,61 +11,69 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.fromLTRB(40.0,0.0,40.0,40.0),
+        padding: EdgeInsets.fromLTRB(40.0, 0.0, 40.0, 40.0),
         margin: EdgeInsets.fromLTRB(50.0, 90.0, 50.0, 180.0),
         color: Colors.grey[300],
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(40.0),
-            child: Text(
-              'Flatform',
-              style: TextStyle(
-                color: Colors.blue,
-                letterSpacing: 2.0,
-                fontSize: 32.0,
-              ),
-              ),
-          ),
-          Container(
-            child: Text('İsim'),
-          ),
-          Container(
-          padding: EdgeInsets.fromLTRB(0.0,0.0,0.0,10.0),
-          child: TextFormField(),
-          ), //Text Input
-          Container(
-            child: Text('Soyisim'),
-          ),
-          Container(
-          padding: EdgeInsets.fromLTRB(0.0,0.0,0.0,10.0),
-          child: TextFormField(),
-          ), //Text Input
-          Container(
-            child: Row(
-              children: <Widget>[
-                Container(
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.check_box_outline_blank),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(40.0),
+                child: Text(
+                  'Flatform',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    letterSpacing: 2.0,
+                    fontSize: 32.0,
                   ),
                 ),
-                Container(
-                  child: Text('Beni Hatırla1'),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.mail),
+                    hintText: '@farplas.com',
+                    labelText: 'Mail *',
+                  ),
                 ),
-              ],
-            ),
-          ),
-          Container(
-            child: RaisedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
-              },
-              child: Text('Giriş'),
-            ),
-          ),
-        ]),
+              ), //Text Input
+
+              Container(
+                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.lock),
+                    labelText: 'Password *',
+                  ),
+                  obscureText: true,
+                ),
+              ), //Text Input
+              Container(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.check_box_outline_blank),
+                      ),
+                    ),
+                    Container(
+                      child: Text('Beni Hatırla1'),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                child: RaisedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Home()));
+                  },
+                  child: Text('Giriş'),
+                ),
+              ),
+            ]),
       ),
     );
   }
