@@ -9,26 +9,42 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('flatform1'),
+        title: Text('flatform'),
         centerTitle: true,
         backgroundColor: Colors.blue[600],
       ),
       body: Container(
-        padding: EdgeInsets.all(40.0),
+        padding: EdgeInsets.fromLTRB(40.0,0.0,40.0,40.0),
         margin: EdgeInsets.fromLTRB(50.0, 60.0, 50.0, 100.0),
-        color: Colors.grey[400],
-        child: Column(children: <Widget>[
+        color: Colors.grey[300],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
           Container(
-            child: Text('Flatform'),
+            padding: EdgeInsets.all(40.0),
+            child: Text(
+              'Flatform',
+              style: TextStyle(
+                color: Colors.blue,
+                letterSpacing: 2.0,
+                fontSize: 32.0,
+              ),
+              ),
           ),
           Container(
             child: Text('İsim'),
           ),
-          Container(), //Text Input
+          Container(
+          padding: EdgeInsets.fromLTRB(0.0,0.0,0.0,10.0),
+          child: TextFormField(),
+          ), //Text Input
           Container(
             child: Text('Soyisim'),
           ),
-          Container(), //Text Input
+          Container(
+          padding: EdgeInsets.fromLTRB(0.0,0.0,0.0,10.0),
+          child: TextFormField(),
+          ), //Text Input
           Container(
             child: Row(
               children: <Widget>[
@@ -39,7 +55,7 @@ class Home extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  child: Text('Beni Hatırla'),
+                  child: Text('Beni Hatırla1'),
                 ),
               ],
             ),
@@ -47,7 +63,7 @@ class Home extends StatelessWidget {
           Container(
             child: RaisedButton(
               onPressed: () {},
-              child: Text('Giriş1S'),
+              child: Text('Giriş'),
             ),
           ),
         ]),
