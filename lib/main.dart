@@ -1,6 +1,7 @@
 import 'package:flatform/screens/home.dart';
 import 'package:flatform/screens/person.dart';
 import 'package:flutter/material.dart';
+import 'package:charts_flutter/flutter.dart';
 
 void main() => runApp(MaterialApp(
       home: Login(),
@@ -21,11 +22,7 @@ class Login extends StatelessWidget {
                 padding: EdgeInsets.all(40.0),
                 child: Text(
                   'Flatform',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    letterSpacing: 2.0,
-                    fontSize: 32.0,
-                  ),
+                  
                 ),
               ),
               Container(
@@ -59,7 +56,7 @@ class Login extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      child: Text('Beni Hatırla1'),
+                      child: Text('Beni Hatırla'),
                     ),
                   ],
                 ),
