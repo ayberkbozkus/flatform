@@ -15,7 +15,7 @@ class Login extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: BottomNavScreen(),  
+      home: BottomNavScreen(),
     );
   }
 }
