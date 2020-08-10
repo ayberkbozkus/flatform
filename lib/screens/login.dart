@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'appBar.dart';
+import './NavBar.dart';
 
 String _email;
 String _password;
@@ -18,7 +19,7 @@ class Login extends StatelessWidget {
         ),
         body: Stack(
           children: <Widget>[
-            showForm(),
+            showForm(context),
             showCircularProgress(),
           ],
         ));
@@ -87,7 +88,7 @@ Widget showPasswordInput() {
   );
 }
 
-Widget showPrimaryButton() {
+Widget showPrimaryButton(context) {
   return new Padding(
       padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
       child: SizedBox(
@@ -100,8 +101,12 @@ Widget showPrimaryButton() {
           child: new Text(_isLoginForm ? 'Login' : 'Create account',
               style: new TextStyle(fontSize: 20.0, color: Colors.white)),
           onPressed: () {
-            print(_email);
-            print(_password);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomePage(),
+              ),
+            );
           },
         ),
       ));
@@ -143,7 +148,7 @@ Widget showErrorMessage() {
 
 final _formKey = new GlobalKey<FormState>();
 
-Widget showForm() {
+Widget showForm(context) {
   return new Container(
       padding: EdgeInsets.all(16.0),
       child: new Form(
@@ -154,7 +159,7 @@ Widget showForm() {
             showLogo(),
             showEmailInput(),
             showPasswordInput(),
-            showPrimaryButton(),
+            showPrimaryButton(context),
             showSecondaryButton(),
             //showErrorMessage(),
           ],
