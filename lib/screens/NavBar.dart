@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+import './pieChart.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,19 +17,28 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Flatform'),
         centerTitle: true,
-        bottom: TabBar(tabs: <Widget>[
-          Tab(
-            text: '2018',
-          ),
-          Tab(
-            text: '2019',
-          ),
-          Tab(
-            text: '2020',
-          ),
-        ]),
+        // bottom: TabBar(tabs: <Widget>[
+        //   Tab(
+        //     text: '2018',
+        //   ),
+        //   Tab(
+        //     text: '2019',
+        //   ),
+        //   Tab(
+        //     text: '2020',
+        //   ),
+        // ]),
       ),
-      body: Text('Hello'),
+      body: FlatButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DonutAutoLabelChart(),
+              ),
+            );
+          },
+          child: Text('Chart')),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
