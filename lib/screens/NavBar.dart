@@ -9,17 +9,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static var chartdisplay;
+  static var barchartdisplay;
+  static var piechartdisplay;
   void initState() {
     setState(() {
       var data = [
-        addCharts("1. makine", 10),
-        addCharts("2. makine", 25),
-        addCharts("3. makine", 30),
-        addCharts("4. makine", 10),
-        addCharts("5. makine", 15),
-        addCharts("6. makine", 35),
-        addCharts("7. makine", 25),
+        addCharts("1", 13),
+        addCharts("2", 23),
+        addCharts("3", 27),
+        addCharts("4", 9),
+        addCharts("5", 17),
+        addCharts("6", 31),
+        addCharts("7", 18),
+        addCharts("8", 25),
+        addCharts("9", 15),
+        addCharts("10", 25),
+        addCharts("11", 12),
+        addCharts("12", 35),
       ];
       var series = [
         charts.Series(
@@ -29,7 +35,11 @@ class _HomePageState extends State<HomePage> {
           data: data,
         ),
       ];
-      chartdisplay = charts.BarChart(
+      barchartdisplay = charts.BarChart(
+        series,
+        animationDuration: Duration(microseconds: 2000),
+      );
+      piechartdisplay = charts.PieChart(
         series,
         animationDuration: Duration(microseconds: 2000),
       );
@@ -66,17 +76,19 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   //Icon
-                  Material(
-                    color: new Color(color),
-                    borderRadius: BorderRadius.circular(24.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Icon(
-                        icon,
-                        color: Colors.white,
-                        size: 30.0,
+                  Row(
+                    children: <Widget>[
+                      Center(
+                        child: new Container(
+                          height: 200,
+                          width: 200,
+                          child: piechartdisplay,
+                        ),
                       ),
-                    ),
+                      Center(
+                        child: Text("denemedenemedeneme"),
+                      )
+                    ],
                   ),
                 ],
               ),
@@ -114,18 +126,17 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           children: <Widget>[
             myItems(Icons.graphic_eq, "Çalışan Makine Sayısı", 0xff7297ff),
-            myItems(
-                Icons.bookmark, "Toplam Üretim\nHatalı/Hatasız", 0xff7297ff),
+            myItems(Icons.bookmark, "Toplam Üretim Hatalı/Hatasız", 0xff7297ff),
             myItems(Icons.notifications, "Toplam Üretim", 0xff7297ff),
             myItems(Icons.attach_money, "Hatalı Parça", 0xff7297ff),
             myItems(Icons.settings, "Tesis Verimliliği", 0xff7297ff),
           ],
           staggeredTiles: [
-            StaggeredTile.extent(1, 150.0),
-            StaggeredTile.extent(1, 150.0),
-            StaggeredTile.extent(2, 150.0),
-            StaggeredTile.extent(1, 150.0),
-            StaggeredTile.extent(1, 150.0),
+            StaggeredTile.extent(2, 250.0),
+            StaggeredTile.extent(2, 250.0),
+            StaggeredTile.extent(2, 250.0),
+            StaggeredTile.extent(2, 250.0),
+            StaggeredTile.extent(2, 250.0),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -135,22 +146,22 @@ class _HomePageState extends State<HomePage> {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              title: Text('Home'),
+              title: Text('Anasayfa'),
               backgroundColor: Colors.blue,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.notifications),
-              title: Text('Home'),
+              title: Text('Bildirimler'),
               backgroundColor: Colors.blue,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              title: Text('Home'),
+              title: Text('Profil'),
               backgroundColor: Colors.blue,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.message),
-              title: Text('Home'),
+              title: Text('Mesajlar'),
               backgroundColor: Colors.blue,
             ),
           ],
@@ -170,10 +181,3 @@ class addCharts {
   final int values;
   addCharts(this.label, this.values);
 }
-
-// Center(
-//               child: new Container(
-//                 height: MediaQuery.of(context).size.height * 0.40,
-//                 child: chartdisplay,
-//               ),
-//             ),
