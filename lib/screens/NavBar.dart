@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -45,6 +46,52 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Widget sfRadialGaugedisplay = SfRadialGauge(
+    axes: <RadialAxis>[
+      RadialAxis(
+        minimum: 0,
+        maximum: 80,
+        interval: 10,
+        ranges: <GaugeRange>[
+          GaugeRange(
+            startValue: 0,
+            endValue: 25,
+            color: Colors.orange,
+          ),
+          GaugeRange(
+            startValue: 25,
+            endValue: 55,
+            color: Colors.yellow,
+          ),
+          GaugeRange(
+            startValue: 55,
+            endValue: 80,
+            color: Colors.green,
+          ),
+        ],
+        pointers: <GaugePointer>[
+          NeedlePointer(
+            value: 12,
+            enableAnimation: true,
+          )
+        ],
+        annotations: <GaugeAnnotation>[
+          GaugeAnnotation(
+            widget: Text(
+              "12",
+              style: TextStyle(
+                color: Colors.orange,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            positionFactor: 0.5,
+            angle: 90,
+          )
+        ],
+      ),
+    ],
+  );
+
   var data = [0.0, 1.0, 1.5, 2.0];
   int _currentIndex = 0;
   Material myItems(IconData icon, String heading, int color) {
@@ -79,10 +126,10 @@ class _HomePageState extends State<HomePage> {
                     children: <Widget>[
                       Center(
                         child: new Container(
-                          height: 200,
-                          width: 200,
-                          child: piechartdisplay,
-                        ),
+                            height: 200,
+                            width:
+                                200, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
+                            child: sfRadialGaugedisplay),
                       ),
                       Center(
                         child: Text("denemedenemedeneme"),
@@ -151,11 +198,6 @@ class _HomePageState extends State<HomePage> {
             BottomNavigationBarItem(
               icon: Icon(Icons.notifications),
               title: Text('Bildirimler'),
-              backgroundColor: Colors.blue,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text('Profil'),
               backgroundColor: Colors.blue,
             ),
             BottomNavigationBarItem(

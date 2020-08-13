@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       title: 'Flatform Login',
       debugShowCheckedModeBanner: false,
       theme: new ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: new Login(),
     );
