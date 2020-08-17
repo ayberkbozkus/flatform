@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import './notification.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,6 +13,27 @@ class _HomePageState extends State<HomePage> {
   static var barchartdisplay;
   static var wbarchartdisplay;
   static var piechartdisplay;
+  List<charts.Series<Task, String>> _seriesPieData;
+  _generateData() {
+    var pieData = [
+      new Task('Planlı', 3, Color(0xff3366cc)),
+      new Task('Arıza', 1, Color(0xff3366cc)),
+      new Task('Plansız', 4, Color(0xff3366cc)),
+      new Task('Bilinmeyen', 2, Color(0xff3366cc)),
+    ];
+    _seriesPieData.add(
+      charts.Series(
+        data: pieData,
+        domainFn: (Task task, _) => task.task,
+        measureFn: (Task task, _) => task.taskvalue,
+        colorFn: (Task task, _) =>
+            charts.ColorUtil.fromDartColor(task.colorval),
+        id: 'Tesis Verimliliği',
+        labelAccessorFn: (Task row, _) => '${row.taskvalue}',
+      ),
+    );
+  }
+
   void initState() {
     setState(() {
       var data = [
@@ -81,6 +103,9 @@ class _HomePageState extends State<HomePage> {
         animationDuration: Duration(microseconds: 2000),
       );
     });
+    super.initState();
+    _seriesPieData = List<charts.Series<Task, String>>();
+    _generateData();
   }
 
   Widget sfRadialGaugedisplay = SfRadialGauge(
@@ -472,6 +497,17 @@ class _HomePageState extends State<HomePage> {
                             150, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
                         child: piechartdisplay),
                   ),
+                  RaisedButton(
+                    child: Text('Bildirimler'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PersonNotification(),
+                        ),
+                      );
+                    },
+                  )
                 ],
               ),
             ],
@@ -519,8 +555,8 @@ class _HomePageState extends State<HomePage> {
             StaggeredTile.extent(1, 220.0),
             StaggeredTile.extent(1, 220.0),
             StaggeredTile.extent(2, 200.0),
-            StaggeredTile.extent(1, 200.0),
-            StaggeredTile.extent(1, 200.0),
+            StaggeredTile.extent(1, 250.0),
+            StaggeredTile.extent(1, 250.0),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -563,7 +599,7 @@ class addCharts {
 
 class Task {
   String task;
-  String taskvalue;
+  double taskvalue;
   Color colorval;
   Task(this.task, this.taskvalue, this.colorval);
 }
