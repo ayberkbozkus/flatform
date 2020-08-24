@@ -1,0 +1,22 @@
+{
+    "Production" : {
+        "title":"title", // tesis, makine, kalıp vs   String
+        "titlenum":"titlenum", // türünden kaç tane var
+        "id":"id", // id uniqe
+        "work":"work", // çalışıp çalışmadığı
+        "correct":"correct", // hatasız üretim
+        "incorrect":"incorrect", // hatalı üretim
+        "date":"date", // üretim zamanı bugün
+        "planing":"planing", // planlanan toplam üretim
+        "finish":"finish", // biten üretim
+        "nTime":"nTime", // bitiş için gerekli zaman
+        "average":"average", // ortalama çevirim, tesis null
+        "next":"next" // sıradaki kalıp, tesis için null
+    },
+    "Productivity" : { //  verimlilik
+        "planing":"planing", // Planlanan
+        "nPlaning":"nPlaning", // Planlanmayan
+        "broken":"broken", // Arıza
+        "unknown":"unknown" // Bilinmeyen
+    }
+}

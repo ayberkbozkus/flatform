@@ -1,0 +1,111 @@
+{
+    "MachineTotal" : { // çalışan makine toplam
+        "total": 18,
+        "work": 2
+    },
+    "TotalTotal" : { // toplam üretim hatalı/hatasız toplam
+        "correct": 10000,
+        "incorrect": 20000
+    },
+    "TotalProductTotal" : { // toplam üretim tottoplamal
+        "Facility1":1000,
+        "Facility2":1000,
+        "Facility3":1000,
+        "Facility4":1000,
+        "Total":10000,
+        "Product": 13,
+        "Time": 3.22
+    },
+    "TotalPieceTotal" : { // hatalı parça toplam
+        "total":1000,
+        "Incorrect":10000
+    },
+    "TotalProductivtyTotal" : { // tesis verimliliği toplam
+        "Planing":5,
+        "unPlaning":12,
+        "Broken":12,
+        "Unknown":5
+    },
+    "MachineFacility" : { // çalışan makine tesis
+        "total": 18,
+        "work": 2
+    },
+    "TotalFacility" : { // toplam üretim hatalı/hatasız tesis
+        "correct": 10000,
+        "incorrect": 20000
+    },
+    "TotalProductFacility" : { // toplam üretim tesis
+        "Machine1":1000,
+        "Machine2":1000,
+        "Machine3":1000,
+        "Machine4":1000,
+        "Machine5":1000,
+        "Machine6":1000,
+        "Machine7":1000,
+        "Machine8":1000,
+        "Machine9":1000,
+        "Machine10":1000,
+        "Total":10000,
+        "Product": 13,
+        "Time": 3.22
+    },
+    "TotalPieceFacility" : { // hatalı parça tesis
+        "total":1000,
+        "Incorrect":10000
+    },
+    "TotalProductivtyFacility" : { // tesis verimliliği tesis
+        "Planing":5,
+        "unPlaning":12,
+        "Broken":12,
+        "Unknown":5
+    },
+    "MoldMachine" : { // çalışan kalıp makine
+        "totaltime": 18,
+        "necessaryTime": 2,
+        "next": "B Kalıbı"
+    },
+    "TotalMachine" : { // toplam üretim hatalı/hatasız makine
+        "correct": 10000,
+        "incorrect": 20000
+    },
+    "TotalProductMachine" : { // toplam üretim makine
+        "Mold1":1000,
+        "Mold2":1000,
+        "Mold3":1000,  
+        "total": 1237,      
+        "correct": 1237,
+        "inCorrect": 59
+    },
+    "averageTimeMachine" : { // hatalı parça makine
+        "time": 42
+    },
+    "TotalProductivtyMachine" : { // tesis verimliliği makine
+        "Planing":5,
+        "unPlaning":12,
+        "Broken":12,
+        "Unknown":5
+    },
+    "MoldMold" : { // çalışan kalıp
+        "totaltime": 18,
+        "necessaryTime": 2,
+        "next": "B Kalıbı"
+    },
+    "TotalMold" : { // toplam üretim hatalı/hatasız kalıp
+        "correct": 10000,
+        "incorrect": 20000
+    },
+    "TotalProductMold" : { // toplam üretim kalıp
+        "total": 1237,      
+        "correct": 1237,
+        "inCorrect": 59
+    },
+    "averageTimeMold" : { // hatalı parça kalıp
+        "time":42
+    },
+    "TotalProductivtyMold" : { // tesis verimliliği kalıp
+        "Planing":5,
+        "unPlaning":12,
+        "Broken":12,
+        "Unknown":5
+    }
+}

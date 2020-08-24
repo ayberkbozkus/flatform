@@ -2,19 +2,19 @@ import 'package:flutter/foundation.dart';
 
 class Machine {
   @required
-  final String mtitle;
+  final String title; // türü makine, tesis, kalıp
   @required
-  final String ptitle;
+  final String mid; // makine id
   @required
-  final DateTime date;
+  final DateTime date; // tarih
   @required
-  final DateTime totalT;
+  final DateTime totalT; // total üretim
   @required
-  final DateTime finishT;
+  final DateTime finishT; // bitiş süresi
 
   Machine({
-    this.mtitle,
-    this.ptitle,
+    this.title,
+    this.mid,
     this.date,
     this.totalT,
     this.finishT,
@@ -39,46 +39,61 @@ class Work {
   });
 }
 
-class TotalProduction {
+class Production {
   @required
-  final int correct; // hatasız
+  final String title; // tesis, makine, kalıp vs
   @required
-  final int incorrect; // hatalı
+  final int titlenum; // türünden kaç tane var
   @required
-  final DateTime date; // üretim zamanı
+  final String id; // id uniqe
   @required
-  final String title; // tesis vs
+  final String work; // çalışıp çalışmadığı
   @required
-  final int planing; // planlanan
+  final int correct; // hatasız üretim
   @required
-  final int finish; // biten
+  final int incorrect; // hatalı üretim
+  @required
+  final DateTime date; // üretim zamanı bugün
+  @required
+  final int planing; // planlanan toplam üretim
+  @required
+  final int finish; // biten üretim
   @required
   final DateTime nTime; // gerekli zaman
+  @required
+  final int average; // biten üretim
+  @required
+  final int next; // sıradaki kalıp, diğerleri null
 
-  TotalProduction({
+  Production({
+    this.title,
+    this.titlenum,
+    this.id,
     this.correct,
+    this.work,
     this.incorrect,
     this.date,
-    this.title,
     this.planing,
     this.finish,
     this.nTime,
+    this.average,
+    this.next,
   });
 }
 
-class Stop {
+class Productivity {
   @required
-  final int planing;
+  final int planing; // Planlanan
   @required
-  final int nPlaning;
+  final int nPlaning; // Planlanmayan
   @required
-  final int fault;
+  final int broken; // Arıza
   @required
-  final int unknown;
-  Stop({
+  final int unknown; // Bilinmeyen
+  Productivity({
     this.planing,
     this.nPlaning,
-    this.fault,
+    this.broken,
     this.unknown,
   });
 }

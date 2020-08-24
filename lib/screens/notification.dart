@@ -1,3 +1,4 @@
+import 'package:flatform/config/styles.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,169 +16,97 @@ class PersonNotification extends StatefulWidget {
 class _PersonNotificationState extends State {
   int _currentIndex = 0;
 
-  Material mybarItems(String boxtext, String heading, int color) {
-    return Material(
-      color: Colors.white,
-      elevation: 5.0,
-      shadowColor: Colors.blue[200],
-      borderRadius: BorderRadius.circular(10.0),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // text
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      heading,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
-                  //Icon
+  List<Notification> allNotification = [];
 
-                  Center(
-                    child: new Container(
-                      //piechartdisplay    barchartdisplay     sfRadialGaugedisplay      wbarchartdisplay
-                      child: Text(boxtext),
-                    ),
+  @override
+  Widget build(BuildContext context) {
+    takeNotification();
+    // TODO: implement build
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        body: ListView.builder(
+          itemCount: 4,
+          itemBuilder: (context, index) => Container(
+            child: Card(
+              color: allNotification[index]._color,
+              margin: EdgeInsets.all(5),
+              elevation: 10,
+              child: ListTile(
+                title: Text(
+                  "${allNotification[index]._title}",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
                   ),
-                ],
+                ),
+                subtitle: Text(
+                  "\n${allNotification[index]._message}\n\n${allNotification[index]._time.year}/${allNotification[index]._time.month}/${allNotification[index]._time.day} ${allNotification[index]._time.hour}:${allNotification[index]._time.minute}",
+                ),
+                onTap: () {
+                  alertDialogshow(context, index);
+                },
               ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('flatform Ana Sayfa'),
-          centerTitle: true,
-          backgroundColor: Colors.blue[600],
-        ),
-        body: Container(
-          padding: EdgeInsets.fromLTRB(1, 10, 1, 1),
-          color: Colors.grey[300],
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.center, children: <
-                  Widget>[
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
-              padding: EdgeInsets.fromLTRB(10.0, 0, 10, 10),
-              child: Row(children: <Widget>[
-                Container(
-                  padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                  margin: EdgeInsets.fromLTRB(0.0, 0, 1, 0),
-                  child: RaisedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PersonNotificationT()));
-                    },
-                    child: Text('Önceliğe Göre'),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                  child: RaisedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PersonNotification()));
-                    },
-                    child: Text('Tarihe Göre'),
-                  ),
-                )
-              ]),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(10.0, 0, 10, 10),
-              child: Container(
-                  color: Colors.green,
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                  child: Text(
-                      '8.45-8.50 arasında 1. makineden veri alınamadı. 24.03.2020 10.30')),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(10.0, 0, 10, 10),
-              child: Container(
-                  color: Colors.yellow,
-                  padding: EdgeInsets.fromLTRB(20, 20, 130, 20),
-                  child: Text('2. Makine Çalışmayı durdurdu 17.03.2020 10.30')),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(10.0, 0, 10, 10),
-              child: Container(
-                  color: Colors.orange,
-                  padding: EdgeInsets.fromLTRB(20, 20, 180, 20),
-                  child: Text('Kibana Belleği Doldu 24.02.2020 10.30')),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(10.0, 0, 10, 10),
-              child: Container(
-                  color: Colors.red,
-                  padding: EdgeInsets.fromLTRB(20, 20, 150, 20),
-                  child: Text('Kibana Çalışmayı Durdurdu 02.02.2020 10.30')),
-            ),
-          ]),
-        ),
-        body: StaggeredGridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 10.0,
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          children: <Widget>[
-            mybarItems("Icons.graphic_eq", "Çalışan Makine Sayısı", 0xff7297ff),
-          ],
-          staggeredTiles: [
-            StaggeredTile.extent(1, 220.0),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text('Anasayfa'),
-              backgroundColor: Colors.blue,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              title: Text('Bildirimler'),
-              backgroundColor: Colors.blue,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.message),
-              title: Text('Mesajlar'),
-              backgroundColor: Colors.blue,
-            ),
-          ],
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-        ),
+  void takeNotification() {
+    allNotification = List.generate(
+      4,
+      (index) => Notification(
+        "$index. Başlık",
+        "$index. Bildirim ve açıklama",
+        DateTime.now(),
+        index % 3 == 0
+            ? Colors.blue[200]
+            : (index % 2 == 0 ? Colors.red[100] : Colors.green[200]),
       ),
     );
   }
+
+  void alertDialogshow(BuildContext ctx, index) {
+    showDialog(
+      context: ctx,
+      // barrierDismissible: true, // dışarıya tıklayınca kapatma
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text("${allNotification[index]._title}"),
+          content: Text(
+              "${allNotification[index]._message} \n${allNotification[index]._time.year}/${allNotification[index]._time.month}/${allNotification[index]._time.day} ${allNotification[index]._time.hour}:${allNotification[index]._time.minute}\n\n\n"),
+          actions: <Widget>[
+            ButtonBar(
+              children: <Widget>[
+                FlatButton(
+                  onPressed: () {},
+                  child: Text("Tamam"),
+                  color: Colors.green,
+                ),
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                  child: Text("Kapat"),
+                  color: Colors.red,
+                ),
+              ],
+            )
+          ],
+        );
+      },
+    );
+  }
+}
+
+class Notification {
+  String _title;
+  String _message;
+  DateTime _time;
+  Color _color;
+  Notification(this._title, this._message, this._time, this._color);
 }
