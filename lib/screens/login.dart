@@ -58,7 +58,7 @@ Widget showEmailInput() {
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
       decoration: new InputDecoration(
-          hintText: 'Email',
+          hintText: 'Eposta',
           icon: new Icon(
             Icons.mail,
             color: Colors.grey,
@@ -77,7 +77,7 @@ Widget showPasswordInput() {
       obscureText: true,
       autofocus: false,
       decoration: new InputDecoration(
-          hintText: 'Password',
+          hintText: 'Şifre',
           icon: new Icon(
             Icons.lock,
             color: Colors.grey,
@@ -98,7 +98,7 @@ Widget showPrimaryButton(context) {
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(30.0)),
           color: Colors.blue,
-          child: new Text(_isLoginForm ? 'Login' : 'Create account',
+          child: new Text(_isLoginForm ? 'Giriş' : '',
               style: new TextStyle(fontSize: 20.0, color: Colors.white)),
           onPressed: () {
             Navigator.push(
@@ -114,8 +114,7 @@ Widget showPrimaryButton(context) {
 
 Widget showSecondaryButton() {
   return new FlatButton(
-      child: new Text(
-          _isLoginForm ? 'Create an account' : 'Have an account? Sign in',
+      child: new Text(_isLoginForm ? ' ' : 'Have an account? Sign in',
           style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
       onPressed: () {
         print('hello');

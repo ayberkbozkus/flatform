@@ -16,6 +16,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   static var wbarchartdisplay;
   static var piechartdisplay;
   static var gaugechartdisplay;
+  static var donutchartdisplay;
   TabController tabController;
   TabController tabControllerup;
   String location = "Tesis 1";
@@ -27,6 +28,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       new Task('Arıza', 1, Color(0xff3366cc)),
       new Task('Plansız', 4, Color(0xff3366cc)),
       new Task('Bilinmeyen', 2, Color(0xff3366cc)),
+    ];
+    var donutData = [
+      new Task('Planlı', 3, Color(0xff3366cc)),
+      new Task('Bilinmeyen', 2, Color(0xff3366cc)),
+    ];
+    var gaugeData = [
+      new Task('Planlı', 3, Color(0xff3366cc)),
+      new Task('Arıza', 1, Color(0xff3366cc)),
     ];
     _seriesPieData.add(
       charts.Series(
@@ -41,105 +50,184 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  List<charts.Series<GaugeSegment, String>> _seriesGaugeData;
+  List<charts.Series<Task, String>> _seriesGaugeData;
   _generateGaugeData() {
-    final gdata = [
-      new GaugeSegment('Low', 75),
-      new GaugeSegment('Acceptable', 100),
-      new GaugeSegment('High', 50),
-      new GaugeSegment('Highly Unusual', 5),
+    var gaugeData = [
+      new Task('Planlı', 3, Color(0xff3366cc)),
+      new Task('Arıza', 1, Color(0xff3366cc)),
     ];
-
     _seriesGaugeData.add(
       charts.Series(
-        data: gdata,
-        domainFn: (GaugeSegment segment, _) => segment.segment,
-        measureFn: (GaugeSegment segment, _) => segment.size,
+        data: gaugeData,
+        domainFn: (Task task, _) => task.task,
+        measureFn: (Task task, _) => task.taskvalue,
+        colorFn: (Task task, _) =>
+            charts.ColorUtil.fromDartColor(task.colorval),
         id: 'Çalışan Makine Sayısı',
+        labelAccessorFn: (Task row, _) => '${row.taskvalue}',
+      ),
+    );
+  }
+
+  List<charts.Series<Task, String>> _seriesDonutData;
+  _generateDonutData() {
+    var donutData = [
+      new Task('Planlı', 18, Color(0xff3366cc)),
+      new Task('Arıza', 80, Color(0xff3366cc)),
+    ];
+    _seriesDonutData.add(
+      charts.Series(
+        data: donutData,
+        domainFn: (Task task, _) => task.task,
+        measureFn: (Task task, _) => task.taskvalue,
+        colorFn: (Task task, _) =>
+            charts.ColorUtil.fromDartColor(task.colorval),
+        id: 'Çalışan Makine Sayısı',
+        labelAccessorFn: (Task row, _) => '${row.taskvalue}',
       ),
     );
   }
 
   void initState() {
-    setState(() {
-      var data = [
-        addCharts("1", 13),
-        addCharts("2", 23),
-        addCharts("3", 27),
-        addCharts("4", 9),
-        addCharts("5", 17),
-        addCharts("6", 31),
-        addCharts("7", 18),
-        addCharts("8", 25),
-      ];
-      var tdata = [
-        addCharts("1", 13),
-        addCharts("2", 23),
-        addCharts("3", 27),
-        addCharts("4", 9),
-        addCharts("5", 17),
-      ];
-      var wdata = [
-        addCharts("P", 13),
-        addCharts("S", 23),
-        addCharts("C", 27),
-        addCharts("P", 9),
-        addCharts("C", 17),
-        addCharts("C", 31),
-        addCharts("P", 18),
-      ];
+    setState(
+      () {
+        var data = [
+          addCharts("1", 13),
+          addCharts("2", 23),
+          addCharts("3", 27),
+          addCharts("4", 9),
+          addCharts("5", 17),
+          addCharts("6", 31),
+          addCharts("7", 18),
+          addCharts("8", 25),
+        ];
+        var tdata = [
+          addCharts("Planlı", 13),
+          addCharts("Plansız", 23),
+          addCharts("Arıza", 27),
+          addCharts("Bilinmeyen", 9),
+        ];
+        var gdata = [
+          addCharts("Hatalı", 13),
+          addCharts("Hatasız", 23),
+        ];
+        var ddata = [
+          addCharts("Çalışan", 18),
+          addCharts("Çalışmayan", 80),
+        ];
+        var wdata = [
+          addCharts("P", 13),
+          addCharts("S", 23),
+          addCharts("C", 27),
+          addCharts("P", 9),
+          addCharts("C", 17),
+          addCharts("C", 31),
+          addCharts("P", 18),
+        ];
 
-      var series = [
-        charts.Series(
-          domainFn: (addCharts addCharts, _) => addCharts.label,
-          measureFn: (addCharts addCharts, _) => addCharts.values,
-          id: 'addcharts',
-          data: data,
-        ),
-      ];
-      var wseries = [
-        charts.Series(
-          domainFn: (addCharts addCharts, _) => addCharts.label,
-          measureFn: (addCharts addCharts, _) => addCharts.values,
-          id: 'waddcharts',
-          data: wdata,
-        ),
-      ];
-      var tseries = [
-        charts.Series(
-          domainFn: (addCharts addCharts, _) => addCharts.label,
-          measureFn: (addCharts addCharts, _) => addCharts.values,
-          id: 'taddcharts',
-          data: tdata,
-        ),
-      ];
-      barchartdisplay = charts.BarChart(
-        series,
-        animationDuration: Duration(microseconds: 2000),
-      );
-      wbarchartdisplay = charts.BarChart(
-        wseries,
-        animationDuration: Duration(microseconds: 2000),
-      );
-      piechartdisplay = charts.PieChart(
-        tseries,
-        animationDuration: Duration(microseconds: 2000),
-      );
-      gaugechartdisplay = charts.PieChart(
-        tseries,
-        animationDuration: Duration(microseconds: 2000),
-        defaultRenderer: new charts.ArcRendererConfig(
-          arcWidth: 30,
-          startAngle: 4 / 5 * 3.14,
-          arcLength: 7 / 5 * 3.14,
-        ),
-      );
-    });
+        var series = [
+          charts.Series(
+            domainFn: (addCharts addCharts, _) => addCharts.label,
+            measureFn: (addCharts addCharts, _) => addCharts.values,
+            id: 'addcharts',
+            data: data,
+          ),
+        ];
+        var wseries = [
+          charts.Series(
+            domainFn: (addCharts addCharts, _) => addCharts.label,
+            measureFn: (addCharts addCharts, _) => addCharts.values,
+            id: 'waddcharts',
+            data: wdata,
+          ),
+        ];
+        var tseries = [
+          charts.Series(
+            domainFn: (addCharts addCharts, _) => addCharts.label,
+            measureFn: (addCharts addCharts, _) => addCharts.values,
+            id: 'taddcharts',
+            data: tdata,
+          ),
+        ];
+        var gseries = [
+          charts.Series(
+            domainFn: (addCharts addCharts, _) => addCharts.label,
+            measureFn: (addCharts addCharts, _) => addCharts.values,
+            id: 'gaddcharts',
+            data: gdata,
+          ),
+        ];
+        var dseries = [
+          charts.Series(
+            domainFn: (addCharts addCharts, _) => addCharts.label,
+            measureFn: (addCharts addCharts, _) => addCharts.values,
+            id: 'gaddcharts',
+            data: ddata,
+          ),
+        ];
+        barchartdisplay = charts.BarChart(
+          series,
+          animationDuration: Duration(microseconds: 2000),
+        );
+        wbarchartdisplay = charts.BarChart(
+          wseries,
+          animationDuration: Duration(microseconds: 2000),
+        );
+        piechartdisplay = charts.PieChart(
+          tseries,
+          animationDuration: Duration(microseconds: 2000),
+          behaviors: [
+            new charts.DatumLegend(
+              desiredMaxRows: 2,
+              desiredMaxColumns: 2,
+              position: charts.BehaviorPosition.bottom,
+              entryTextStyle: charts.TextStyleSpec(
+                fontSize: 10,
+              ),
+            )
+          ],
+        );
+        gaugechartdisplay = charts.PieChart(
+          gseries,
+          animationDuration: Duration(microseconds: 2000),
+          defaultRenderer: new charts.ArcRendererConfig(
+            arcWidth: 30,
+            startAngle: 9 / 10 * 3.14,
+            arcLength: 6 / 5 * 3.14,
+          ),
+          behaviors: [
+            new charts.DatumLegend(
+              position: charts.BehaviorPosition.bottom,
+              entryTextStyle: charts.TextStyleSpec(
+                fontSize: 10,
+              ),
+            )
+          ],
+        );
+        donutchartdisplay = charts.PieChart(
+          dseries,
+          animationDuration: Duration(microseconds: 2000),
+          defaultRenderer: new charts.ArcRendererConfig(
+            arcWidth: 30,
+          ),
+          behaviors: [
+            new charts.DatumLegend(
+              position: charts.BehaviorPosition.bottom,
+              entryTextStyle: charts.TextStyleSpec(
+                fontSize: 10,
+              ),
+            ),
+          ],
+        );
+      },
+    );
     super.initState();
     _seriesPieData = List<charts.Series<Task, String>>();
-    _seriesGaugeData = List<charts.Series<GaugeSegment, String>>();
+    _seriesGaugeData = List<charts.Series<Task, String>>();
+    _seriesDonutData = List<charts.Series<Task, String>>();
     _generateData();
     _generateGaugeData();
+    _generateDonutData();
     tabController = TabController(length: 3, vsync: this);
     tabControllerup = TabController(length: 3, vsync: this);
   }
@@ -197,7 +285,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           ),
                           Center(
                             child: Text(
-                              "Üretilen",
+                              "Planlanan",
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black38,
@@ -214,69 +302,75 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                       Text(
                                         "%69",
                                         style: TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 24,
                                             color: Colors.orange,
-                                            fontWeight: FontWeight.w300),
+                                            fontWeight: FontWeight.w600),
                                       ),
                                       Text(
                                         "Üretilen",
                                         style: TextStyle(
-                                          fontSize: 10,
-                                          color: Colors.black54,
-                                        ),
+                                            fontSize: 12,
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text(
-                                        "3.22",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.orange,
-                                            fontWeight: FontWeight.w300),
+                                Column(
+                                  children: <Widget>[
+                                    Center(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              children: <Widget>[
+                                                Text(
+                                                  "3.22",
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Colors.orange,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                                Text(
+                                                  "Kalan Zaman",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 10,
+                                                      color: Colors.black54,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        "Gereken Zaman",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          color: Colors.black54,
-                                        ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            "3.22",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.orange,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          Text(
+                                            "Gereken Zaman",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.black54,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Center(
-                            child: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text(
-                                        "3.22",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.orange,
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                      Text(
-                                        "Kalan Zaman",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          color: Colors.black54,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -347,7 +441,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       borderRadius: BorderRadius.circular(10.0),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(1.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -356,7 +450,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 children: <Widget>[
                   // text
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(1.0),
                     child: Text(
                       heading,
                       textAlign: TextAlign.center,
@@ -370,10 +464,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
                   Center(
                     child: new Container(
-                        height: 150,
+                        height: 160,
                         width:
-                            150, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay    sfRadialGaugedisplayP
-                        child: gaugechartdisplay),
+                            160, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay    donutchartdisplay   gaugechartdisplay
+                        child: donutchartdisplay),
                   ),
                 ],
               ),
@@ -392,7 +486,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       borderRadius: BorderRadius.circular(10.0),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(1.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -401,7 +495,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 children: <Widget>[
                   // text
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(1.0),
                     child: Text(
                       heading,
                       textAlign: TextAlign.center,
@@ -415,9 +509,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
                   Center(
                     child: new Container(
-                        height: 150,
+                        height: 160,
                         width:
-                            150, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay    sfRadialGaugedisplayP
+                            160, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay    donutchartdisplay   gaugechartdisplay
                         child: gaugechartdisplay),
                   ),
                 ],
@@ -437,7 +531,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       borderRadius: BorderRadius.circular(10.0),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(1.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -446,7 +540,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 children: <Widget>[
                   // text
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(1.0),
                     child: Text(
                       heading,
                       textAlign: TextAlign.center,
@@ -460,9 +554,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
                   Center(
                     child: new Container(
-                        height: 150,
+                        height: 160,
                         width:
-                            150, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
+                            160, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
                         child: piechartdisplay),
                   ),
                 ],
