@@ -19,13 +19,15 @@ class TransactionList extends StatelessWidget {
               child: Column(
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Center(
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                     child: Text(
                       tx.title,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green,
+                        color: Colors.blue,
                       ),
                     ),
                   ),
@@ -43,7 +45,7 @@ class TransactionList extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
-                            color: Colors.green,
+                            color: Colors.blue[300],
                           ),
                         ),
                       ),

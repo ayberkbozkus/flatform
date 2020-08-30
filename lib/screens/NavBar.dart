@@ -18,9 +18,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   static var piechartdisplay;
   static var gaugechartdisplay;
   static var donutchartdisplay;
-  TabController tabController;
-  TabController tabControllerup;
   String location = "Tesis 1";
+  TabController tabController;
+
+  var headerAppBar;
 
   List<charts.Series<Task, String>> _seriesPieData;
   _generateData() {
@@ -183,7 +184,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               desiredMaxColumns: 2,
               position: charts.BehaviorPosition.bottom,
               entryTextStyle: charts.TextStyleSpec(
-                fontSize: 10,
+                fontSize: 8,
               ),
             )
           ],
@@ -200,7 +201,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             new charts.DatumLegend(
               position: charts.BehaviorPosition.bottom,
               entryTextStyle: charts.TextStyleSpec(
-                fontSize: 10,
+                fontSize: 8,
               ),
             )
           ],
@@ -215,7 +216,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             new charts.DatumLegend(
               position: charts.BehaviorPosition.bottom,
               entryTextStyle: charts.TextStyleSpec(
-                fontSize: 10,
+                fontSize: 8,
               ),
             ),
           ],
@@ -230,7 +231,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _generateGaugeData();
     _generateDonutData();
     tabController = TabController(length: 3, vsync: this);
-    tabControllerup = TabController(length: 3, vsync: this);
   }
 
   var data = [0.0, 1.0, 1.5, 2.0];
@@ -569,25 +569,78 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
+  Material myTabBar() {
+    return Material(
+      borderRadius: BorderRadius.circular(10.0),
+      color: Colors.transparent,
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(1.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: FlatButton(
+                      onPressed: () {},
+                      color: Colors.white54,
+                      child: Text(
+                        "Günlük",
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: FlatButton(
+                      onPressed: () {},
+                      color: Colors.white54,
+                      child: Text(
+                        "Haftalık",
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: FlatButton(
+                      onPressed: () {},
+                      color: Colors.white54,
+                      child: Text(
+                        "Aylık",
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: headerAppBar = AppBar(
           title: Text('$location'),
           centerTitle: true,
-          bottom: TabBar(controller: tabControllerup, tabs: <Widget>[
-            Tab(
-              text: 'Günlük',
-            ),
-            Tab(
-              text: 'Haftalık',
-            ),
-            Tab(
-              text: 'Aylık',
-            ),
-          ]),
         ),
         drawer: new Drawer(
           child: ListView(
@@ -641,6 +694,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 mainAxisSpacing: 10.0,
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 children: <Widget>[
+                  myTabBar(),
                   myradialItems(
                       Icons.graphic_eq, "Çalışan Makine Sayısı", 0xff7297ff),
                   mywbarItems(Icons.bookmark, "Toplam Üretim\nHatalı/Hatasız",
@@ -651,6 +705,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   mypieItems(Icons.settings, "Tesis Verimliliği", 0xff7297ff),
                 ],
                 staggeredTiles: [
+                  StaggeredTile.extent(2, 40.0),
                   StaggeredTile.extent(1, 220.0),
                   StaggeredTile.extent(1, 220.0),
                   StaggeredTile.extent(2, 200.0),

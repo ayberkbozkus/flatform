@@ -38,12 +38,17 @@ class _PersonNotificationState extends State {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.black,
+                    color: Colors.white70,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 subtitle: Text(
                   "\n${allNotification[index]._message}\n\n${allNotification[index]._time.year}/${allNotification[index]._time.month}/${allNotification[index]._time.day} ${allNotification[index]._time.hour}:${allNotification[index]._time.minute}",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 onTap: () {
                   alertDialogshow(context, index);
@@ -64,8 +69,8 @@ class _PersonNotificationState extends State {
         "$index. Bildirim ve açıklama",
         DateTime.now(),
         index % 3 == 0
-            ? Colors.blue[200]
-            : (index % 2 == 0 ? Colors.red[100] : Colors.green[200]),
+            ? Colors.blue
+            : (index % 2 == 0 ? Colors.red : Colors.green),
       ),
     );
   }
@@ -83,16 +88,11 @@ class _PersonNotificationState extends State {
             ButtonBar(
               children: <Widget>[
                 FlatButton(
-                  onPressed: () {},
-                  child: Text("Tamam"),
-                  color: Colors.green,
-                ),
-                FlatButton(
                   onPressed: () {
                     Navigator.of(ctx).pop();
                   },
-                  child: Text("Kapat"),
-                  color: Colors.red,
+                  child: Text("Tamam"),
+                  color: Colors.green,
                 ),
               ],
             )
