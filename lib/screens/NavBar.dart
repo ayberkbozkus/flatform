@@ -1,3 +1,4 @@
+import 'package:flatform/config/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -575,16 +576,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       child: Scaffold(
         appBar: AppBar(
           title: Text('$location'),
-          leading: IconButton(
-            icon: Icon(
-              Icons.location_on,
-              size: 36,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              alertDialogshow(context);
-            },
-          ),
           centerTitle: true,
           bottom: TabBar(controller: tabControllerup, tabs: <Widget>[
             Tab(
@@ -597,6 +588,48 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               text: 'Aylık',
             ),
           ]),
+        ),
+        drawer: new Drawer(
+          child: ListView(
+            children: <Widget>[
+              new Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new Text(
+                  "Seçiniz",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
+                ),
+              ),
+              new ListTile(
+                title: new Text(
+                  "Ülke",
+                ),
+                onTap: () {
+                  alertDialogshowCountry(context);
+                },
+              ),
+              new ListTile(
+                title: new Text("Tesis"),
+                onTap: () {
+                  alertDialogshowFacility(context);
+                },
+              ),
+              new ListTile(
+                title: new Text("Makine"),
+                onTap: () {
+                  alertDialogshowMachine(context);
+                },
+              ),
+              new ListTile(
+                title: new Text("Kalıp"),
+                onTap: () {
+                  alertDialogshowMold(context);
+                },
+              )
+            ],
+          ),
         ),
         body: TabBarView(
           controller: tabController,
@@ -664,13 +697,56 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  void alertDialogshow(BuildContext ctx) {
+  void alertDialogshowCountry(BuildContext ctx) {
     showDialog(
       context: ctx,
       // barrierDismissible: true, // dışarıya tıklayınca kapatma
       builder: (ctx) {
         return AlertDialog(
-          title: Text("Bölge Seçiniz"),
+          title: Text("Ülke Seçiniz"),
+          content: DropdownButton(
+            items: [
+              DropdownMenuItem(
+                child: Text("Turkiye"),
+                value: "Turkiye",
+              ),
+              DropdownMenuItem(
+                child: Text("Romanya"),
+                value: "Romanya",
+              ),
+            ],
+            onChanged: (String selected) {
+              setState(() {
+                location = selected;
+              });
+              debugPrint("$location");
+            },
+          ),
+          actions: <Widget>[
+            ButtonBar(
+              children: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                  child: Text("Tamam"),
+                  color: Colors.green,
+                ),
+              ],
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void alertDialogshowFacility(BuildContext ctx) {
+    showDialog(
+      context: ctx,
+      // barrierDismissible: true, // dışarıya tıklayınca kapatma
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text("Tesis Seçiniz"),
           content: DropdownButton(
             items: [
               DropdownMenuItem(
@@ -697,16 +773,117 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ButtonBar(
               children: <Widget>[
                 FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
                   child: Text("Tamam"),
                   color: Colors.green,
                 ),
+              ],
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void alertDialogshowMachine(BuildContext ctx) {
+    showDialog(
+      context: ctx,
+      // barrierDismissible: true, // dışarıya tıklayınca kapatma
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text("Makine Seçiniz"),
+          content: DropdownButton(
+            items: [
+              DropdownMenuItem(
+                child: Text("Makine1"),
+                value: "Makine1",
+              ),
+              DropdownMenuItem(
+                child: Text("Makine2"),
+                value: "Makine2",
+              ),
+              DropdownMenuItem(
+                child: Text("Makine3"),
+                value: "Makine3",
+              ),
+              DropdownMenuItem(
+                child: Text("Makine4"),
+                value: "Makine4",
+              ),
+              DropdownMenuItem(
+                child: Text("Makine5"),
+                value: "Makine5",
+              ),
+              DropdownMenuItem(
+                child: Text("Makine6"),
+                value: "Makine6",
+              )
+            ],
+            onChanged: (String selected) {
+              setState(() {
+                location = selected;
+              });
+              debugPrint("$location");
+            },
+          ),
+          actions: <Widget>[
+            ButtonBar(
+              children: <Widget>[
                 FlatButton(
                   onPressed: () {
                     Navigator.of(ctx).pop();
                   },
-                  child: Text("Kapat"),
-                  color: Colors.red,
+                  child: Text("Tamam"),
+                  color: Colors.green,
+                ),
+              ],
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void alertDialogshowMold(BuildContext ctx) {
+    showDialog(
+      context: ctx,
+      // barrierDismissible: true, // dışarıya tıklayınca kapatma
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text("Kalıp Seçiniz"),
+          content: DropdownButton(
+            items: [
+              DropdownMenuItem(
+                child: Text("Kalıp1"),
+                value: "Kalıp1",
+              ),
+              DropdownMenuItem(
+                child: Text("Kalıp2"),
+                value: "Kalıp2",
+              ),
+              DropdownMenuItem(
+                child: Text("Kalıp3"),
+                value: "Kalıp3",
+              )
+            ],
+            onChanged: (String selected) {
+              setState(() {
+                location = selected;
+              });
+              debugPrint("$location");
+            },
+          ),
+          actions: <Widget>[
+            ButtonBar(
+              children: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                  child: Text("Tamam"),
+                  color: Colors.green,
                 ),
               ],
             )
