@@ -510,7 +510,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
                   Center(
                     child: new Container(
-                        height: 160,
+                        height: 190,
                         width:
                             160, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay    donutchartdisplay   gaugechartdisplay
                         child: gaugechartdisplay),
@@ -555,7 +555,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
                   Center(
                     child: new Container(
-                        height: 160,
+                        height: 190,
                         width:
                             160, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
                         child: piechartdisplay),
@@ -709,8 +709,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   StaggeredTile.extent(1, 220.0),
                   StaggeredTile.extent(1, 220.0),
                   StaggeredTile.extent(2, 200.0),
-                  StaggeredTile.extent(1, 220.0),
-                  StaggeredTile.extent(1, 220.0),
+                  StaggeredTile.extent(1, 240.0),
+                  StaggeredTile.extent(1, 240.0),
                 ],
               ),
             ),
