@@ -101,7 +101,7 @@ Widget showPrimaryButton(context) {
           child: new Text(_isLoginForm ? 'Giriş' : '',
               style: new TextStyle(fontSize: 20.0, color: Colors.white)),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => HomePage(),
