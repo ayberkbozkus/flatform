@@ -1,11 +1,9 @@
-import 'package:flatform/config/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 import './notification.dart';
 import './user_transactions.dart';
-import 'GaugeChart.dart';
+import './remote_api.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -599,7 +597,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RemoteApi(),
+                          ),
+                        );
+                      },
                       color: Colors.white54,
                       child: Text(
                         "Haftalık",

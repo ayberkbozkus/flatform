@@ -132,7 +132,7 @@ class Person {
   });
 }
 
-class Ticket {
+class Tickets {
   @required
   final subject;
   @required
@@ -141,7 +141,7 @@ class Ticket {
   final DateTime date;
   @required
   final mail;
-  Ticket({
+  Tickets({
     this.subject,
     this.message,
     this.date,
