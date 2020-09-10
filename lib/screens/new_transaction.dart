@@ -13,7 +13,7 @@ class NewTransaction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(20),
+      margin: EdgeInsets.all(4),
       elevation: 5,
       child: Container(
         padding: EdgeInsets.all(10),

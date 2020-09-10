@@ -11,6 +11,7 @@ class PersonNotification extends StatefulWidget {
 
 class _PersonNotificationState extends State {
   int _currentIndex = 0;
+  String toWho = 'Kime';
 
   List<Notification> allNotification = [];
 
@@ -20,39 +21,107 @@ class _PersonNotificationState extends State {
     // TODO: implement build
     return DefaultTabController(
       length: 4,
-      child: Scaffold(
-        body: ListView.builder(
-          itemCount: 4,
-          itemBuilder: (context, index) => Container(
+      child: Column(
+        children:[ 
+          Padding(
+            padding: const EdgeInsets.all(2.0),
             child: Card(
-              color: allNotification[index]._color,
-              margin: EdgeInsets.all(5),
-              elevation: 10,
-              child: ListTile(
-                title: Text(
-                  "${allNotification[index]._title}",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.w500,
+              
+              color: Colors.white,
+                
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      TextField(
+                        decoration: InputDecoration(labelText: 'Konu'),
+                       
+                         onChanged: (val) {
+
+                         },
+                      ),
+                      Padding(
+                                  padding: const EdgeInsets.symmetric( vertical: 5),
+                                  child: DropdownButton(
+                                    hint: Text(toWho),
+                                    items: [
+                                      DropdownMenuItem(
+                                        child: Text("Tesis Sorumluları"),
+                                        value: "Tesis Sorumluları",
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text("Üretim Mühendisleri"),
+                                        value: "Üretim Mühendisleri",
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text("Takım"),
+                                        value: "Takım",
+                                      )
+                                    ],
+                                    onChanged: (String value) {
+                                      setState(() {
+                                        toWho = value;
+                                        
+                                      });
+                                    },
+                                  ),
+                                ),
+                      TextField(
+                        decoration: InputDecoration(labelText: 'Mesaj'),
+                    
+                        onChanged: (val) {
+
+                         },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: FlatButton(
+                          child: Text('Bildirim Gönder'),
+                          color: Colors.blue,
+                          textColor: Colors.white,
+                          onPressed: () {},
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                subtitle: Text(
-                  "\n${allNotification[index]._message}\n\n${allNotification[index]._time.year}/${allNotification[index]._time.month}/${allNotification[index]._time.day} ${allNotification[index]._time.hour}:${allNotification[index]._time.minute}",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
+              ),
+          ),
+          Expanded(
+                  child: ListView.builder(
+            itemCount: 4,
+            itemBuilder: (context, index) => Container(
+              child: Card(
+                color: allNotification[index]._color,
+                margin: EdgeInsets.all(5),
+                elevation: 10,
+                child: ListTile(
+                  title: Text(
+                    "${allNotification[index]._title}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white70,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
+                  subtitle: Text(
+                    "\n${allNotification[index]._message}\n\n${allNotification[index]._time.year}/${allNotification[index]._time.month}/${allNotification[index]._time.day} ${allNotification[index]._time.hour}:${allNotification[index]._time.minute}",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  onTap: () {
+                    alertDialogshow(context, index);
+                  },
                 ),
-                onTap: () {
-                  alertDialogshow(context, index);
-                },
               ),
             ),
           ),
-        ),
+        ),]
       ),
     );
   }
