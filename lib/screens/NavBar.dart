@@ -1,9 +1,15 @@
+
+import 'package:flatform/config/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import './notification.dart';
 import './user_transactions.dart';
 import './remote_api.dart';
+
+
+
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,11 +18,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   static var barchartdisplay;
-  static var wbarchartdisplay;
+  static var gaugechartdisplayenergy;
   static var piechartdisplay;
   static var gaugechartdisplay;
   static var donutchartdisplay;
+  
   String location = "Tesis 1";
+  String tesis = 'Tesis Seçin';
+  String makine = 'Makine Seçin';
+  Color themeColor = Colors.blue;
+  bool selected;
   TabController tabController;
 
   var headerAppBar;
@@ -24,26 +35,26 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   List<charts.Series<Task, String>> _seriesPieData;
   _generateData() {
     var pieData = [
-      new Task('Planlı', 3, Color(0xff3366cc)),
-      new Task('Arıza', 1, Color(0xff3366cc)),
-      new Task('Plansız', 4, Color(0xff3366cc)),
-      new Task('Bilinmeyen', 2, Color(0xff3366cc)),
+      new Task('Planlı', 3,),
+      new Task('Arıza', 1,),
+      new Task('Plansız', 4,),
+      new Task('Bilinmeyen', 2),
     ];
     var donutData = [
-      new Task('Planlı', 3, Color(0xff3366cc)),
-      new Task('Bilinmeyen', 2, Color(0xff3366cc)),
+      new Task('Planlı', 3,),
+      new Task('Bilinmeyen', 2,),
     ];
     var gaugeData = [
-      new Task('Planlı', 3, Color(0xff3366cc)),
-      new Task('Arıza', 1, Color(0xff3366cc)),
+      new Task('Planlı', 3,),
+      new Task('Arıza', 1,),
     ];
     _seriesPieData.add(
       charts.Series(
         data: pieData,
         domainFn: (Task task, _) => task.task,
         measureFn: (Task task, _) => task.taskvalue,
-        colorFn: (Task task, _) =>
-            charts.ColorUtil.fromDartColor(task.colorval),
+        
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Colors.red),
         id: 'Tesis Verimliliği',
         labelAccessorFn: (Task row, _) => '${row.taskvalue}',
       ),
@@ -53,16 +64,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   List<charts.Series<Task, String>> _seriesGaugeData;
   _generateGaugeData() {
     var gaugeData = [
-      new Task('Planlı', 3, Color(0xff3366cc)),
-      new Task('Arıza', 1, Color(0xff3366cc)),
+      new Task('Planlı', 3,),
+      new Task('Arıza', 1,),
     ];
     _seriesGaugeData.add(
       charts.Series(
         data: gaugeData,
         domainFn: (Task task, _) => task.task,
         measureFn: (Task task, _) => task.taskvalue,
-        colorFn: (Task task, _) =>
-            charts.ColorUtil.fromDartColor(task.colorval),
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Colors.red),
         id: 'Çalışan Makine Sayısı',
         labelAccessorFn: (Task row, _) => '${row.taskvalue}',
       ),
@@ -72,16 +82,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   List<charts.Series<Task, String>> _seriesDonutData;
   _generateDonutData() {
     var donutData = [
-      new Task('Planlı', 18, Color(0xff3366cc)),
-      new Task('Arıza', 80, Color(0xff3366cc)),
+      new Task('Planlı', 18,),
+      new Task('Arıza', 80,),
     ];
     _seriesDonutData.add(
       charts.Series(
         data: donutData,
         domainFn: (Task task, _) => task.task,
         measureFn: (Task task, _) => task.taskvalue,
-        colorFn: (Task task, _) =>
-            charts.ColorUtil.fromDartColor(task.colorval),
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Colors.red),
+        
         id: 'Çalışan Makine Sayısı',
         labelAccessorFn: (Task row, _) => '${row.taskvalue}',
       ),
@@ -108,8 +118,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           addCharts("Bilinmeyen", 9),
         ];
         var gdata = [
-          addCharts("Hatalı", 13),
-          addCharts("Hatasız", 23),
+          addCharts("Hatalı", 7),
+          addCharts("Hatasız", 33),
+        ];
+        var edata = [
+          addCharts("Tüketim", 33),
+          addCharts("Toplam", 23),
         ];
         var ddata = [
           addCharts("Çalışan", 18),
@@ -157,6 +171,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             data: gdata,
           ),
         ];
+        var eseries = [
+          charts.Series(
+            domainFn: (addCharts addCharts, _) => addCharts.label,
+            measureFn: (addCharts addCharts, _) => addCharts.values,
+            id: 'eaddcharts',
+            data: edata,
+          ),
+        ];
         var dseries = [
           charts.Series(
             domainFn: (addCharts addCharts, _) => addCharts.label,
@@ -169,10 +191,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           series,
           animationDuration: Duration(microseconds: 2000),
         );
-        wbarchartdisplay = charts.BarChart(
-          wseries,
-          animationDuration: Duration(microseconds: 2000),
-        );
+        
         piechartdisplay = charts.PieChart(
           tseries,
           animationDuration: Duration(microseconds: 2000),
@@ -204,11 +223,56 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             )
           ],
         );
+        gaugechartdisplayenergy = Stack(
+                  children: [ charts.PieChart(
+            eseries,
+            animationDuration: Duration(microseconds: 2000),
+            defaultRenderer: new charts.ArcRendererConfig(
+              arcWidth: 20,
+              startAngle: 9 / 10 * 3.14,
+              arcLength: 6 / 5 * 3.14,
+            ),
+            behaviors: [
+              new charts.DatumLegend(
+                position: charts.BehaviorPosition.bottom,
+                entryTextStyle: charts.TextStyleSpec(
+                  fontSize: 8,
+                ),
+              )
+            ],
+          ),
+          Center(
+
+        child: Column(
+          children: [
+            SizedBox(height: 50,),
+            Container(
+              margin: EdgeInsets.only(bottom: 15,),
+              child: Text(
+                "200",
+                style: TextStyle(
+                  fontSize: 12.0,
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+            Text('Teorik Tüketim 200kwh',
+                style: TextStyle(
+                  fontSize: 9.0,
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold
+                ),)
+          ],
+        ),
+      ),
+          ],
+        );
         donutchartdisplay = charts.PieChart(
           dseries,
           animationDuration: Duration(microseconds: 2000),
           defaultRenderer: new charts.ArcRendererConfig(
-            arcWidth: 30,
+            arcWidth: 25,
           ),
           behaviors: [
             new charts.DatumLegend(
@@ -238,7 +302,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Material(
       color: Colors.white,
       elevation: 5.0,
-      shadowColor: Colors.blue[200],
+      shadowColor: themeColor,
       borderRadius: BorderRadius.circular(10.0),
       child: Center(
         child: Padding(
@@ -251,7 +315,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 children: <Widget>[
                   // text
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(2.0),
                     child: Text(
                       heading,
                       textAlign: TextAlign.center,
@@ -262,125 +326,60 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                   ),
                   //Icon
-                  Row(
-                    children: <Widget>[
-                      Center(
-                        child: new Container(
-                            height: 150,
-                            width:
-                                200, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
-                            child: barchartdisplay),
-                      ),
+                  
                       Column(
-                        children: <Widget>[
-                          Center(
-                            child: Text(
-                              "42.332 adet",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold),
+                        children: [
+                          Row(children: [ Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 40),
+                            child: FlatButton(
+                              height: 25,
+                              minWidth: 60,
+                              color: themeColor,
+                              padding: EdgeInsets.all(0), 
+                              onPressed: () {}, 
+                              child: Text(
+                                'Dün',style: 
+                                TextStyle(
+                                  fontSize: 10.0,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           ),
-                          Center(
-                            child: Text(
-                              "Planlanan",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black38,
-                                  fontWeight: FontWeight.w300),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 40),
+                            child: FlatButton(
+                              height: 25,
+                              minWidth: 60,
+                              color: themeColor,
+                              padding: EdgeInsets.all(0), 
+                              onPressed: () {}, 
+                              child: Text(
+                                'Bugün',
+                                style: TextStyle(
+                                  fontSize: 10.0,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           ),
+                        ]
+                      ),
                           Center(
-                            child: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text(
-                                        "%69",
-                                        style: TextStyle(
-                                            fontSize: 24,
-                                            color: Colors.orange,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      Text(
-                                        "Üretilen",
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.black54,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Center(
-                                      child: Row(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Text(
-                                                  "3.22",
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.orange,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                ),
-                                                Text(
-                                                  "Kalan Zaman",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 10,
-                                                      color: Colors.black54,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text(
-                                            "3.22",
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.orange,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            "Gereken Zaman",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                color: Colors.black54,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                            child: new Container(
+                                height: 150,
+                                width:
+                                    300, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
+                                child: barchartdisplay),
                           ),
                         ],
-                      )
+                      ),
+                      
                     ],
                   ),
                 ],
-              ),
-            ],
+              
+            
           ),
         ),
       ),
@@ -391,7 +390,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Material(
       color: Colors.white,
       elevation: 5.0,
-      shadowColor: Colors.blue[200],
+      shadowColor: themeColor,
       borderRadius: BorderRadius.circular(10.0),
       child: Center(
         child: Padding(
@@ -420,8 +419,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     child: new Container(
                         height: 150,
                         width: 150,
-                        //piechartdisplay    barchartdisplay     sfRadialGaugedisplay      wbarchartdisplay
-                        child: wbarchartdisplay),
+                        //piechartdisplay    barchartdisplay  wbarchartdisplay
+                        child: gaugechartdisplayenergy),
                   ),
                 ],
               ),
@@ -436,7 +435,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Material(
       color: Colors.white,
       elevation: 5.0,
-      shadowColor: Colors.blue[200],
+      shadowColor: themeColor,
       borderRadius: BorderRadius.circular(10.0),
       child: Center(
         child: Padding(
@@ -481,7 +480,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Material(
       color: Colors.white,
       elevation: 5.0,
-      shadowColor: Colors.blue[200],
+      shadowColor: themeColor,
       borderRadius: BorderRadius.circular(10.0),
       child: Center(
         child: Padding(
@@ -526,7 +525,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Material(
       color: Colors.white,
       elevation: 5.0,
-      shadowColor: Colors.blue[200],
+      shadowColor: themeColor,
       borderRadius: BorderRadius.circular(10.0),
       child: Center(
         child: Padding(
@@ -551,83 +550,53 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                   //Icon
 
-                  Center(
-                    child: new Container(
-                        height: 190,
-                        width:
-                            160, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
-                        child: piechartdisplay),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Material myTabBar() {
-    return Material(
-      borderRadius: BorderRadius.circular(10.0),
-      color: Colors.transparent,
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(1.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: FlatButton(
-                      onPressed: () {},
-                      color: Colors.white54,
-                      child: Text(
-                        "Günlük",
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RemoteApi(),
+                  Column(
+                    children: [
+                      Row(children: [ 
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: FlatButton(
+                              height: 25,
+                              minWidth: 60,
+                              color: themeColor,
+                              padding: EdgeInsets.all(0), 
+                              onPressed: () {}, 
+                              child: Text(
+                                'Dün',style: 
+                                TextStyle(
+                                  fontSize: 10.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                           ),
-                        );
-                      },
-                      color: Colors.white54,
-                      child: Text(
-                        "Haftalık",
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 14.0,
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: FlatButton(
+                              height: 25,
+                              minWidth: 60,
+                              color: themeColor,
+                              padding: EdgeInsets.all(0), 
+                              onPressed: () {}, 
+                              child: Text(
+                                'Bugün',
+                                style: TextStyle(
+                                  fontSize: 10.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ]
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: FlatButton(
-                      onPressed: () {},
-                      color: Colors.white54,
-                      child: Text(
-                        "Aylık",
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 14.0,
-                        ),
+                      Center(
+                        child: new Container(
+                            height: 190,
+                            width:
+                                160, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
+                            child: piechartdisplay),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
@@ -642,210 +611,228 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
-      child: Scaffold(
-        appBar: headerAppBar = AppBar(
-          title: Text('$location'),
-          centerTitle: true,
-        ),
-        drawer: new Drawer(
-          child: ListView(
-            children: <Widget>[
-              new Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: new Text(
-                  "Seçiniz",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
+      child: MaterialApp(
+theme: ThemeData(
+
+    primaryColor: themeColor,
+    accentColor: themeColor,),
+              home: Scaffold(
+          appBar: headerAppBar = AppBar(
+            title: Text('$location'),
+            centerTitle: true,
+          ),
+          drawer: new Drawer(
+            child: ListView(
+              children: <Widget>[
+                new Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new Text(
+                    "Seçiniz",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
                   ),
                 ),
-              ),
-              new ListTile(
-                title: new Text(
-                  "Ülke",
+                
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FlatButton(onPressed: () {
+                        location = 'Türkiye';
+                        setState(() {
+                          selected = false;
+                          tesis = 'Tesis Seçiniz';
+                        });
+                      }, child: Image.asset('assets/icons/turkey.png', width: 50,),),
+                      FlatButton(onPressed: () {
+                        location = 'Romanya';
+                        setState(() {
+                          selected = null;
+                          tesis = 'Tesis Seçiniz';
+                        });
+                        
+                      }, child: Image.asset('assets/icons/romania.png', width: 50,),)
+                    ],
+                  ),
                 ),
-                onTap: () {
-                  alertDialogshowCountry(context);
-                },
-              ),
-              new ListTile(
-                title: new Text("Tesis"),
-                onTap: () {
-                  alertDialogshowFacility(context);
-                },
-              ),
-              new ListTile(
-                title: new Text("Makine"),
-                onTap: () {
-                  alertDialogshowMachine(context);
-                },
-              ),
-              new ListTile(
-                title: new Text("Kalıp"),
-                onTap: () {
-                  alertDialogshowMold(context);
-                },
-              )
-            ],
+                selected != null ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
+                              child: DropdownButton(
+                                hint: Text(tesis),
+                                items: [
+                                  DropdownMenuItem(
+                                    child: Text("T1"),
+                                    value: "T1",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("T2"),
+                                    value: "T2",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("T3"),
+                                    value: "T3",
+                                  )
+                                ],
+                                onChanged: (String value) {
+                                  setState(() {
+                                    tesis = value;
+                                    location = value;
+                                    selected = true;
+                                    makine = 'Makine Seçiniz';
+                                    
+                                  });
+                                },
+                              ),
+                            ): Padding(padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),),
+                selected == true ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
+                              child: DropdownButton(
+                                hint: Text(makine),
+                                items: [
+                                  DropdownMenuItem(
+                                    child: Text("Makine1"),
+                                    value: "Makine1",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("Makine2"),
+                                    value: "Makine2",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("Makine3"),
+                                    value: "Makine3",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("Makine4"),
+                                    value: "Makine4",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("Makine5"),
+                                    value: "Makine5",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("Makine6"),
+                                    value: "Makine6",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("Makine7"),
+                                    value: "Makine7",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("Makine8"),
+                                    value: "Makine8",
+                                  )
+                                ],
+                                onChanged: (String value) {
+                                  setState(() {
+                                    makine = value;
+                                    location = value;
+                                    switch(makine) { 
+                                      case 'Makine1': { 
+                                          themeColor = Colors.green;
+                                      } 
+                                      break; 
+                                      
+                                      case 'Makine2': { 
+                                          themeColor = Colors.grey;
+                                      } 
+                                      break; 
+
+                                      case 'Makine3': { 
+                                          themeColor = Colors.red;
+                                      } 
+                                      break; 
+                                          
+                                      default: { 
+                                          themeColor = Colors.blue;
+                                      }
+                                      break; 
+                                    } 
+                                  });
+                                },
+                              ),
+                            ): Padding(padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),),
+                
+              ],
+            ),
           ),
-        ),
-        body: TabBarView(
-          controller: tabController,
-          children: <Widget>[
-            Container(
-              child: StaggeredGridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 10.0,
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                children: <Widget>[
-                  myTabBar(),
-                  myradialItems(
-                      Icons.graphic_eq, "Çalışan Makine Sayısı", 0xff7297ff),
-                  mywbarItems(Icons.bookmark, "Toplam Üretim\nHatalı/Hatasız",
-                      0xff7297ff),
-                  mybarItems(Icons.notifications, "Toplam Üretim", 0xff7297ff),
-                  myradialItemsP(
-                      Icons.attach_money, "Hatalı Parça", 0xff7297ff),
-                  mypieItems(Icons.settings, "Tesis Verimliliği", 0xff7297ff),
-                ],
-                staggeredTiles: [
-                  StaggeredTile.extent(2, 40.0),
-                  StaggeredTile.extent(1, 220.0),
-                  StaggeredTile.extent(1, 220.0),
-                  StaggeredTile.extent(2, 200.0),
-                  StaggeredTile.extent(1, 240.0),
-                  StaggeredTile.extent(1, 240.0),
-                ],
-              ),
-            ),
-            Container(
-              child: PersonNotification(),
-            ),
-            Container(
-              child: SingleChildScrollView(
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+          body: TabBarView(
+            controller: tabController,
+            children: <Widget>[
+              Container(
+                child: StaggeredGridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   children: <Widget>[
-                    UserTransactions(),
+                    
+                    myradialItems(
+                        Icons.graphic_eq, "Çalışan Makine Sayısı", 0xff7297ff),
+                    mywbarItems(Icons.bookmark, "Enerji Tüketimi",
+                        0xff7297ff),
+                    mybarItems(Icons.notifications, "Toplam Üretim", 0xff7297ff),
+                    myradialItemsP(
+                        Icons.attach_money, "Hatalı Parça", 0xff7297ff),
+                    mypieItems(Icons.settings, "Tesis Verimliliği", 0xff7297ff),
+                  ],
+                  staggeredTiles: [
+                    
+                    StaggeredTile.extent(1, 220.0),
+                    StaggeredTile.extent(1, 220.0),
+                    StaggeredTile.extent(2, 240.0),
+                    StaggeredTile.extent(1, 220.0),
+                    StaggeredTile.extent(1, 280.0),
                   ],
                 ),
               ),
-            ),
-          ],
+              Container(
+                child: PersonNotification(),
+              ),
+              Container(
+                child: SingleChildScrollView(
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      UserTransactions(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          bottomNavigationBar: TabBar(
+            controller: tabController,
+            indicatorColor: themeColor,
+            labelColor: themeColor,
+            unselectedLabelColor: themeColor,
+            tabs: <Widget>[
+              Tab(
+                icon: Icon(Icons.home),
+              ),
+              Tab(
+                icon: Icon(Icons.notifications),
+              ),
+              Tab(
+                icon: Icon(Icons.message),
+              ),
+            ],
+          ),
+          backgroundColor: Colors.grey[200],
         ),
-        bottomNavigationBar: TabBar(
-          controller: tabController,
-          indicatorColor: Colors.blue,
-          labelColor: Colors.blue[600],
-          unselectedLabelColor: Colors.blue,
-          tabs: <Widget>[
-            Tab(
-              icon: Icon(Icons.home),
-            ),
-            Tab(
-              icon: Icon(Icons.notifications),
-            ),
-            Tab(
-              icon: Icon(Icons.message),
-            ),
-          ],
-        ),
-        backgroundColor: Colors.grey[200],
       ),
     );
   }
 
-  void alertDialogshowCountry(BuildContext ctx) {
-    showDialog(
-      context: ctx,
-      // barrierDismissible: true, // dışarıya tıklayınca kapatma
-      builder: (ctx) {
-        return AlertDialog(
-          title: Text("Ülke Seçiniz"),
-          content: DropdownButton(
-            items: [
-              DropdownMenuItem(
-                child: Text("Turkiye"),
-                value: "Turkiye",
-              ),
-              DropdownMenuItem(
-                child: Text("Romanya"),
-                value: "Romanya",
-              ),
-            ],
-            onChanged: (String selected) {
-              setState(() {
-                location = selected;
-              });
-              debugPrint("$location");
-            },
-          ),
-          actions: <Widget>[
-            ButtonBar(
-              children: <Widget>[
-                FlatButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                  child: Text("Tamam"),
-                  color: Colors.green,
-                ),
-              ],
-            )
-          ],
-        );
-      },
-    );
-  }
+  
 
-  void alertDialogshowFacility(BuildContext ctx) {
-    showDialog(
-      context: ctx,
-      // barrierDismissible: true, // dışarıya tıklayınca kapatma
-      builder: (ctx) {
-        return AlertDialog(
-          title: Text("Tesis Seçiniz"),
-          content: DropdownButton(
-            items: [
-              DropdownMenuItem(
-                child: Text("Tesis1"),
-                value: "Tesis1",
-              ),
-              DropdownMenuItem(
-                child: Text("Tesis2"),
-                value: "Tesis2",
-              ),
-              DropdownMenuItem(
-                child: Text("Tesis3"),
-                value: "Tesis3",
-              )
-            ],
-            onChanged: (String selected) {
-              setState(() {
-                location = selected;
-              });
-              debugPrint("$location");
-            },
-          ),
-          actions: <Widget>[
-            ButtonBar(
-              children: <Widget>[
-                FlatButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                  child: Text("Tamam"),
-                  color: Colors.green,
-                ),
-              ],
-            )
-          ],
-        );
-      },
-    );
-  }
+  
 
   void alertDialogshowMachine(BuildContext ctx) {
     showDialog(
@@ -906,52 +893,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  void alertDialogshowMold(BuildContext ctx) {
-    showDialog(
-      context: ctx,
-      // barrierDismissible: true, // dışarıya tıklayınca kapatma
-      builder: (ctx) {
-        return AlertDialog(
-          title: Text("Kalıp Seçiniz"),
-          content: DropdownButton(
-            items: [
-              DropdownMenuItem(
-                child: Text("Kalıp1"),
-                value: "Kalıp1",
-              ),
-              DropdownMenuItem(
-                child: Text("Kalıp2"),
-                value: "Kalıp2",
-              ),
-              DropdownMenuItem(
-                child: Text("Kalıp3"),
-                value: "Kalıp3",
-              )
-            ],
-            onChanged: (String selected) {
-              setState(() {
-                location = selected;
-              });
-              debugPrint("$location");
-            },
-          ),
-          actions: <Widget>[
-            ButtonBar(
-              children: <Widget>[
-                FlatButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                  child: Text("Tamam"),
-                  color: Colors.green,
-                ),
-              ],
-            )
-          ],
-        );
-      },
-    );
-  }
+  
 }
 
 class addCharts {
@@ -963,8 +905,7 @@ class addCharts {
 class Task {
   String task;
   double taskvalue;
-  Color colorval;
-  Task(this.task, this.taskvalue, this.colorval);
+  Task(this.task, this.taskvalue);
 }
 
 class GaugeSegment {
@@ -972,6 +913,14 @@ class GaugeSegment {
   final int size;
 
   GaugeSegment(this.segment, this.size);
+}
+
+charts.Color getChartColor(Color color) {
+    return charts.Color(
+        r: color.red,
+        g: color.green,
+        b: color.blue,
+        a: color.alpha);
 }
 /*
 
