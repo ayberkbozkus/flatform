@@ -206,7 +206,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             )
           ],
         );
-        gaugechartdisplay = charts.PieChart(
+        gaugechartdisplay = Stack(children : [charts.PieChart(
           gseries,
           animationDuration: Duration(microseconds: 2000),
           defaultRenderer: new charts.ArcRendererConfig(
@@ -222,7 +222,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             )
           ],
-        );
+        ),Center(
+        child: Container(
+          margin: EdgeInsets.only(bottom:25),
+          child: Text(
+            "34",
+            style: TextStyle(
+              fontSize: 20.0,
+              color: Colors.blue,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+        ),
+      ),]);
         gaugechartdisplayenergy = Stack(
                   children: [ charts.PieChart(
             eseries,
@@ -268,7 +280,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
           ],
         );
-        donutchartdisplay = charts.PieChart(
+        donutchartdisplay = Stack(children:[charts.PieChart(
           dseries,
           animationDuration: Duration(microseconds: 2000),
           defaultRenderer: new charts.ArcRendererConfig(
@@ -282,7 +294,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
           ],
-        );
+        ),
+        Center(
+        child: Container(
+          margin: EdgeInsets.only(bottom:25),
+          child: Text(
+            "8",
+            style: TextStyle(
+              fontSize: 20.0,
+              color: Colors.blue,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+        ),
+      )]); 
       },
     );
     super.initState();
