@@ -1,11 +1,12 @@
 
-import 'package:flatform/config/styles.dart';
+import 'package:flatform/tabBar/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import './notification.dart';
 import './user_transactions.dart';
-import './remote_api.dart';
+import '../functions/function.dart';
+import 'MaterialItems.dart';
 
 
 
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   String location = "Tesis 1";
   String tesis = 'Tesis Seçin';
   String makine = 'Makine Seçin';
+  int situation = 0;
   Color themeColor = Colors.blue;
   bool selected;
   TabController tabController;
@@ -323,314 +325,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   var data = [0.0, 1.0, 1.5, 2.0];
   int _currentIndex = 0;
 
-  Material mybarItems(IconData icon, String heading, int color) {
-    return Material(
-      color: Colors.white,
-      elevation: 5.0,
-      shadowColor: themeColor,
-      borderRadius: BorderRadius.circular(10.0),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // text
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Text(
-                      heading,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
-                  //Icon
-                  
-                      Column(
-                        children: [
-                          Row(children: [ Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 40),
-                            child: FlatButton(
-                              height: 25,
-                              minWidth: 60,
-                              color: themeColor,
-                              padding: EdgeInsets.all(0), 
-                              onPressed: () {}, 
-                              child: Text(
-                                'Dün',style: 
-                                TextStyle(
-                                  fontSize: 10.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 40),
-                            child: FlatButton(
-                              height: 25,
-                              minWidth: 60,
-                              color: themeColor,
-                              padding: EdgeInsets.all(0), 
-                              onPressed: () {}, 
-                              child: Text(
-                                'Bugün',
-                                style: TextStyle(
-                                  fontSize: 10.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ]
-                      ),
-                          Center(
-                            child: new Container(
-                                height: 150,
-                                width:
-                                    300, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
-                                child: barchartdisplay),
-                          ),
-                        ],
-                      ),
-                      
-                    ],
-                  ),
-                ],
-              
-            
-          ),
-        ),
-      ),
-    );
-  }
-
-  Material mywbarItems(IconData icon, String heading, int color) {
-    return Material(
-      color: Colors.white,
-      elevation: 5.0,
-      shadowColor: themeColor,
-      borderRadius: BorderRadius.circular(10.0),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // text
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      heading,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
-                  //Icon
-
-                  Center(
-                    child: new Container(
-                        height: 150,
-                        width: 150,
-                        //piechartdisplay    barchartdisplay  wbarchartdisplay
-                        child: gaugechartdisplayenergy),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Material myradialItems(IconData icon, String heading, int color) {
-    return Material(
-      color: Colors.white,
-      elevation: 5.0,
-      shadowColor: themeColor,
-      borderRadius: BorderRadius.circular(10.0),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(1.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // text
-                  Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: Text(
-                      heading,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
-                  //Icon
-
-                  Center(
-                    child: new Container(
-                        height: 160,
-                        width:
-                            160, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay    donutchartdisplay   gaugechartdisplay
-                        child: donutchartdisplay),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Material myradialItemsP(IconData icon, String heading, int color) {
-    return Material(
-      color: Colors.white,
-      elevation: 5.0,
-      shadowColor: themeColor,
-      borderRadius: BorderRadius.circular(10.0),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(1.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // text
-                  Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: Text(
-                      heading,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
-                  //Icon
-
-                  Center(
-                    child: new Container(
-                        height: 190,
-                        width:
-                            160, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay    donutchartdisplay   gaugechartdisplay
-                        child: gaugechartdisplay),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Material mypieItems(IconData icon, String heading, int color) {
-    return Material(
-      color: Colors.white,
-      elevation: 5.0,
-      shadowColor: themeColor,
-      borderRadius: BorderRadius.circular(10.0),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(1.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // text
-                  Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: Text(
-                      heading,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
-                  //Icon
-
-                  Column(
-                    children: [
-                      Row(children: [ 
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: FlatButton(
-                              height: 25,
-                              minWidth: 60,
-                              color: themeColor,
-                              padding: EdgeInsets.all(0), 
-                              onPressed: () {}, 
-                              child: Text(
-                                'Dün',style: 
-                                TextStyle(
-                                  fontSize: 10.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: FlatButton(
-                              height: 25,
-                              minWidth: 60,
-                              color: themeColor,
-                              padding: EdgeInsets.all(0), 
-                              onPressed: () {}, 
-                              child: Text(
-                                'Bugün',
-                                style: TextStyle(
-                                  fontSize: 10.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ]
-                      ),
-                      Center(
-                        child: new Container(
-                            height: 190,
-                            width:
-                                160, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
-                            child: piechartdisplay),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -669,6 +364,8 @@ theme: ThemeData(
                         setState(() {
                           selected = false;
                           tesis = 'Tesis Seçiniz';
+                          situation = 1;
+                          themeColor = Colors.blue;
                         });
                       }, child: Image.asset('assets/icons/turkey.png', width: 50,),),
                       FlatButton(onPressed: () {
@@ -676,6 +373,8 @@ theme: ThemeData(
                         setState(() {
                           selected = null;
                           tesis = 'Tesis Seçiniz';
+                          situation = 2;
+                          themeColor = Colors.blue;
                         });
                         
                       }, child: Image.asset('assets/icons/romania.png', width: 50,),)
@@ -707,7 +406,8 @@ theme: ThemeData(
                                     location = value;
                                     selected = true;
                                     makine = 'Makine Seçiniz';
-                                    
+                                    situation = 3;
+                                    themeColor = Colors.blue;
                                   });
                                 },
                               ),
@@ -756,6 +456,7 @@ theme: ThemeData(
                                   setState(() {
                                     makine = value;
                                     location = value;
+                                    situation = 4;
                                     switch(makine) { 
                                       case 'Makine1': { 
                                           themeColor = Colors.green;
@@ -796,15 +497,13 @@ theme: ThemeData(
                   mainAxisSpacing: 10.0,
                   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   children: <Widget>[
-                    
+                   // String heading, Color themeColor, Stack piechartdisplay, int situation
                     myradialItems(
-                        Icons.graphic_eq, "Çalışan Makine Sayısı", 0xff7297ff),
-                    mywbarItems(Icons.bookmark, "Enerji Tüketimi",
-                        0xff7297ff),
-                    mybarItems(Icons.notifications, "Toplam Üretim", 0xff7297ff),
-                    myradialItemsP(
-                        Icons.attach_money, "Hatalı Parça", 0xff7297ff),
-                    mypieItems(Icons.settings, "Tesis Verimliliği", 0xff7297ff),
+                        "Çalışan Makine Sayısı", themeColor, donutchartdisplay, situation, context),
+                    mywbarItems("Enerji Tüketimi", themeColor, gaugechartdisplayenergy, situation, context),
+                    mybarItems("Toplam Üretim", themeColor, barchartdisplay, situation, context),
+                    myradialItemsP("Hatalı Parça", themeColor, gaugechartdisplay, situation, context),
+                    mypieItems("Tesis Verimliliği", themeColor, piechartdisplay, situation, context),
                   ],
                   staggeredTiles: [
                     
@@ -832,55 +531,12 @@ theme: ThemeData(
               ),
             ],
           ),
-          bottomNavigationBar: TabBar(
-            controller: tabController,
-            indicatorColor: themeColor,
-            labelColor: themeColor,
-            unselectedLabelColor: themeColor,
-            tabs: <Widget>[
-              Tab(
-                icon: Icon(Icons.home),
-              ),
-              Tab(
-                icon: Icon(Icons.notifications),
-              ),
-              Tab(
-                icon: Icon(Icons.message),
-              ),
-            ],
-          ),
+          bottomNavigationBar: TabBars(tabController, themeColor),
           backgroundColor: Colors.grey[200],
         ),
       ),
     );
   }
-}
-
-class addCharts {
-  final String label;
-  final int values;
-  addCharts(this.label, this.values);
-}
-
-class Task {
-  String task;
-  double taskvalue;
-  Task(this.task, this.taskvalue);
-}
-
-class GaugeSegment {
-  final String segment;
-  final int size;
-
-  GaugeSegment(this.segment, this.size);
-}
-
-charts.Color getChartColor(Color color) {
-    return charts.Color(
-        r: color.red,
-        g: color.green,
-        b: color.blue,
-        a: color.alpha);
 }
 /*
 
