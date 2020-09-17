@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'appBar.dart';
 import './NavBar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 String _email;
 String _password;
 bool _isLoginForm = true;
 String _errorMessage;
 bool _isLoginMode;
-bool _isLoading = false;
+// bool _isLoading = false;
 
 class Login extends StatelessWidget {
   @override
@@ -20,21 +20,21 @@ class Login extends StatelessWidget {
         body: Stack(
           children: <Widget>[
             showForm(context),
-            showCircularProgress(),
+            //showCircularProgress(),
           ],
         ));
   }
 }
 
-Widget showCircularProgress() {
-  if (_isLoading) {
-    return Center(child: CircularProgressIndicator());
-  }
-  return Container(
-    height: 0.0,
-    width: 0.0,
-  );
-}
+// Widget showCircularProgress() {
+//   if (_isLoading) {
+//     return Center(child: CircularProgressIndicator());
+//   }
+//   return Container(
+//     height: 0.0,
+//     width: 0.0,
+//   );
+// }
 
 Widget showLogo() {
   return new Hero(
@@ -112,14 +112,14 @@ Widget showPrimaryButton(context) {
       ));
 }
 
-Widget showSecondaryButton() {
-  return new FlatButton(
-      child: new Text(_isLoginForm ? ' ' : 'Have an account? Sign in',
-          style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
-      onPressed: () {
-        print('hello');
-      });
-}
+// Widget showSecondaryButton() {
+//   return new FlatButton(
+//       child: new Text(_isLoginForm ? ' ' : 'Have an account? Sign in',
+//           style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
+//       onPressed: () {
+//         print('hello');
+//       });
+// }
 
 // void toggleFormMode() {
 //   resetForm();
@@ -159,7 +159,7 @@ Widget showForm(context) {
             showEmailInput(),
             showPasswordInput(),
             showPrimaryButton(context),
-            showSecondaryButton(),
+            // showSecondaryButton(),
             //showErrorMessage(),
           ],
         ),
