@@ -1,40 +1,9 @@
 import 'package:flutter/material.dart';
 import './NavBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-String _email;
-String _password;
-bool _isLoginForm = true;
-String _errorMessage;
-bool _isLoginMode;
-// bool _isLoading = false;
-
-class Login extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Flatform'),
-          centerTitle: true,
-        ),
-        body: Stack(
-          children: <Widget>[
-            showForm(context),
-            //showCircularProgress(),
-          ],
-        ));
-  }
-}
-
-// Widget showCircularProgress() {
-//   if (_isLoading) {
-//     return Center(child: CircularProgressIndicator());
-//   }
-//   return Container(
-//     height: 0.0,
-//     width: 0.0,
-//   );
-// }
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 Widget showLogo() {
   return new Hero(
@@ -43,125 +12,167 @@ Widget showLogo() {
       padding: EdgeInsets.fromLTRB(0.0, 70.0, 0.0, 0.0),
       child: CircleAvatar(
         backgroundColor: Colors.transparent,
-        radius: 48.0,
+        radius: 52.0,
         child: Image.asset('assets/images/flutter-icon.png'),
       ),
     ),
   );
 }
 
-Widget showEmailInput() {
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
-    child: new TextFormField(
-      maxLines: 1,
-      keyboardType: TextInputType.emailAddress,
-      autofocus: false,
-      decoration: new InputDecoration(
-          hintText: 'Eposta',
-          icon: new Icon(
-            Icons.mail,
-            color: Colors.grey,
-          )),
-      validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
-      onSaved: (value) => _email = value.trim(),
-    ),
-  );
+class Login extends StatefulWidget {
+  @override
+  _LoginState createState() => _LoginState();
 }
 
-Widget showPasswordInput() {
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-    child: new TextFormField(
-      maxLines: 1,
-      obscureText: true,
-      autofocus: false,
-      decoration: new InputDecoration(
-          hintText: 'Şifre',
-          icon: new Icon(
-            Icons.lock,
-            color: Colors.grey,
-          )),
-      validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
-      onSaved: (value) => _password = value.trim(),
-    ),
-  );
-}
+class _LoginState extends State<Login> {
+  String _email,_password;
+  bool _autocontrol = false;
 
-Widget showPrimaryButton(context) {
-  return new Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
-      child: SizedBox(
-        height: 40.0,
-        child: new RaisedButton(
-          elevation: 5.0,
-          shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(30.0)),
-          color: Colors.blue,
-          child: new Text(_isLoginForm ? 'Giriş' : '',
-              style: new TextStyle(fontSize: 20.0, color: Colors.white)),
-          onPressed: () {
-            Navigator.pushReplacement(
+  final formKey=GlobalKey<FormState>();
+  
+  
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+        data: Theme.of(context).copyWith(
+
+            primaryColor: Colors.blue),
+        child: Scaffold(
+          
+          
+          body: Padding(
+            padding: EdgeInsets.all(10),
+            child: Form(
+              key: formKey,
+              autovalidate: _autocontrol,
+              child: ListView(
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                  ),
+                  showLogo(),
+                  SizedBox(height: 80,),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                    hintText: 'Eposta',
+                    icon: new Icon(
+                      Icons.mail,
+                      color: Colors.grey,
+                    )),
+                    validator: _emailKontrol,
+                    onSaved: (value) => _email = value,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.text,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                    hintText: 'Şifre',
+                    icon: new Icon(
+                      Icons.lock,
+                      color: Colors.grey,
+                    )),
+                    validator: (String girilenVeri) {
+                      if(girilenVeri.length<6){
+                        return "En az 6 karakter gereki";
+                      }
+                    },
+                    onSaved: (value) => _password = value,
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  RaisedButton(
+                    elevation: 5.0,
+                    shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(30.0)),
+                    child: new Text('Giriş',
+                    style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+                    color: Colors.blue,
+                    onPressed: _signInWithEmailAndPassword,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ));
+  }
+
+  void _loginFunc() {
+    
+    if(formKey.currentState.validate()){
+      formKey.currentState.save();
+      debugPrint("Girilen mail: $_email şifre:$_password");
+    }else{
+      setState(() {
+        _autocontrol=true;
+      });
+    }
+
+    _auth.signInWithEmailAndPassword(email: _email, password: _password).then((oturumAcmisKullaniciAuthResult){
+
+      var oturumAcmisKullanici= oturumAcmisKullaniciAuthResult.user;
+      if(oturumAcmisKullanici.emailVerified){
+        print('Giriş yapıldı');
+        Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => HomePage(),
               ),
-            );
-          },
-        ),
-      ));
-}
+            );  
+      }else{
+        print('Giriş yapılamadı');
+        
+        _auth.signOut();
+      }
+      setState(() {
 
-// Widget showSecondaryButton() {
-//   return new FlatButton(
-//       child: new Text(_isLoginForm ? ' ' : 'Have an account? Sign in',
-//           style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
-//       onPressed: () {
-//         print('hello');
-//       });
-// }
+      });
 
-// void toggleFormMode() {
-//   resetForm();
-//   setState(() {
-//     _isLoginForm = !_isLoginForm;
-//   });
-// }
+    }).catchError((hata){
+      debugPrint(hata.toString());
 
-Widget showErrorMessage() {
-  if (_errorMessage.length > 0 && _errorMessage != null) {
-    return new Text(
-      _errorMessage,
-      style: TextStyle(
-          fontSize: 13.0,
-          color: Colors.red,
-          height: 1.0,
-          fontWeight: FontWeight.w300),
-    );
-  } else {
-    return new Container(
-      height: 0.0,
-    );
+      setState(() {
+        
+      });
+
+    });
+
   }
-}
 
-final _formKey = new GlobalKey<FormState>();
+  void _signInWithEmailAndPassword() async {
+    try {
+      final User user = (await _auth.signInWithEmailAndPassword(
+        email: _email,
+        password: _password,
+      ))
+          .user;
 
-Widget showForm(context) {
-  return new Container(
-      padding: EdgeInsets.all(16.0),
-      child: new Form(
-        key: _formKey,
-        child: new ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            showLogo(),
-            showEmailInput(),
-            showPasswordInput(),
-            showPrimaryButton(context),
-            // showSecondaryButton(),
-            //showErrorMessage(),
-          ],
-        ),
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("${user.email} signed in"),
       ));
+    } catch (e) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("Failed to sign in with Email & Password"),
+      ));
+    }
+  }
+
+  String _emailKontrol(String mail){
+
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(mail))
+      return 'Geçersiz mail';
+    else
+      return null;
+  }
+
 }
