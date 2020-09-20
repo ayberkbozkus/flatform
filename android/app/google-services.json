@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "874841634432",
-    "firebase_url": "https://flatform-ec0f7.firebaseio.com",
-    "project_id": "flatform-ec0f7",
-    "storage_bucket": "flatform-ec0f7.appspot.com"
+    "project_number": "194138793764",
+    "firebase_url": "https://flatform-7874d.firebaseio.com",
+    "project_id": "flatform-7874d",
+    "storage_bucket": "flatform-7874d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:874841634432:android:664a62244397506fcfd865",
+        "mobilesdk_app_id": "1:194138793764:android:9e887568cfcd6d235a35b1",
         "android_client_info": {
           "package_name": "com.example.flatform"
         }
       },
       "oauth_client": [
         {
-          "client_id": "874841634432-qbcal6fphj1ecp479rlv0rek9vdi10hu.apps.googleusercontent.com",
+          "client_id": "194138793764-3gpvpevu9tvs0ele1plinr6gu6jn3cve.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAtT_1csshP7ARfdQ9zm-Tn-W42be9j9qI"
+          "current_key": "AIzaSyAnvtO_209KKOraHLHXXiYXxjUM_14aMec"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "874841634432-qbcal6fphj1ecp479rlv0rek9vdi10hu.apps.googleusercontent.com",
+              "client_id": "194138793764-3gpvpevu9tvs0ele1plinr6gu6jn3cve.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

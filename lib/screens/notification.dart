@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PersonNotification extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class PersonNotification extends StatefulWidget {
 }
 
 class _PersonNotificationState extends State {
+  final Firestore _firestore = Firestore.instance;
   int _currentIndex = 0;
   String toWho = 'Kime';
 
@@ -165,6 +167,9 @@ class _PersonNotificationState extends State {
         );
       },
     );
+  }
+  void fireStoreAdd() {
+    
   }
 }
 

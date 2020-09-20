@@ -22,10 +22,16 @@
 
 import 'package:flutter/material.dart';
 import './screens/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() => runApp(MaterialApp(
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MaterialApp(
       home: Login(),
     ));
+  }
 
 class MyApp extends StatelessWidget {
   @override

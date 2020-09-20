@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import './NavBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -20,6 +23,7 @@ Widget showLogo() {
 }
 
 class Login extends StatefulWidget {
+  
   @override
   _LoginState createState() => _LoginState();
 }
@@ -27,9 +31,24 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String _email,_password;
   bool _autocontrol = false;
+  bool _loginFailed = true;
 
   final formKey=GlobalKey<FormState>();
   
+  @override
+  void initState() {
+    super.initState();
+    _auth.onAuthStateChanged.listen((user) {
+      setState(() {
+        if(user != null) {
+          print('kullanıcı oturum acti');
+        }
+        else {
+          print('kullanıcı oturumu kapattı');
+        }
+      });
+    });
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -78,15 +97,14 @@ class _LoginState extends State<Login> {
                       Icons.lock,
                       color: Colors.grey,
                     )),
-                    validator: (String girilenVeri) {
-                      if(girilenVeri.length<6){
-                        return "En az 6 karakter gereki";
-                      }
-                    },
                     onSaved: (value) => _password = value,
                   ),
                   SizedBox(
-                    height: 50,
+                    height: 20,
+                  ),
+                  _loginFailed ? Text('') : Center(child: Text('Email veya Şifre Hatalı',style: TextStyle(color: Colors.red),)),
+                  SizedBox(
+                    height: 30,
                   ),
                   RaisedButton(
                     elevation: 5.0,
@@ -95,8 +113,17 @@ class _LoginState extends State<Login> {
                     child: new Text('Giriş',
                     style: new TextStyle(fontSize: 20.0, color: Colors.white)),
                     color: Colors.blue,
-                    onPressed: _signInWithEmailAndPassword,
-                  )
+                    onPressed: _loginFunc,
+                  ),
+                  RaisedButton(
+                    elevation: 5.0,
+                    shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(30.0)),
+                    child: new Text('Şifremi Unuttum',
+                    style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+                    color: Colors.blue,
+                    onPressed: _forgetPassword,
+                  ),
                 ],
               ),
             ),
@@ -104,22 +131,43 @@ class _LoginState extends State<Login> {
         ));
   }
 
-  void _loginFunc() {
+  void _forgetPassword() async {
+    if(formKey.currentState.validate()){
+      formKey.currentState.save();
+
+      print('\n\n$_email\n\n'); 
+
+    String mail = _email;
+    _auth.sendPasswordResetEmail(email: mail).then((v){
+      setState(() {
+
+        print("\nSıfırlama maili gönderildi");
+      });
+    }).catchError((hata){
+
+      setState(() {
+        print("\nŞifremi unuttum mailinde hata $hata");
+        
+      });
+    });
+    
+  }}
+
+  void _loginFunc() async {
     
     if(formKey.currentState.validate()){
       formKey.currentState.save();
-      debugPrint("Girilen mail: $_email şifre:$_password");
-    }else{
-      setState(() {
-        _autocontrol=true;
-      });
-    }
 
-    _auth.signInWithEmailAndPassword(email: _email, password: _password).then((oturumAcmisKullaniciAuthResult){
+      print('\n\n$_email\n\n'); 
 
-      var oturumAcmisKullanici= oturumAcmisKullaniciAuthResult.user;
-      if(oturumAcmisKullanici.emailVerified){
-        print('Giriş yapıldı');
+      _auth.signInWithEmailAndPassword(email: _email, password: _password).then((loginUserAuthResult){
+      
+      var loginUser= loginUserAuthResult.user;
+      
+      if(loginUser.emailVerified){
+        setState(() {
+          _loginFailed = false;
+        });
         Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -136,33 +184,26 @@ class _LoginState extends State<Login> {
       });
 
     }).catchError((hata){
+      setState(() {
+        _loginFailed = false;
+      });
+      print('hata geldi');
       debugPrint(hata.toString());
 
-      setState(() {
-        
-      });
+      
 
     });
 
-  }
-
-  void _signInWithEmailAndPassword() async {
-    try {
-      final User user = (await _auth.signInWithEmailAndPassword(
-        email: _email,
-        password: _password,
-      ))
-          .user;
-
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("${user.email} signed in"),
-      ));
-    } catch (e) {
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("Failed to sign in with Email & Password"),
-      ));
+    }else{
+      setState(() {
+        _autocontrol=true;
+      });
     }
+    
+    
+
   }
+
 
   String _emailKontrol(String mail){
 
@@ -175,4 +216,9 @@ class _LoginState extends State<Login> {
       return null;
   }
 
+
 }
+
+
+
+

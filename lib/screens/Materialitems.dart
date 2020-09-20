@@ -152,7 +152,7 @@ Material myradialItems(String heading, Color themeColor,
                 ? Column(children: [
                     Expanded(
                       child: SizedBox(
-                        width: MediaQuery.of(ctx).size.width / 2.1,
+                        width: MediaQuery.of(ctx).size.width / 2.3,
                         child: Card(
                             elevation: 5,
                             shadowColor: themeColor,
@@ -172,7 +172,7 @@ Material myradialItems(String heading, Color themeColor,
                     ),
                     Expanded(
                       child: SizedBox(
-                        width: MediaQuery.of(ctx).size.width / 2.1,
+                        width: MediaQuery.of(ctx).size.width / 2.3,
                         child: Card(
                           elevation: 5,
                           shadowColor: themeColor,
@@ -194,7 +194,7 @@ Material myradialItems(String heading, Color themeColor,
                     ),
                     Expanded(
                       child: SizedBox(
-                        width: MediaQuery.of(ctx).size.width / 2.1,
+                        width: MediaQuery.of(ctx).size.width / 2.3,
                         child: Card(
                             elevation: 5,
                             shadowColor: themeColor,

@@ -340,6 +340,7 @@ theme: ThemeData(
           appBar: headerAppBar = AppBar(
             title: Text('$location'),
             centerTitle: true,
+            actions: [IconButton(icon: Icon(Icons.exit_to_app), onPressed: () {})],
           ),
           drawer: new Drawer(
             child: ListView(
@@ -487,6 +488,7 @@ theme: ThemeData(
               ],
             ),
           ),
+          
           body: TabBarView(
             controller: tabController,
             children: <Widget>[
@@ -510,7 +512,7 @@ theme: ThemeData(
                     StaggeredTile.extent(1, 220.0),
                     StaggeredTile.extent(1, 220.0),
                     StaggeredTile.extent(2, 240.0),
-                    StaggeredTile.extent(1, 220.0),
+                    StaggeredTile.extent(1, 280.0),
                     StaggeredTile.extent(1, 280.0),
                   ],
                 ),
