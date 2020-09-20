@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,12 +12,19 @@ class PersonNotification extends StatefulWidget {
 }
 
 class _PersonNotificationState extends State {
-  final Firestore _firestore = Firestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   int _currentIndex = 0;
-  String toWho = 'Kime';
+  int _id;
+  String _issue;
+  String _towho = 'Kime';
+  String _from;
+  String _message;
+  DateTime _time;
+  Color _color;
+  
 
   List<Notification> allNotification = [];
-
+  final formKey=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     takeNotification();
@@ -36,17 +44,33 @@ class _PersonNotificationState extends State {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      TextField(
-                        decoration: InputDecoration(labelText: 'Konu'),
-                       
-                         onChanged: (val) {
 
-                         },
-                      ),
-                      Padding(
+                      Form(
+                        key: formKey,
+                        // autovalidate: _autocontrol,
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                              hintText: 'Konu',
+                              icon: new Icon(
+                                Icons.mail,
+                                color: Colors.grey,
+                              )),
+                              // validator: _emailKontrol,
+                              onSaved: (value) => _issue = value,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
                                   padding: const EdgeInsets.symmetric( vertical: 5),
                                   child: DropdownButton(
-                                    hint: Text(toWho),
+                                    hint: Text(_towho),
                                     items: [
                                       DropdownMenuItem(
                                         child: Text("Tesis Sorumluları"),
@@ -63,18 +87,42 @@ class _PersonNotificationState extends State {
                                     ],
                                     onChanged: (String value) {
                                       setState(() {
-                                        toWho = value;
+                                        _towho = value;
                                         
                                       });
                                     },
                                   ),
                                 ),
-                      TextField(
-                        decoration: InputDecoration(labelText: 'Mesaj'),
-                    
-                        onChanged: (val) {
+                                SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                              hintText: 'Mesaj',
+                              icon: new Icon(
+                                Icons.mail,
+                                color: Colors.grey,
+                              )),
+                              // validator: _emailKontrol,
+                              onSaved: (value) => _message = value,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
 
-                         },
+                            RaisedButton(
+                              elevation: 5.0,
+                              shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0)),
+                              child: new Text('Bildirim Gönder',
+                              style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+                              color: Colors.blue,
+                              onPressed: fireStoreAdd,
+                            ),
+                            
+                          ],
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -82,7 +130,7 @@ class _PersonNotificationState extends State {
                           child: Text('Bildirim Gönder'),
                           color: Colors.blue,
                           textColor: Colors.white,
-                          onPressed: () {},
+                          onPressed: fireStoreAdd,
                         ),
                       ),
                     ],
@@ -168,8 +216,20 @@ class _PersonNotificationState extends State {
       },
     );
   }
-  void fireStoreAdd() {
+  void fireStoreAdd() async {
+    Map<String, dynamic> notadd = Map();
+    notadd['id'] = '100005';
+    notadd['issue'] = 'konu2';
+    notadd['from'] = 'ayberk';
+    notadd['towho'] = 'dogukan';
+    notadd['message'] = 'mesaj2';
+    notadd['date'] = '1586348757122';
     
+    await _firestore.collection('Notifications').doc(notadd['id']).set(notadd).then((value) => debugPrint('veri eklendi'));
+  }
+  void fireStoreRead() async {
+    DocumentSnapshot incomingData = await _firestore.collection('Notifications').doc('100002').get();
+    print(incomingData.data()['id']);
   }
 }
 
@@ -180,3 +240,14 @@ class Notification {
   Color _color;
   Notification(this._title, this._message, this._time, this._color);
 }
+
+// class Notification {
+//   int _id;
+//   String _issue;
+//   String _towho;
+//   String _from;
+//   String _message;
+//   DateTime _time;
+//   Color _color;
+//   Notification(this._id,this._issue,this._towho,this._from, this._message, this._time, this._color);
+// }
