@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class PersonNotification extends StatefulWidget {
   @override
@@ -22,9 +23,27 @@ class _PersonNotificationState extends State {
   DateTime _time;
   Color _color;
   
-
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   List<Notification> allNotification = [];
   final formKey=GlobalKey<FormState>();
+
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: tetiklendi $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: tetiklendi $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: tetiklendi $message");
+      },
+    );R
+  }
+
   @override
   Widget build(BuildContext context) {
     takeNotification();
