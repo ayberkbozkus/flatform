@@ -1,4 +1,4 @@
-
+import '../notification_handler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,17 +31,8 @@ class _PersonNotificationState extends State {
   @override
   void initState() {
     super.initState();
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: tetiklendi $message");
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: tetiklendi $message");
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: tetiklendi $message");
-      },
-    );R
+
+    NotificationHandler().initializeFCMNotification(context);
   }
 
   @override
