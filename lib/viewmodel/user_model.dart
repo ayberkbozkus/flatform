@@ -12,11 +12,17 @@ class UserModel with ChangeNotifier implements AuthBase{
   UserRepository _userRepository = locator<UserRepository>();
   AppUser _user;
 
+  AppUser get user => _user;
+
   ViewState get state => _state;
 
   set state(ViewState value) {
     _state = value;
     notifyListeners();
+  }
+
+  UserModel() {
+    currentUser();
   }
 
   @override
@@ -44,7 +50,6 @@ class UserModel with ChangeNotifier implements AuthBase{
       return null;
     }finally{
       state = ViewState.Idle;
-      print('object');
     }
   }
 
