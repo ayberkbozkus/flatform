@@ -1,7 +1,10 @@
 import 'dart:ui';
 import 'package:flatform/models/user.dart';
 import 'package:flatform/services/auth_base.dart';
+import 'package:flatform/services/firebase_auth_services.dart';
 import 'package:flutter/material.dart';
+
+import '../locator.dart';
 
 
 Widget showLogo() {
@@ -20,21 +23,20 @@ Widget showLogo() {
 
 class Login extends StatefulWidget {
   final Function(AppUser) onSignIn;
-  final AuthBase authService;
-  const Login({Key key,@required this.onSignIn, this.authService}) : super(key: key);
+  const Login({Key key,@required this.onSignIn}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-
+  AuthBase authService = locator<FirebaseAuthService>();
   String _email,_password;
   bool _autocontrol = false;
   bool _loginFailed = true;
   AppUser loginUser;
   void _login(String _email, String _password) async {
-    AppUser loginUser = await widget.authService.signInEmail(_email, _password);
+    AppUser loginUser = await authService.signInEmail(_email, _password);
     if(loginUser != null){
         setState(() {
           
@@ -45,7 +47,7 @@ class _LoginState extends State<Login> {
       }else{
         print('Giriş yapılamadı');
         
-        widget.authService.signOut();
+        authService.signOut();
       }
     
   }

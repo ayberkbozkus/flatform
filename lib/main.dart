@@ -24,24 +24,27 @@ import './screens/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'locator.dart';
+
 void main() async {
+  setupLocator();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MaterialApp(
-      home: LandingPage(authService: FirebaseAuthService(),),
+      home: LandingPage(),
     ));
   }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Flatform Login',
-      debugShowCheckedModeBanner: false,
-      theme: new ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: new LandingPage(authService: FirebaseAuthService(),),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return new MaterialApp(
+//       title: 'Flatform Login',
+//       debugShowCheckedModeBanner: false,
+//       theme: new ThemeData(
+//         primarySwatch: Colors.red,
+//       ),
+//       home: new LandingPage(authService: FirebaseAuthService(),),
+//     );
+//   }
+// }

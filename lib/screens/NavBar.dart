@@ -1,9 +1,11 @@
 import 'package:flatform/screens/landing_page.dart';
 import 'package:flatform/services/auth_base.dart';
+import 'package:flatform/services/firebase_auth_services.dart';
 import 'package:flatform/tabBar/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import '../locator.dart';
 import './notification.dart';
 import './user_transactions.dart';
 import '../functions/function.dart';
@@ -12,10 +14,9 @@ import 'MaterialItems.dart';
 
 
 class HomePage extends StatefulWidget {
-  final AuthBase authService;
   final Function onSignOut;
 
-  const HomePage({Key key,@required this.authService, this.onSignOut}) : super(key: key);
+  const HomePage({Key key, this.onSignOut}) : super(key: key);
 
 
   @override
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   static var piechartdisplay;
   static var gaugechartdisplay;
   static var donutchartdisplay;
-
+  AuthBase authService = locator<FirebaseAuthService>();
   String location = "Tesis 1";
   String tesis = 'Tesis Seçin';
   String makine = 'Makine Seçin';
@@ -352,11 +353,11 @@ theme: ThemeData(
             centerTitle: true,
             actions: [IconButton(icon: Icon(Icons.exit_to_app), onPressed: () {
 
-              widget.authService.signOut();
+              authService.signOut();
               Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => LandingPage(authService: widget.authService,),
+                builder: (context) => LandingPage(),
               ),
             ); 
             })],
@@ -559,7 +560,7 @@ theme: ThemeData(
     );
   }
   Future<bool> _logOut( ) async {
-    bool result = await widget.authService.signOut();
+    bool result = await authService.signOut();
     widget.onSignOut();
     return result;
   }
