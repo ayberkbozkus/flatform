@@ -44,6 +44,7 @@ class UserModel with ChangeNotifier implements AuthBase{
       return null;
     }finally{
       state = ViewState.Idle;
+      print('object');
     }
   }
 
