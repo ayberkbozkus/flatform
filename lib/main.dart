@@ -19,17 +19,16 @@
 //     );
 //   }
 // }
-
+import 'package:flatform/services/firebase_auth_services.dart';
+import './screens/landing_page.dart';
 import 'package:flutter/material.dart';
-import './screens/login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MaterialApp(
-      home: Login(),
+      home: LandingPage(authService: FirebaseAuthService(),),
     ));
   }
 
@@ -42,7 +41,7 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: new Login(),
+      home: new LandingPage(authService: FirebaseAuthService(),),
     );
   }
 }

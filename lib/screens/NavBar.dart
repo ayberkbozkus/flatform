@@ -1,4 +1,5 @@
-
+import 'package:flatform/screens/landing_page.dart';
+import 'package:flatform/services/auth_base.dart';
 import 'package:flatform/tabBar/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -10,20 +11,25 @@ import 'MaterialItems.dart';
 
 
 
-
-
 class HomePage extends StatefulWidget {
+  final AuthBase authService;
+  final Function onSignOut;
+
+  const HomePage({Key key,@required this.authService, this.onSignOut}) : super(key: key);
+
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+
   static var barchartdisplay;
   static var gaugechartdisplayenergy;
   static var piechartdisplay;
   static var gaugechartdisplay;
   static var donutchartdisplay;
-  
+
   String location = "Tesis 1";
   String tesis = 'Tesis Seçin';
   String makine = 'Makine Seçin';
@@ -35,6 +41,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   var headerAppBar;
 
   List<charts.Series<Task, String>> _seriesPieData;
+
+  
+
+  
   _generateData() {
     var pieData = [
       new Task('Planlı', 3,),
@@ -340,7 +350,16 @@ theme: ThemeData(
           appBar: headerAppBar = AppBar(
             title: Text('$location'),
             centerTitle: true,
-            actions: [IconButton(icon: Icon(Icons.exit_to_app), onPressed: () {})],
+            actions: [IconButton(icon: Icon(Icons.exit_to_app), onPressed: () {
+
+              widget.authService.signOut();
+              Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LandingPage(authService: widget.authService,),
+              ),
+            ); 
+            })],
           ),
           drawer: new Drawer(
             child: ListView(
@@ -538,6 +557,11 @@ theme: ThemeData(
         ),
       ),
     );
+  }
+  Future<bool> _logOut( ) async {
+    bool result = await widget.authService.signOut();
+    widget.onSignOut();
+    return result;
   }
 }
 /*

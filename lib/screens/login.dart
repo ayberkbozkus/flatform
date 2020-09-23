@@ -1,12 +1,8 @@
 import 'dart:ui';
-
+import 'package:flatform/models/user.dart';
+import 'package:flatform/services/auth_base.dart';
 import 'package:flutter/material.dart';
-import './NavBar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 
-
-final FirebaseAuth _auth = FirebaseAuth.instance;
 
 Widget showLogo() {
   return new Hero(
@@ -23,31 +19,46 @@ Widget showLogo() {
 }
 
 class Login extends StatefulWidget {
-  
+  final Function(AppUser) onSignIn;
+  final AuthBase authService;
+  const Login({Key key,@required this.onSignIn, this.authService}) : super(key: key);
+
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
+
   String _email,_password;
   bool _autocontrol = false;
   bool _loginFailed = true;
+  AppUser loginUser;
+  void _login(String _email, String _password) async {
+    AppUser loginUser = await widget.authService.signInEmail(_email, _password);
+    if(loginUser != null){
+        setState(() {
+          
+          _loginFailed = false;
+        });
+        widget.onSignIn(loginUser);
+        print('Giriş YAPILDI');
+      }else{
+        print('Giriş yapılamadı');
+        
+        widget.authService.signOut();
+      }
+    
+  }
 
   final formKey=GlobalKey<FormState>();
+
+  
   
   @override
   void initState() {
     super.initState();
-    _auth.onAuthStateChanged.listen((user) {
-      setState(() {
-        if(user != null) {
-          print('kullanıcı oturum acti');
-        }
-        else {
-          print('kullanıcı oturumu kapattı');
-        }
-      });
-    });
+    
+    
   }
   
   @override
@@ -138,18 +149,18 @@ class _LoginState extends State<Login> {
       print('\n\n$_email\n\n'); 
 
     String mail = _email;
-    _auth.sendPasswordResetEmail(email: mail).then((v){
-      setState(() {
+    // _auth.sendPasswordResetEmail(email: mail).then((v){
+    //   setState(() {
 
-        print("\nSıfırlama maili gönderildi");
-      });
-    }).catchError((hata){
+    //     print("\nSıfırlama maili gönderildi");
+    //   });
+    // }).catchError((hata){
 
-      setState(() {
-        print("\nŞifremi unuttum mailinde hata $hata");
+    //   setState(() {
+    //     print("\nŞifremi unuttum mailinde hata $hata");
         
-      });
-    });
+    //   });
+    // });
     
   }}
 
@@ -160,51 +171,11 @@ class _LoginState extends State<Login> {
 
       print('\n\n$_email\n\n'); 
 
-      _auth.signInWithEmailAndPassword(email: _email, password: _password).then((loginUserAuthResult){
+      _login(_email,_password);
       
-      var loginUser= loginUserAuthResult.user;
       
-      if(loginUser.emailVerified){
-        setState(() {
-          _loginFailed = false;
-        });
-        Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomePage(),
-              ),
-            );  
-      }else{
-        print('Giriş yapılamadı');
-        
-        _auth.signOut();
-      }
-      setState(() {
-
-      });
-
-    }).catchError((hata){
-      setState(() {
-        _loginFailed = false;
-      });
-      print('hata geldi');
-      debugPrint(hata.toString());
-
-      
-
-    });
-
-    }else{
-      setState(() {
-        _autocontrol=true;
-      });
     }
-    
-    
-
   }
-
-
   String _emailKontrol(String mail){
 
     Pattern pattern =
@@ -215,10 +186,4 @@ class _LoginState extends State<Login> {
     else
       return null;
   }
-
-
 }
-
-
-
-
