@@ -1,11 +1,9 @@
-import 'package:flatform/screens/landing_page.dart';
-import 'package:flatform/services/auth_base.dart';
-import 'package:flatform/services/firebase_auth_services.dart';
 import 'package:flatform/tabBar/tabbar.dart';
+import 'package:flatform/viewmodel/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import '../locator.dart';
+import 'package:provider/provider.dart';
 import './notification.dart';
 import './user_transactions.dart';
 import '../functions/function.dart';
@@ -14,10 +12,6 @@ import 'MaterialItems.dart';
 
 
 class HomePage extends StatefulWidget {
-  final Function onSignOut;
-
-  const HomePage({Key key, this.onSignOut}) : super(key: key);
-
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -30,7 +24,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   static var piechartdisplay;
   static var gaugechartdisplay;
   static var donutchartdisplay;
-  AuthBase authService = locator<FirebaseAuthService>();
+  
   String location = "Tesis 1";
   String tesis = 'Tesis Seçin';
   String makine = 'Makine Seçin';
@@ -353,13 +347,8 @@ theme: ThemeData(
             centerTitle: true,
             actions: [IconButton(icon: Icon(Icons.exit_to_app), onPressed: () {
 
-              authService.signOut();
-              Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LandingPage(),
-              ),
-            ); 
+              _logOut();
+               
             })],
           ),
           drawer: new Drawer(
@@ -560,8 +549,10 @@ theme: ThemeData(
     );
   }
   Future<bool> _logOut( ) async {
-    bool result = await authService.signOut();
-    widget.onSignOut();
+    final _userModel = Provider.of<UserModel>(context, listen: false);
+    bool result = await _userModel.signOut();
+    _userModel.signOut();
+    print(result.toString() +'result');
     return result;
   }
 }

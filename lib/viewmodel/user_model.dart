@@ -30,9 +30,9 @@ class UserModel with ChangeNotifier implements AuthBase{
     try{
       state = ViewState.Busy;
       _user = await _userRepository.currentUser();
+      notifyListeners();
       return _user;
     }catch(e){
-      debugPrint('Viewmodeldeki current user hata: '+e.toString());
       return null;
     }finally{
       state = ViewState.Idle;
@@ -44,6 +44,22 @@ class UserModel with ChangeNotifier implements AuthBase{
     try{
       state = ViewState.Busy;
       _user = await _userRepository.signInEmail(email,password);
+      notifyListeners();
+      return _user;
+    }catch(e){
+      debugPrint('Viewmodeldeki signout hata: '+e.toString());
+      return null;
+    }finally{
+      state = ViewState.Idle;
+    }
+  }
+
+  @override
+  Future<AppUser> signInWithGoogle() async{
+    try{
+      state = ViewState.Busy;
+      _user = await _userRepository.signInWithGoogle();
+      notifyListeners();
       return _user;
     }catch(e){
       debugPrint('Viewmodeldeki signout hata: '+e.toString());
@@ -57,7 +73,11 @@ class UserModel with ChangeNotifier implements AuthBase{
   Future<bool> signOut() async {
     try{
       state = ViewState.Busy;
-      return await _userRepository.signOut();
+      bool result = await _userRepository.signOut();
+      _user = null;
+      notifyListeners();
+      print('cikis');
+      return result;
     }catch(e){
       debugPrint('Viewmodeldeki signout hata: '+e.toString());
       return false;
@@ -66,6 +86,5 @@ class UserModel with ChangeNotifier implements AuthBase{
     }
   }
 
-
-
+  
 }

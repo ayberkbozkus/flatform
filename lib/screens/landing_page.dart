@@ -1,49 +1,27 @@
-import 'package:flatform/locator.dart';
-import 'package:flatform/models/user.dart';
 import 'package:flatform/screens/NavBar.dart';
 import 'package:flatform/screens/login.dart';
-import 'package:flatform/services/auth_base.dart';
-import 'package:flatform/services/firebase_auth_services.dart';
+import 'package:flatform/viewmodel/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
-class LandingPage extends StatefulWidget {
-  
+class LandingPage extends StatelessWidget {
 
-  _LandingPageState createState() => _LandingPageState();
-}
-
-class _LandingPageState extends State<LandingPage> {
-  AppUser _user;
-  AuthBase authService = locator<FirebaseAuthService>();
-  @override
-  void initState() {
-    super.initState();
-    _checkUser();
-  }
   @override
   Widget build(BuildContext context) {
-    if(_user == null) {
-      return Login(
-        onSignIn: (user) {updateUser(user);}
+    final _userModel = Provider.of<UserModel>(context);
+    if(_userModel.state == ViewState.Idle) {
+      print(_userModel.user);
+      if(_userModel.user == null) {
+        return Login();
+      } else {
+        return HomePage();
+      }
+    } else{
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator(),)
       );
-    } else {
-      return HomePage(
-        onSignOut: () {
-          updateUser(null);
-        });
     }
-  }
-  Future<void> _checkUser() async {
-    _user = await authService.currentUser();
-    if(_user != null ){
-      var uid = _user.userID;
-      setState(() {
-    });}
-  }
-  void updateUser(AppUser user) {
-    setState(() {
-      _user = user;
-    });
+    
   }
 }

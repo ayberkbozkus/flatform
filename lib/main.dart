@@ -19,19 +19,18 @@
 //     );
 //   }
 // }
-import 'package:flatform/services/firebase_auth_services.dart';
 import 'package:flatform/viewmodel/user_model.dart';
 import 'package:provider/provider.dart';
 import './screens/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'locator.dart';
 
 void main() async {
-  setupLocator();
+  
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  setupLocator();
   runApp(MyApp());
   }
 

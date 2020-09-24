@@ -18,4 +18,10 @@ class FakeAuthenticationService implements AuthBase {
     return Future.value(true);
   }
 
+  @override
+  Future<AppUser> signInWithGoogle() {
+    // TODO: implement signInWithGoogle
+    throw UnimplementedError();
+  }
+
 }

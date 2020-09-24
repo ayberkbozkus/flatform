@@ -2,8 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a2574a49-0e53-47ef-870a-74c3b6ed423d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/locator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/locator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repository/user_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repository/user_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/NavBar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/NavBar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/landing_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/landing_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/services/auth_base.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/auth_base.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/services/firebase_auth_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/firebase_auth_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/viewmodel/user_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/viewmodel/user_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,10 +90,10 @@
     </state>
     <state x="176" y="111" width="1200" height="584" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1536.824@0.0.1536.824" timestamp="1596442463027" />
     <state x="939" y="134" width="2000" height="693" key="com.android.tools.idea.avdmanager.AvdListDialog/0.23.2560.977@0.23.2560.977" timestamp="1600350392437" />
-    <state x="775" y="303" key="com.intellij.ide.util.TipDialog" timestamp="1600408741659">
+    <state x="775" y="303" key="com.intellij.ide.util.TipDialog" timestamp="1600980991911">
       <screen x="0" y="23" width="2560" height="977" />
     </state>
     <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1596443922843" />
-    <state x="775" y="303" key="com.intellij.ide.util.TipDialog/0.23.2560.977@0.23.2560.977" timestamp="1600408741659" />
+    <state x="775" y="303" key="com.intellij.ide.util.TipDialog/0.23.2560.977@0.23.2560.977" timestamp="1600980991911" />
   </component>
 </project>

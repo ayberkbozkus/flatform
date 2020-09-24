@@ -1,10 +1,8 @@
 import 'dart:ui';
 import 'package:flatform/models/user.dart';
-import 'package:flatform/services/auth_base.dart';
-import 'package:flatform/services/firebase_auth_services.dart';
+import 'package:flatform/viewmodel/user_model.dart';
 import 'package:flutter/material.dart';
-
-import '../locator.dart';
+import 'package:provider/provider.dart';
 
 
 Widget showLogo() {
@@ -22,32 +20,47 @@ Widget showLogo() {
 }
 
 class Login extends StatefulWidget {
-  final Function(AppUser) onSignIn;
-  const Login({Key key,@required this.onSignIn}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  AuthBase authService = locator<FirebaseAuthService>();
+  
   String _email,_password;
   bool _autocontrol = false;
   bool _loginFailed = true;
-  AppUser loginUser;
+
   void _login(String _email, String _password) async {
-    AppUser loginUser = await authService.signInEmail(_email, _password);
+    final _userModel = Provider.of<UserModel>(context, listen: false);
+    AppUser loginUser = await _userModel.signInEmail(_email, _password);
     if(loginUser != null){
         setState(() {
           
-          _loginFailed = false;
+          _loginFailed = true;
         });
-        widget.onSignIn(loginUser);
         print('Giriş YAPILDI');
       }else{
         print('Giriş yapılamadı');
+        _loginFailed = false;
         
-        authService.signOut();
+        _userModel.signOut();
+      }
+  }
+  void _loginwithGoogle() async {
+    final _userModel = Provider.of<UserModel>(context, listen: false);
+    AppUser loginUser = await _userModel.signInWithGoogle();
+    if(loginUser != null){
+        setState(() {
+          
+          _loginFailed = true;
+        });
+        print('Giriş YAPILDI');
+      }else{
+        print('Giriş yapılamadı');
+        _loginFailed = false;
+        
+        _userModel.signOut();
       }
     
   }
@@ -137,6 +150,7 @@ class _LoginState extends State<Login> {
                     color: Colors.blue,
                     onPressed: _forgetPassword,
                   ),
+                  
                 ],
               ),
             ),
@@ -147,8 +161,6 @@ class _LoginState extends State<Login> {
   void _forgetPassword() async {
     if(formKey.currentState.validate()){
       formKey.currentState.save();
-
-      print('\n\n$_email\n\n'); 
 
     String mail = _email;
     // _auth.sendPasswordResetEmail(email: mail).then((v){
@@ -170,12 +182,8 @@ class _LoginState extends State<Login> {
     
     if(formKey.currentState.validate()){
       formKey.currentState.save();
-
-      print('\n\n$_email\n\n'); 
-
       _login(_email,_password);
-      
-      
+
     }
   }
   String _emailKontrol(String mail){
