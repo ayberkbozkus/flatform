@@ -103,8 +103,10 @@ class _LoginState extends State<Login> {
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Eposta',
                     hintText: 'Eposta',
-                    icon: new Icon(
+                    prefixIcon: new Icon(
                       Icons.mail,
                       color: Colors.grey,
                     )),
@@ -118,8 +120,10 @@ class _LoginState extends State<Login> {
                     keyboardType: TextInputType.text,
                     obscureText: true,
                     decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Şifre',
                     hintText: 'Şifre',
-                    icon: new Icon(
+                    prefixIcon: new Icon(
                       Icons.lock,
                       color: Colors.grey,
                     )),
