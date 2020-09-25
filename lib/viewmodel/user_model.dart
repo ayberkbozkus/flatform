@@ -57,6 +57,7 @@ class UserModel with ChangeNotifier implements AuthBase{
   @override
   Future<AppUser> registerEmail(String email, password) async {
     try{
+      // _emailControl(email,password); email farpals mı kontrol
       state = ViewState.Busy;
       _user = await _userRepository.registerEmail(email,password);
       notifyListeners();
@@ -101,7 +102,10 @@ class UserModel with ChangeNotifier implements AuthBase{
     }
   }
 
-  
-
-  
+  bool _emailControl(String email,password) {
+    if(!email.contains('@farplas.com')){
+      return true;
+    }
+    else return false;
+  }
 }
