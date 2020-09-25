@@ -37,16 +37,16 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Flatform Login',
-      debugShowCheckedModeBanner: false,
-      theme: new ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: ChangeNotifierProvider(
-        create: (context) => UserModel(),
-        child: LandingPage()
+    return ChangeNotifierProvider(
+      create: (context) => UserModel(),
+        child: MaterialApp(
+        title: 'Flatform Login',
+        debugShowCheckedModeBanner: false,
+        theme: new ThemeData(
+          primarySwatch: Colors.red,
         ),
+        home: LandingPage()
+          ),
     );
   }
 }

@@ -27,6 +27,19 @@ class FirebaseAuthService implements AuthBase{
   Future<AppUser> signInEmail(String email, password) async{
     try{
       UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      if (result.user.emailVerified) { return _userFromFirebase(result.user);}
+      else {return null;}
+    }catch(e){
+      print('Hata email giriş: ' +e.toString());
+      return null;
+    }
+  }
+
+  @override
+  Future<AppUser> registerEmail(String email, password) async {
+    try{
+      UserCredential result = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      result.user.sendEmailVerification();
       return _userFromFirebase(result.user);
     }catch(e){
       print('Hata email giriş: ' +e.toString());
@@ -67,4 +80,5 @@ class FirebaseAuthService implements AuthBase{
     }
     
   }
+
 }

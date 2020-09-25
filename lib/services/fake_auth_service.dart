@@ -24,4 +24,10 @@ class FakeAuthenticationService implements AuthBase {
     throw UnimplementedError();
   }
 
+  @override
+  Future<AppUser> registerEmail(String email, password) {
+    // TODO: implement registerEmail
+    throw UnimplementedError();
+  }
+
 }

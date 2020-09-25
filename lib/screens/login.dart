@@ -19,6 +19,8 @@ Widget showLogo() {
   );
 }
 
+enum FormType {Register, LogIn}
+
 class Login extends StatefulWidget {
 
   @override
@@ -27,13 +29,15 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   
-  String _email,_password;
+  String _email,_password,buttonText,registerText;
   bool _autocontrol = false;
   bool _loginFailed = true;
+  var formType = FormType.LogIn;
 
   void _login(String _email, String _password) async {
     final _userModel = Provider.of<UserModel>(context, listen: false);
-    AppUser loginUser = await _userModel.signInEmail(_email, _password);
+    if (formType == FormType.LogIn) {
+      AppUser loginUser = await _userModel.signInEmail(_email, _password);
     if(loginUser != null){
         setState(() {
           
@@ -46,6 +50,9 @@ class _LoginState extends State<Login> {
         
         _userModel.signOut();
       }
+    } else {
+      AppUser newUser = await _userModel.registerEmail(_email, _password);
+    }
   }
   void _loginwithGoogle() async {
     final _userModel = Provider.of<UserModel>(context, listen: false);
@@ -72,19 +79,16 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-    
-    
   }
   
   @override
   Widget build(BuildContext context) {
+    buttonText = formType == FormType.LogIn ? 'Giriş Yap' : 'Kayıt Ol';
+    registerText = formType == FormType.LogIn ? 'Hesabınız yok mu? Kayıt Olun' : 'Hesabınız Var Mı? Giriş Yapın';
     return Theme(
         data: Theme.of(context).copyWith(
-
             primaryColor: Colors.blue),
         child: Scaffold(
-          
-          
           body: Padding(
             padding: EdgeInsets.all(10),
             child: Form(
@@ -130,74 +134,85 @@ class _LoginState extends State<Login> {
                     onSaved: (value) => _password = value,
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   _loginFailed ? Text('') : Center(child: Text('Email veya Şifre Hatalı',style: TextStyle(color: Colors.red),)),
                   SizedBox(
-                    height: 30,
-                  ),
-                  RaisedButton(
-                    elevation: 5.0,
-                    shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(30.0)),
-                    child: new Text('Giriş',
-                    style: new TextStyle(fontSize: 20.0, color: Colors.white)),
-                    color: Colors.blue,
-                    onPressed: _loginFunc,
-                  ),
-                  RaisedButton(
-                    elevation: 5.0,
-                    shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(30.0)),
-                    child: new Text('Şifremi Unuttum',
-                    style: new TextStyle(fontSize: 20.0, color: Colors.white)),
-                    color: Colors.blue,
-                    onPressed: _forgetPassword,
+                    height: 10,
                   ),
                   
-                ],
-              ),
-            ),
-          ),
-        ));
-  }
-
-  void _forgetPassword() async {
-    if(formKey.currentState.validate()){
-      formKey.currentState.save();
-
-    String mail = _email;
-    // _auth.sendPasswordResetEmail(email: mail).then((v){
-    //   setState(() {
-
-    //     print("\nSıfırlama maili gönderildi");
-    //   });
-    // }).catchError((hata){
-
-    //   setState(() {
-    //     print("\nŞifremi unuttum mailinde hata $hata");
-        
-    //   });
-    // });
-    
-  }}
-
-  void _loginFunc() async {
-    
-    if(formKey.currentState.validate()){
-      formKey.currentState.save();
-      _login(_email,_password);
-
-    }
-  }
-  String _emailKontrol(String mail){
-
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(mail))
-      return 'Geçersiz mail';
-    else
-      return null;
-  }
+                                    RaisedButton(
+                                      elevation: 5.0,
+                                      shape: new RoundedRectangleBorder(
+                                      borderRadius: new BorderRadius.circular(30.0)),
+                                      child: new Text(buttonText,
+                                      style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+                                      color: Colors.blue,
+                                      onPressed: _loginFunc,
+                                    ),
+                                    RaisedButton(
+                                      elevation: 5.0,
+                                      shape: new RoundedRectangleBorder(
+                                      borderRadius: new BorderRadius.circular(30.0)),
+                                      child: new Text('Şifremi Unuttum',
+                                      style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+                                      color: Colors.blue,
+                                      onPressed: _forgetPassword,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    FlatButton(onPressed: () => change(), child: Text(registerText,style: TextStyle(color: Colors.black45),)),
+                                    
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ));
+                    }
+                  
+                    void _forgetPassword() async {
+                      if(formKey.currentState.validate()){
+                        formKey.currentState.save();
+                  
+                      String mail = _email;
+                      // _auth.sendPasswordResetEmail(email: mail).then((v){
+                      //   setState(() {
+                  
+                      //     print("\nSıfırlama maili gönderildi");
+                      //   });
+                      // }).catchError((hata){
+                  
+                      //   setState(() {
+                      //     print("\nŞifremi unuttum mailinde hata $hata");
+                          
+                      //   });
+                      // });
+                      
+                    }}
+                  
+                    void _loginFunc() async {
+                      
+                      if(formKey.currentState.validate()){
+                        formKey.currentState.save();
+                        _login(_email,_password);
+                  
+                      }
+                    }
+                    String _emailKontrol(String mail){
+                  
+                      Pattern pattern =
+                          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                      RegExp regex = new RegExp(pattern);
+                      if (!regex.hasMatch(mail))
+                        return 'Geçersiz mail';
+                      else
+                        return null;
+                    }
+                  
+                    change() {
+                      setState(() {
+                        formType = formType == FormType.LogIn ? FormType.Register : FormType.LogIn;
+                      });
+                    }
 }

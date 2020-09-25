@@ -32,6 +32,15 @@ class UserRepository implements AuthBase {
   }
 
   @override
+  Future<AppUser> registerEmail(String email, password) async{
+    if(appMode == AppMode.DEBUG) {
+      return await _fakeAuthenticationService.registerEmail(email,password);
+    }else{
+      return await _firebaseAuthService.registerEmail(email,password);
+    }
+  }
+
+  @override
   Future<AppUser> signInWithGoogle() async{
     if(appMode == AppMode.DEBUG) {
       return await _fakeAuthenticationService.signInWithGoogle();
@@ -48,6 +57,8 @@ class UserRepository implements AuthBase {
       return await _firebaseAuthService.signOut();
     }
   }
+
+  
 
   
 

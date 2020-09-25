@@ -55,6 +55,21 @@ class UserModel with ChangeNotifier implements AuthBase{
   }
 
   @override
+  Future<AppUser> registerEmail(String email, password) async {
+    try{
+      state = ViewState.Busy;
+      _user = await _userRepository.registerEmail(email,password);
+      notifyListeners();
+      return _user;
+    }catch(e){
+      debugPrint('Viewmodeldeki signout hata: '+e.toString());
+      return null;
+    }finally{
+      state = ViewState.Idle;
+    }
+  }
+
+  @override
   Future<AppUser> signInWithGoogle() async{
     try{
       state = ViewState.Busy;
@@ -85,6 +100,8 @@ class UserModel with ChangeNotifier implements AuthBase{
       state = ViewState.Idle;
     }
   }
+
+  
 
   
 }
