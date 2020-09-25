@@ -6,6 +6,7 @@ firebase_auth_web=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org
 firebase_core=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.5.0/
 firebase_core_web=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-0.2.0/
 firebase_messaging=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-7.0.0/
+flutter_facebook_login=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_facebook_login-3.0.0/
 flutter_local_notifications=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-1.4.4+4/
 google_sign_in=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-4.5.3/
 google_sign_in_web=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_web-0.9.2/
