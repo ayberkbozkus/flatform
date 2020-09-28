@@ -2,7 +2,26 @@ import 'package:flutter/material.dart';
 class AppUser {
 
   final String userID;
+  String email;
+  String team;
+  String title;
+  DateTime createdAt;
+  DateTime updatedAt;
+  int level;
 
-  AppUser({@required this.userID});
+
+  AppUser({@required this.userID, @required this.email});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'userID' : userID,
+      'email' : email,
+      'team' : team ?? '',
+      'title' : title ?? '',
+      'createdAt' : createdAt,
+      'updatedAt' : updatedAt,
+      'level' : level ?? 1,
+    };
+  }
 
 }

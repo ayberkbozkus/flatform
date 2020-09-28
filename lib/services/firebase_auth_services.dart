@@ -20,7 +20,7 @@ class FirebaseAuthService implements AuthBase{
   AppUser _userFromFirebase(User user) {
     if (user == null) 
       return null;
-    return AppUser(userID: user.uid);
+    return AppUser(userID: user.uid,email: user.email);
   }
 
   @override

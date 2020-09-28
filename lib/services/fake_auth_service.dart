@@ -5,12 +5,12 @@ class FakeAuthenticationService implements AuthBase {
   String userID = '123412312312';
   @override
   Future<AppUser> currentUser() async{
-    return await Future.value(AppUser(userID: userID));
+    return await Future.value(AppUser(userID: userID, email: 'fake@mail.com'));
   }
 
   @override
   Future<AppUser> signInEmail(String email, password) async{
-    return await Future.delayed(Duration(seconds: 2), () => AppUser(userID: userID));
+    return await Future.delayed(Duration(seconds: 2), () => AppUser(userID: userID, email: 'fake@mail.com'));
   }
 
   @override
@@ -21,13 +21,13 @@ class FakeAuthenticationService implements AuthBase {
   @override
   Future<AppUser> signInWithGoogle() {
     // TODO: implement signInWithGoogle
-    throw UnimplementedError();
+    return null;
   }
 
   @override
   Future<AppUser> registerEmail(String email, password) {
     // TODO: implement registerEmail
-    throw UnimplementedError();
+    return null;
   }
 
 }
