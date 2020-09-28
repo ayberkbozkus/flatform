@@ -15,6 +15,12 @@ class _BasicPageState extends State<BasicPage> {
 
   TabItems _currentTab = TabItems.Home;
 
+  Map<TabItems, GlobalKey<NavigatorState>> navigatorKeys = {
+    TabItems.Home: GlobalKey<NavigatorState>(),
+    TabItems.Notification: GlobalKey<NavigatorState>(),
+    TabItems.Ticket: GlobalKey<NavigatorState>(),
+  }; 
+
   Map<TabItems, Widget> allPages () {
     
     return {
@@ -28,12 +34,22 @@ class _BasicPageState extends State<BasicPage> {
   @override
   Widget build(BuildContext context) {
 
-    return Container(
-      child: CustomBottomNavigation(pageCreator: allPages(), currentTab: _currentTab, onSelectedTab: (selectedTab) {
+    return WillPopScope(
+      onWillPop: () async => !await navigatorKeys[_currentTab].currentState.maybePop(),
+      child: CustomBottomNavigation(
+        pageCreator: allPages(), 
+        currentTab: _currentTab,
+        navigatorKeys: navigatorKeys,
+        onSelectedTab: (selectedTab) {
 
-        setState(() {
+        if(selectedTab == _currentTab) {
+          navigatorKeys[selectedTab].currentState.popUntil((route) => route.isFirst);
+        }
+        else{
+          setState(() {
           _currentTab = selectedTab;
         });
+        }
 
       }, ),
     );
