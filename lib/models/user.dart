@@ -24,5 +24,16 @@ class AppUser {
       'level' : level ?? 1,
     };
   }
-
+  AppUser.fromMap(Map<String, dynamic> map):
+    userID = map['userID'],
+    email = map['email'],
+    team = map['team'],
+    title = map['title'],
+    createdAt = (map['createdAt'] as Timestamp).toDate(),
+    updatedAt = (map['updatedAt'] as Timestamp).toDate(),
+    level = map['level'];
+  @override
+  String toString() {
+    return 'User{userID: $userID, email: $email, team: $team, title: $title, createdAt: $createdAt, updatedAt: $updatedAt, level: $level }';
+  }
 }
