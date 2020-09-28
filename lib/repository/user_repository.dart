@@ -51,7 +51,11 @@ class UserRepository implements AuthBase {
     if(appMode == AppMode.DEBUG) {
       return await _fakeAuthenticationService.signInWithGoogle();
     }else{
-      return await _firebaseAuthService.signInWithGoogle();
+      AppUser _user = await _firebaseAuthService.signInWithGoogle();
+      bool _result = await _firestoreDBService.saveUser(_user);
+      if(_result){
+        return _user;
+      }else return null;
     }
   }
 
