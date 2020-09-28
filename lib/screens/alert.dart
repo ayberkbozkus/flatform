@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './NavBar.dart';
+import 'home_page.dart';
 
 class Alert extends StatefulWidget {
   @override

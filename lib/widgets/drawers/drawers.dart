@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../screens/NavBar.dart';
+import '../../screens/home_page.dart';
 
 class MainDrawer extends StatefulWidget {
   String location;

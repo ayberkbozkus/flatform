@@ -1,4 +1,5 @@
-import 'package:flatform/screens/NavBar.dart';
+import 'package:flatform/screens/basic_page.dart';
+import 'package:flatform/screens/home_page.dart';
 import 'package:flatform/screens/login.dart';
 import 'package:flatform/viewmodel/user_model.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class LandingPage extends StatelessWidget {
       if(_userModel.user == null) {
         return Login();
       } else {
-        return HomePage();
+        return BasicPage();
       }
     } else{
       return Scaffold(
