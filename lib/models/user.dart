@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 class AppUser {
 
@@ -18,8 +19,8 @@ class AppUser {
       'email' : email,
       'team' : team ?? '',
       'title' : title ?? '',
-      'createdAt' : createdAt,
-      'updatedAt' : updatedAt,
+      'createdAt' : createdAt ?? FieldValue.serverTimestamp(),
+      'updatedAt' : updatedAt ?? FieldValue.serverTimestamp(),
       'level' : level ?? 1,
     };
   }
