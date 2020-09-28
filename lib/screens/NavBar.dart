@@ -1,4 +1,4 @@
-import 'package:flatform/tabBar/tabbar.dart';
+import 'package:flatform/widgets/tabBar/tabbar.dart';
 import 'package:flatform/viewmodel/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
