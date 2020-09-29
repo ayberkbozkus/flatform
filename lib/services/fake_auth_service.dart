@@ -25,7 +25,7 @@ class FakeAuthenticationService implements AuthBase {
   }
 
   @override
-  Future<AppUser> registerEmail(String email, password,team, title) {
+  Future<AppUser> registerEmail(String email, password,team,title) {
     // TODO: implement registerEmail
     return null;
   }
