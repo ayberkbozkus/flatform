@@ -55,11 +55,11 @@ class UserModel with ChangeNotifier implements AuthBase{
   }
 
   @override
-  Future<AppUser> registerEmail(String email, password) async {
+  Future<AppUser> registerEmail(String email, password, team, title) async {
     try{
       // _emailControl(email,password); email farpals mı kontrol
       state = ViewState.Busy;
-      _user = await _userRepository.registerEmail(email,password);
+      _user = await _userRepository.registerEmail(email,password,team,title);
       notifyListeners();
       return _user;
     }catch(e){

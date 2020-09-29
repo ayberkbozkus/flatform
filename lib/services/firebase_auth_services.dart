@@ -17,10 +17,10 @@ class FirebaseAuthService implements AuthBase{
     
   }
 
-  AppUser _userFromFirebase(User user) {
+  AppUser _userFromFirebase(User user, {String team, String title}) {
     if (user == null) 
       return null;
-    return AppUser(userID: user.uid,email: user.email);
+    return AppUser(userID: user.uid,email: user.email, team: team, title: title);
   }
 
   @override
@@ -36,11 +36,11 @@ class FirebaseAuthService implements AuthBase{
   }
 
   @override
-  Future<AppUser> registerEmail(String email, password) async {
+  Future<AppUser> registerEmail(String email, password, team, title) async {
     try{
       UserCredential result = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       result.user.sendEmailVerification();
-      return _userFromFirebase(result.user);
+      return _userFromFirebase(result.user, team:team, title:title);
     }catch(e){
       print('Hata email giriş: ' +e.toString());
       return null;

@@ -30,11 +30,13 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   
   String _email,_password,buttonText,registerText;
+  String team = 'Takım Seçiniz';
+  String title = 'Ünvan Seçiniz';
   bool _autocontrol = false;
   bool _loginFailed = true;
   var formType = FormType.LogIn;
 
-  void _login(String _email, String _password) async {
+  void _login(String _email, String _password, String team, String title) async {
     final _userModel = Provider.of<UserModel>(context, listen: false);
     if (formType == FormType.LogIn) {
       AppUser loginUser = await _userModel.signInEmail(_email, _password);
@@ -51,7 +53,7 @@ class _LoginState extends State<Login> {
         _userModel.signOut();
       }
     } else {
-      AppUser newUser = await _userModel.registerEmail(_email, _password);
+      AppUser newUser = await _userModel.registerEmail(_email, _password,team,title);
     }
   }
   void _loginwithGoogle() async {
@@ -133,10 +135,93 @@ class _LoginState extends State<Login> {
                     )),
                     onSaved: (value) => _password = value,
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  
                   _loginFailed ? Text('') : Center(child: Text('Email veya Şifre Hatalı',style: TextStyle(color: Colors.red),)),
+
+                  formType == FormType.LogIn ? SizedBox() : Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                            Container(
+                              
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
+                              child: DropdownButton(
+                                elevation: 8,
+                                isDense: false,
+                                isExpanded: true,
+                                hint: Text(team),
+                                items: [
+                                  DropdownMenuItem(
+                                child: Text("Personel"),
+                                value: 'Personel',
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Takım Lideri"),
+                                value: 'Takım Lideri',
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Bölüm Başkanı"),
+                                value: 'Bölüm Başkanı'
+                              ),
+                              DropdownMenuItem(
+                                  child: Text("Genel Müdür Yardımcısı"),
+                                  value: 'Genel Müdür Yardımcısı'
+                              )
+                                ],
+                                onChanged: (String value) {
+                                  setState(() {
+                                    team = value;
+                                  });
+                                },
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
+                              child: DropdownButton(
+                                isExpanded: true,
+                                hint: Text(title),
+                                items: [
+                                  DropdownMenuItem(
+                                child: Text("Üretim"),
+                                value: 'Üretim',
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Büyük Veri"),
+                                value: 'Büyük Veri',
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Satış/Pazarlama"),
+                                value: 'Satış/Pazarlama'
+                              ),
+                              DropdownMenuItem(
+                                  child: Text("İK"),
+                                  value: 'İK')
+                                ],
+                                onChanged: (String value) {
+                                  setState(() {
+                                    title = value;
+                                  });
+                                },
+                              ),
+                            )
+                    ],
+                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -195,8 +280,7 @@ class _LoginState extends State<Login> {
                       
                       if(formKey.currentState.validate()){
                         formKey.currentState.save();
-                        _login(_email,_password);
-                  
+                        _login(_email,_password, team, title);
                       }
                     }
                     String _emailKontrol(String mail){

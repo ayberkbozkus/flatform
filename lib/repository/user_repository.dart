@@ -34,11 +34,11 @@ class UserRepository implements AuthBase {
   }
 
   @override
-  Future<AppUser> registerEmail(String email, password) async{
+  Future<AppUser> registerEmail(String email, password, team, title) async{
     if(appMode == AppMode.DEBUG) {
-      return await _fakeAuthenticationService.registerEmail(email,password);
+      return await _fakeAuthenticationService.registerEmail(email,password,team,title);
     }else{
-      AppUser _user = await _firebaseAuthService.registerEmail(email,password);
+      AppUser _user = await _firebaseAuthService.registerEmail(email,password,team,title);
       bool _result = await _firestoreDBService.saveUser(_user);
       if(_result){
         return _user;

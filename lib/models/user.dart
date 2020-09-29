@@ -11,14 +11,14 @@ class AppUser {
   int level;
 
 
-  AppUser({@required this.userID, @required this.email});
+  AppUser({@required this.userID, @required this.email,this.team,this.title});
 
   Map<String, dynamic> toMap() {
     return {
       'userID' : userID,
       'email' : email,
-      'team' : team ?? '',
-      'title' : title ?? '',
+      'team' : team,
+      'title' : title,
       'createdAt' : createdAt ?? FieldValue.serverTimestamp(),
       'updatedAt' : updatedAt ?? FieldValue.serverTimestamp(),
       'level' : level ?? 1,
