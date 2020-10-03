@@ -1,7 +1,9 @@
 import 'dart:ui';
+import 'package:flatform/errors/errors.dart';
 import 'package:flatform/models/user.dart';
 import 'package:flatform/viewmodel/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 
@@ -53,7 +55,24 @@ class _LoginState extends State<Login> {
         _userModel.signOut();
       }
     } else {
-      AppUser newUser = await _userModel.registerEmail(_email, _password,team,title);
+      try {
+        AppUser newUser = await _userModel.registerEmail(_email, _password,team,title);
+      } catch (e) {
+        debugPrint(Errors.show(e.code));
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Kullanıcı Oluşturma Hata'),
+              content: Text(Errors.show(e.code)),
+              actions: <Widget>[
+                FlatButton(onPressed: () {Navigator.pop(context);}, child: Text('Tamam'))
+              ],
+            );  
+          }
+        ); 
+        }
+      
     }
   }
   void _loginwithGoogle() async {

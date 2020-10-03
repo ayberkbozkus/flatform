@@ -62,9 +62,6 @@ class UserModel with ChangeNotifier implements AuthBase{
       _user = await _userRepository.registerEmail(email,password,team,title);
       notifyListeners();
       return _user;
-    }catch(e){
-      debugPrint('Viewmodeldeki signout hata: '+e.toString());
-      return null;
     }finally{
       state = ViewState.Idle;
     }

@@ -37,14 +37,10 @@ class FirebaseAuthService implements AuthBase{
 
   @override
   Future<AppUser> registerEmail(String email, password, team, title) async {
-    try{
       UserCredential result = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       result.user.sendEmailVerification();
       return _userFromFirebase(result.user, team:team, title:title);
-    }catch(e){
-      print('Hata email giriş: ' +e.toString());
-      return null;
-    }
+    
   }
 
   @override
