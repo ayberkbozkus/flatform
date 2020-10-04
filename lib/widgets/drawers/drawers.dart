@@ -103,36 +103,36 @@ class _MainDrawerState extends State<MainDrawer> {
                                 hint: Text(makine),
                                 items: [
                                   DropdownMenuItem(
-                                    child: Text("Makine1"),
-                                    value: "Makine1",
+                                    child: Text("E009"),
+                                    value: "E009",
                                   ),
                                   DropdownMenuItem(
-                                    child: Text("Makine2"),
-                                    value: "Makine2",
+                                    child: Text("E018"),
+                                    value: "E018",
                                   ),
                                   DropdownMenuItem(
-                                    child: Text("Makine3"),
-                                    value: "Makine3",
+                                    child: Text("E034"),
+                                    value: "E034",
                                   ),
                                   DropdownMenuItem(
-                                    child: Text("Makine4"),
-                                    value: "Makine4",
+                                    child: Text("E080"),
+                                    value: "E080",
                                   ),
                                   DropdownMenuItem(
-                                    child: Text("Makine5"),
-                                    value: "Makine5",
+                                    child: Text("E053"),
+                                    value: "E053",
                                   ),
                                   DropdownMenuItem(
-                                    child: Text("Makine6"),
-                                    value: "Makine6",
+                                    child: Text("E059"),
+                                    value: "E059",
                                   ),
                                   DropdownMenuItem(
-                                    child: Text("Makine7"),
-                                    value: "Makine7",
+                                    child: Text("E083"),
+                                    value: "E083",
                                   ),
                                   DropdownMenuItem(
-                                    child: Text("Makine8"),
-                                    value: "Makine8",
+                                    child: Text("E096"),
+                                    value: "E096",
                                   )
                                 ],
                                 onChanged: (String value) {

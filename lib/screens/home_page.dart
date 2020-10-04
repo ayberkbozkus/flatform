@@ -1,3 +1,4 @@
+import 'package:flatform/api/api.dart';
 import 'package:flatform/widgets/tabBar/tabbar.dart';
 import 'package:flatform/viewmodel/user_model.dart';
 import 'package:flutter/material.dart';
@@ -378,6 +379,8 @@ theme: ThemeData(
                       }, child: Image.asset('assets/icons/turkey.png', width: 50,),),
                       FlatButton(onPressed: () {
                         location = 'Romanya';
+                        Api.apiRequest();
+
                         setState(() {
                           selected = null;
                           tesis = 'Tesis Seçiniz';
