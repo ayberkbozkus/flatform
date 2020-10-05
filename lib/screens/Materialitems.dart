@@ -1,8 +1,9 @@
+import 'package:flatform/widgets/charts/energy_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 Material mybarItems(String heading, Color themeColor,
-    charts.BarChart barchartdisplay, int situation, BuildContext ctx) {
+  charts.BarChart barchartdisplay, int situation, BuildContext ctx) {
   return Material(
     color: Colors.white,
     elevation: 5.0,
@@ -255,7 +256,7 @@ Material myradialItemsP(String heading, Color themeColor,
     borderRadius: BorderRadius.circular(10.0),
     child: Center(
       child: Padding(
-        padding: const EdgeInsets.all(1.0),
+        padding: const EdgeInsets.fromLTRB(0,10,0,0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -278,9 +279,10 @@ Material myradialItemsP(String heading, Color themeColor,
 
                 Center(
                   child: new Container(
-                      height: 190,
+                    padding: const EdgeInsets.fromLTRB(40,10,0,0),
+                      height: 160,
                       width:
-                          160, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay    donutchartdisplay   gaugechartdisplay
+                          350, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay    donutchartdisplay   gaugechartdisplay
                       child: gaugechartdisplay),
                 ),
               ],
@@ -292,8 +294,7 @@ Material myradialItemsP(String heading, Color themeColor,
   );
 }
 
-Material mypieItems(String heading, Color themeColor,
-    charts.PieChart piechartdisplay, int situation, ctx) {
+Material mypieItems(String heading, Color themeColor, charts.PieChart piechartdisplay, int situation, ctx) {
   return Material(
     color: Colors.white,
     elevation: 5.0,
@@ -364,8 +365,8 @@ Material mypieItems(String heading, Color themeColor,
                       child: new Container(
                           height: 190,
                           width:
-                              160, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
-                          child: piechartdisplay),
+                              350, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
+                          child: ChartApp()),
                     ),
                   ],
                 ),
@@ -377,3 +378,7 @@ Material mypieItems(String heading, Color themeColor,
     ),
   );
 }
+
+
+
+

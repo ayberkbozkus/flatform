@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flatform/api/api.dart';
 import 'package:flatform/widgets/tabBar/tabbar.dart';
 import 'package:flatform/viewmodel/user_model.dart';
@@ -27,6 +29,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   String location = "Tesis 1";
   String tesis = 'Tesis Seçin';
   String makine = 'Makine Seçin';
+  String energyValue ='';
   int situation = 0;
   Color themeColor = Colors.blue;
   bool selected;
@@ -39,12 +42,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   
 
   
-  _generateData() {
-    var pieData = [
-      new Task('Planlı', 3,),
-      new Task('Arıza', 1,),
-      new Task('Plansız', 4,),
-      new Task('Bilinmeyen', 2),
+  _generateData() async {
+    var pieData = await [
+      new Task('Bekleme', apiRequest('Bekleme'),),
+      new Task('Manuel', apiRequest('Manuel'),),
+      new Task('Seri Üretim', apiRequest('Seri Üretim'),),
+      new Task('Setup', apiRequest('Setup'),),
     ];
     var donutData = [
       new Task('Planlı', 3,),
@@ -56,7 +59,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     ];
     _seriesPieData.add(
       charts.Series(
-        data: pieData,
+        data: await pieData,
         domainFn: (Task task, _) => task.task,
         measureFn: (Task task, _) => task.taskvalue,
         
@@ -105,6 +108,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   void initState() {
+    
     setState(
       () {
         var data = [
@@ -204,8 +208,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           behaviors: [
             new charts.DatumLegend(
               desiredMaxRows: 2,
-              desiredMaxColumns: 2,
-              position: charts.BehaviorPosition.bottom,
+              desiredMaxColumns: 1,
+              position: charts.BehaviorPosition.inside,
               entryTextStyle: charts.TextStyleSpec(
                 fontSize: 8,
               ),
@@ -216,25 +220,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           gseries,
           animationDuration: Duration(microseconds: 2000),
           defaultRenderer: new charts.ArcRendererConfig(
-            arcWidth: 30,
+            arcWidth: 25,
             startAngle: 9 / 10 * 3.14,
             arcLength: 6 / 5 * 3.14,
           ),
           behaviors: [
             new charts.DatumLegend(
-              position: charts.BehaviorPosition.bottom,
+              position: charts.BehaviorPosition.start,
               entryTextStyle: charts.TextStyleSpec(
-                fontSize: 8,
+                fontSize: 14,
               ),
             )
           ],
         ),Center(
         child: Container(
-          margin: EdgeInsets.only(bottom:25),
+          margin: EdgeInsets.fromLTRB(80,0,0,10),
           child: Text(
             "34",
             style: TextStyle(
-              fontSize: 20.0,
+              fontSize: 24.0,
               color: Colors.blue,
               fontWeight: FontWeight.bold
             ),
@@ -267,7 +271,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             Container(
               margin: EdgeInsets.only(bottom: 15,),
               child: Text(
-                "200",
+                energyValue,
                 style: TextStyle(
                   fontSize: 12.0,
                   color: Colors.blue,
@@ -317,6 +321,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       },
     );
     super.initState();
+    
+    Api.apiRequest().then((value) async {
+                          Map<String, dynamic> json = await jsonDecode(value.toString());
+                          print('calisti');
+                          setState(() {
+                            energyValue = json['fakeapi'][0]['T3']['totalEnergy']['dailyMean'].toString();
+                          });
+                        });
     _seriesPieData = List<charts.Series<Task, String>>();
     _seriesGaugeData = List<charts.Series<Task, String>>();
     _seriesDonutData = List<charts.Series<Task, String>>();
@@ -379,7 +391,7 @@ theme: ThemeData(
                       }, child: Image.asset('assets/icons/turkey.png', width: 50,),),
                       FlatButton(onPressed: () {
                         location = 'Romanya';
-                        Api.apiRequest();
+                        print(energyValue);
 
                         setState(() {
                           selected = null;
@@ -522,8 +534,8 @@ theme: ThemeData(
                     StaggeredTile.extent(1, 220.0),
                     StaggeredTile.extent(1, 220.0),
                     StaggeredTile.extent(2, 240.0),
-                    StaggeredTile.extent(1, 280.0),
-                    StaggeredTile.extent(1, 280.0),
+                    StaggeredTile.extent(2, 210.0),
+                    StaggeredTile.extent(2, 300.0),
                   ],
                 ),
               ),
@@ -555,6 +567,16 @@ theme: ThemeData(
     _userModel.signOut();
     print(result.toString() +'result');
     return result;
+  }
+  double apiRequest (String value)  {
+    Api.apiRequest().then((value) async{
+      Map<String, dynamic> json = await jsonDecode(value.toString());
+      print(json['fakeapi'][0]['T3']['facilityModePerc']['Bekleme'].toString() + 'hello');
+      return json['fakeapi'][0]['T3']['facilityModePerc']['Bekleme'];
+      
+      }
+      
+      );
   }
 }
 /*
