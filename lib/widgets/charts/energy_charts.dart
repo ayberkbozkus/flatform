@@ -4,7 +4,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class ChartApp extends StatelessWidget {
+class FacilityT1Chart extends StatelessWidget {
 
   static Map<dynamic, String> facilityModeName = {0: 'Bekleme', 1: 'Manuel', 2: 'Seri Üretim', 3: 'Setup', 4: 'Yarı Otomatik'} ;
   static Map<dynamic, String> facilityModeCharacters = {0: 'B', 1: 'M', 2: 'S', 3: 'S', 4: 'Y'} ;

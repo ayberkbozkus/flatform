@@ -1,9 +1,10 @@
-import 'package:flatform/widgets/charts/energy_chart.dart';
+import 'package:flatform/functions/function.dart';
+import 'package:flatform/widgets/charts/facility_charts.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 Material mybarItems(String heading, Color themeColor,
-  charts.BarChart barchartdisplay, int situation, BuildContext ctx) {
+    charts.BarChart barchartdisplay, int situation, BuildContext ctx, String location) {
   return Material(
     color: Colors.white,
     elevation: 5.0,
@@ -91,7 +92,7 @@ Material mybarItems(String heading, Color themeColor,
 }
 
 Material mywbarItems(String heading, Color themeColor,
-    Stack gaugechartdisplayenergy, int situation, BuildContext ctx) {
+    Stack gaugechartdisplayenergy, int situation, BuildContext ctx, String location) {
   return Material(
     color: Colors.white,
     elevation: 5.0,
@@ -137,7 +138,7 @@ Material mywbarItems(String heading, Color themeColor,
 }
 
 Material myradialItems(String heading, Color themeColor,
-    Stack donutchartdisplay, int situation, BuildContext ctx) {
+    Stack donutchartdisplay, int situation, BuildContext ctx, String location) {
   return Material(
     color: situation == 4 ? Colors.transparent : Colors.white,
     elevation: situation == 4 ? 0 : 5.0,
@@ -248,7 +249,7 @@ Material myradialItems(String heading, Color themeColor,
 }
 
 Material myradialItemsP(String heading, Color themeColor,
-    Stack gaugechartdisplay, int situation, BuildContext ctx) {
+    Stack gaugechartdisplay, int situation, BuildContext ctx, String location) {
   return Material(
     color: Colors.white,
     elevation: 5.0,
@@ -256,7 +257,7 @@ Material myradialItemsP(String heading, Color themeColor,
     borderRadius: BorderRadius.circular(10.0),
     child: Center(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(0,10,0,0),
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -279,7 +280,7 @@ Material myradialItemsP(String heading, Color themeColor,
 
                 Center(
                   child: new Container(
-                    padding: const EdgeInsets.fromLTRB(40,10,0,0),
+                      padding: const EdgeInsets.fromLTRB(40, 10, 0, 0),
                       height: 160,
                       width:
                           350, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay    donutchartdisplay   gaugechartdisplay
@@ -294,7 +295,8 @@ Material myradialItemsP(String heading, Color themeColor,
   );
 }
 
-Material mypieItems(String heading, Color themeColor, charts.PieChart piechartdisplay, int situation, ctx) {
+Material mypieItems(String heading, Color themeColor,
+    charts.PieChart piechartdisplay, int situation, ctx, String location) {
   return Material(
     color: Colors.white,
     elevation: 5.0,
@@ -366,7 +368,7 @@ Material mypieItems(String heading, Color themeColor, charts.PieChart piechartdi
                           height: 190,
                           width:
                               350, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
-                          child: ChartApp()),
+                          child: facilitychartselector(location)),
                     ),
                   ],
                 ),
@@ -378,7 +380,5 @@ Material mypieItems(String heading, Color themeColor, charts.PieChart piechartdi
     ),
   );
 }
-
-
 
 

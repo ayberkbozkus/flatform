@@ -490,11 +490,11 @@ theme: ThemeData(
                   children: <Widget>[
                    // String heading, Color themeColor, Stack piechartdisplay, int situation
                     myradialItems(
-                        "Çalışan Makine Sayısı", themeColor, donutchartdisplay, situation, context),
-                    mywbarItems("Enerji Tüketimi", themeColor, gaugechartdisplayenergy, situation, context),
-                    mybarItems("Toplam Üretim", themeColor, barchartdisplay, situation, context),
+                        "Çalışan Makine Sayısı", themeColor, donutchartdisplay, situation, context, location),
+                    mywbarItems("Enerji Tüketimi", themeColor, gaugechartdisplayenergy, situation, context, location),
+                    mybarItems("Toplam Üretim", themeColor, barchartdisplay, situation, context, location),
                     // myradialItemsP("Hatalı Parça", themeColor, gaugechartdisplay, situation, context),
-                    mypieItems("Tesis Verimliliği", themeColor, piechartdisplay, situation, context),
+                    mypieItems("Tesis Verimliliği", themeColor, piechartdisplay, situation, context, location),
                   ],
                   staggeredTiles: [
                     
