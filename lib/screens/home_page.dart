@@ -441,57 +441,24 @@ theme: ThemeData(
                                   horizontal: 20, vertical: 5),
                               child: DropdownButton(
                                 hint: Text(makine),
-                                items: [
-                                  DropdownMenuItem(
-                                    child: Text("Makine1"),
-                                    value: "Makine1",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("Makine2"),
-                                    value: "Makine2",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("Makine3"),
-                                    value: "Makine3",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("Makine4"),
-                                    value: "Makine4",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("Makine5"),
-                                    value: "Makine5",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("Makine6"),
-                                    value: "Makine6",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("Makine7"),
-                                    value: "Makine7",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("Makine8"),
-                                    value: "Makine8",
-                                  )
-                                ],
+                                items: machines(location),
                                 onChanged: (String value) {
                                   setState(() {
                                     makine = value;
                                     location = value;
                                     situation = 4;
                                     switch(makine) { 
-                                      case 'Makine1': { 
+                                      case 'E053': { 
                                           themeColor = Colors.green;
                                       } 
                                       break; 
                                       
-                                      case 'Makine2': { 
+                                      case 'E053': { 
                                           themeColor = Colors.grey;
                                       } 
                                       break; 
 
-                                      case 'Makine3': { 
+                                      case 'E053': { 
                                           themeColor = Colors.red;
                                       } 
                                       break; 
@@ -526,7 +493,7 @@ theme: ThemeData(
                         "Çalışan Makine Sayısı", themeColor, donutchartdisplay, situation, context),
                     mywbarItems("Enerji Tüketimi", themeColor, gaugechartdisplayenergy, situation, context),
                     mybarItems("Toplam Üretim", themeColor, barchartdisplay, situation, context),
-                    myradialItemsP("Hatalı Parça", themeColor, gaugechartdisplay, situation, context),
+                    // myradialItemsP("Hatalı Parça", themeColor, gaugechartdisplay, situation, context),
                     mypieItems("Tesis Verimliliği", themeColor, piechartdisplay, situation, context),
                   ],
                   staggeredTiles: [
@@ -534,7 +501,7 @@ theme: ThemeData(
                     StaggeredTile.extent(1, 220.0),
                     StaggeredTile.extent(1, 220.0),
                     StaggeredTile.extent(2, 240.0),
-                    StaggeredTile.extent(2, 210.0),
+                    // StaggeredTile.extent(2, 210.0),
                     StaggeredTile.extent(2, 300.0),
                   ],
                 ),
@@ -577,6 +544,84 @@ theme: ThemeData(
       }
       
       );
+  }
+  List<DropdownMenuItem<String>> machines(String tesis) {
+    if(tesis == 'T1') {
+      return [
+                                DropdownMenuItem(
+                                    child: Text("E053"),
+                                    value: "E053",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E114"),
+                                    value: "E114",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E102"),
+                                    value: "E102",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E117"),
+                                    value: "E117",
+                                  )
+                                ];
+    }else if (tesis == 'T2') {
+      return [
+                                  
+                                  DropdownMenuItem(
+                                    child: Text("E059"),
+                                    value: "E059",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E083"),
+                                    value: "E083",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E096"),
+                                    value: "E096",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E104"),
+                                    value: "E104",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E109"),
+                                    value: "E109",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E115"),
+                                    value: "E115",
+                                  ),
+                                ];
+      
+    }else if (tesis == 'T3') {
+      return [
+                                  DropdownMenuItem(
+                                    child: Text("E009"),
+                                    value: "E009",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E018"),
+                                    value: "E018",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E034"),
+                                    value: "E034",
+                                  ),
+                                DropdownMenuItem(
+                                    child: Text("E080"),
+                                    value: "E080",
+                                  ),
+                                ];
+    }
+    else {
+      return [
+                                  DropdownMenuItem(
+                                    child: Text("E000"),
+                                    value: "E000",
+                                  ) 
+                                ];
+    }
   }
 }
 /*

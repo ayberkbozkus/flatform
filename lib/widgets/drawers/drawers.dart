@@ -103,24 +103,16 @@ class _MainDrawerState extends State<MainDrawer> {
                                 hint: Text(makine),
                                 items: [
                                   DropdownMenuItem(
-                                    child: Text("E009"),
-                                    value: "E009",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("E018"),
-                                    value: "E018",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("E034"),
-                                    value: "E034",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("E080"),
-                                    value: "E080",
-                                  ),
-                                  DropdownMenuItem(
                                     child: Text("E053"),
                                     value: "E053",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E114"),
+                                    value: "E114",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E102"),
+                                    value: "E117",
                                   ),
                                   DropdownMenuItem(
                                     child: Text("E059"),
@@ -133,7 +125,36 @@ class _MainDrawerState extends State<MainDrawer> {
                                   DropdownMenuItem(
                                     child: Text("E096"),
                                     value: "E096",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E104"),
+                                    value: "E104",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E109"),
+                                    value: "E109",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E115"),
+                                    value: "E115",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E009"),
+                                    value: "E009",
+                                  ),DropdownMenuItem(
+                                    child: Text("E018"),
+                                    value: "E018",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E034"),
+                                    value: "E034",
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("E080"),
+                                    value: "E080",
                                   )
+
+
                                 ],
                                 onChanged: (String value) {
                                   setState(() {
