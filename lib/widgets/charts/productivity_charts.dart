@@ -7,17 +7,25 @@ import 'dart:convert';
 class ProductivityChart extends StatelessWidget {
 
   final String location;
-
+  
   const ProductivityChart({Key key, this.location}) : super(key: key);
 
   static Map<dynamic, String> productivityModeName = {0: 'Bekleme', 1: 'Manuel', 2: 'Seri Üretim', 3: 'Setup', 4: 'Yarı Otomatik'} ;
   static Map<dynamic, String> productivityModeCharacters = {0: 'B', 1: 'M', 2: 'S', 3: 'S', 4: 'Y'} ;
 
-
+  static String facilty;
 
   _getData() async {
 
-    if (location.startsWith('T')) {
+    if (location.startsWith('Tür')|location.startsWith('Ro')) {
+    facilty = location;
+    final response = await http.get(
+      'http://flatformapi.herokuapp.com/users/fakeapi');
+    Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
+    debugPrint(map['fakeapi'][0]['T1']['facilityModePerc'].toString());
+    return map['fakeapi'][0]['T1']['facilityModePerc'];
+    }else if (location.startsWith('T')) {
+    facilty = location;
     final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
@@ -27,8 +35,8 @@ class ProductivityChart extends StatelessWidget {
       final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    debugPrint(map['fakeapi'][0]['T1']['machines'][location]['modePerc'].toString());
-    return map['fakeapi'][0]['T1']['machines'][location]['modePerc'];
+    debugPrint(map['fakeapi'][0][facilty]['machines'][location]['modePerc'].toString());
+    return map['fakeapi'][0][facilty]['machines'][location]['modePerc'];
     }
     
   }
