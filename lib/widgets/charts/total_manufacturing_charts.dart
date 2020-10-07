@@ -4,10 +4,16 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class FacilityT1Chart extends StatelessWidget {
+class TotalManufacturingChart extends StatelessWidget {
+
+  final String location;
+
+  const TotalManufacturingChart({Key key, this.location}) : super(key: key);
 
   static Map<dynamic, String> facilityModeName = {0: 'Bekleme', 1: 'Manuel', 2: 'Seri Üretim', 3: 'Setup', 4: 'Yarı Otomatik'} ;
   static Map<dynamic, String> facilityModeCharacters = {0: 'B', 1: 'M', 2: 'S', 3: 'S', 4: 'Y'} ;
+
+  
 
   _getData() async {
     final response = await http.get(

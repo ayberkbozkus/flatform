@@ -4,16 +4,33 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class FacilityT1Chart extends StatelessWidget {
+class ProductivityChart extends StatelessWidget {
 
-  static Map<dynamic, String> facilityModeName = {0: 'Bekleme', 1: 'Manuel', 2: 'Seri Üretim', 3: 'Setup', 4: 'Yarı Otomatik'} ;
-  static Map<dynamic, String> facilityModeCharacters = {0: 'B', 1: 'M', 2: 'S', 3: 'S', 4: 'Y'} ;
+  final String location;
+
+  const ProductivityChart({Key key, this.location}) : super(key: key);
+
+  static Map<dynamic, String> productivityModeName = {0: 'Bekleme', 1: 'Manuel', 2: 'Seri Üretim', 3: 'Setup', 4: 'Yarı Otomatik'} ;
+  static Map<dynamic, String> productivityModeCharacters = {0: 'B', 1: 'M', 2: 'S', 3: 'S', 4: 'Y'} ;
+
+
 
   _getData() async {
+
+    if (location.startsWith('T')) {
     final response = await http.get(
-        'http://flatformapi.herokuapp.com/users/fakeapi');
+      'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    return map['fakeapi'][0]['T3']['facilityModePerc'];
+    debugPrint(map['fakeapi'][0][location]['facilityModePerc'].toString());
+    return map['fakeapi'][0][location]['facilityModePerc'];
+    } else {
+      final response = await http.get(
+      'http://flatformapi.herokuapp.com/users/fakeapi');
+    Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
+    debugPrint(map['fakeapi'][0]['T1']['machines'][location]['modePerc'].toString());
+    return map['fakeapi'][0]['T1']['machines'][location]['modePerc'];
+    }
+    
   }
 
   @override
@@ -52,7 +69,7 @@ class FacilityT1Chart extends StatelessWidget {
     List<Productivity> list = new List();
 
     for(int i=0; i<5; i++)
-      list.add(new Productivity(facilityModeName[i], apiData[facilityModeName[i]]));
+      list.add(new Productivity(productivityModeName[i], apiData[productivityModeName[i]]));
 
     return [
       new charts.Series<Productivity, dynamic>(
@@ -66,11 +83,16 @@ class FacilityT1Chart extends StatelessWidget {
   }
 }
 
+
+
 class Productivity {
   final String name;
   final double value;
   Productivity(this.name, this.value);
 }
+
+
+
 
 /*
 class ChartApp extends StatelessWidget {

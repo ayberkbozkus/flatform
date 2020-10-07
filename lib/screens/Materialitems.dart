@@ -368,7 +368,7 @@ Material mypieItems(String heading, Color themeColor,
                           height: 190,
                           width:
                               350, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
-                          child: facilitychartselector(location)),
+                          child: productivitychartselector(location)),
                     ),
                   ],
                 ),
