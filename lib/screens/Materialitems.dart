@@ -1,5 +1,4 @@
 import 'package:flatform/functions/function.dart';
-import 'package:flatform/widgets/charts/facility_charts.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
@@ -126,7 +125,7 @@ Material mywbarItems(String heading, Color themeColor,
                       height: 150,
                       width: 150,
                       //piechartdisplay    barchartdisplay  wbarchartdisplay
-                      child: gaugechartdisplayenergy),
+                      child: energychartselector(location)),
                 ),
               ],
             ),
@@ -237,7 +236,7 @@ Material myradialItems(String heading, Color themeColor,
                             height: 160,
                             width:
                                 160, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay    donutchartdisplay   gaugechartdisplay
-                            child: donutchartdisplay),
+                            child: workingsituationchartselector(location)),
                       ),
                     ],
                   ),
@@ -281,10 +280,10 @@ Material myradialItemsP(String heading, Color themeColor,
                 Center(
                   child: new Container(
                       padding: const EdgeInsets.fromLTRB(40, 10, 0, 0),
-                      height: 160,
+                      height: 10,
                       width:
                           350, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay    donutchartdisplay   gaugechartdisplay
-                      child: gaugechartdisplay),
+                      child: energychartselector(location)),
                 ),
               ],
             ),

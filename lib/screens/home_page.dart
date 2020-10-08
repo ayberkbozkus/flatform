@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   static var gaugechartdisplay;
   static var donutchartdisplay;
   
-  String location = "Tesis 1";
+  String location = "Türkiye";
   String tesis = 'Tesis Seçin';
   String makine = 'Makine Seçin';
   String energyValue ='';
