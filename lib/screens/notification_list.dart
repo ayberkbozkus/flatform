@@ -1,10 +1,11 @@
+import 'package:flatform/models/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../models/transaction.dart';
 
 class NotificationList extends StatelessWidget {
-  final List<Transaction> notification;
+  final List<NotificationModel> notification;
 
   NotificationList(this.notification);
 
@@ -41,7 +42,7 @@ class NotificationList extends StatelessWidget {
                         ),
                         padding: EdgeInsets.all(10),
                         child: Text(
-                          tx.amount,
+                          tx.message,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
