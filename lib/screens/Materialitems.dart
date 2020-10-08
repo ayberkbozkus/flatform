@@ -1,9 +1,11 @@
+
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flatform/functions/function.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-Material mybarItems(String heading, Color themeColor,
-    charts.BarChart barchartdisplay, int situation, BuildContext ctx, String location) {
+Material totalManufacturingItems(String heading, Color themeColor, int situation, BuildContext ctx, String location) {
   return Material(
     color: Colors.white,
     elevation: 5.0,
@@ -77,7 +79,7 @@ Material mybarItems(String heading, Color themeColor,
                           height: 140,
                           width:
                               340, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
-                          child: barchartdisplay),
+                          child: totalmanufacturingChart(location)),
                     ),
                   ],
                 ),
@@ -90,8 +92,7 @@ Material mybarItems(String heading, Color themeColor,
   );
 }
 
-Material mywbarItems(String heading, Color themeColor,
-    Stack gaugechartdisplayenergy, int situation, BuildContext ctx, String location) {
+Material energyItems(String heading, Color themeColor, int situation, BuildContext ctx, String location) {
   return Material(
     color: Colors.white,
     elevation: 5.0,
@@ -136,8 +137,7 @@ Material mywbarItems(String heading, Color themeColor,
   );
 }
 
-Material myradialItems(String heading, Color themeColor,
-    Stack donutchartdisplay, int situation, BuildContext ctx, String location) {
+Material workingSituationItems(String heading, Color themeColor, int situation, BuildContext ctx, String location) {
   return Material(
     color: situation == 4 ? Colors.transparent : Colors.white,
     elevation: situation == 4 ? 0 : 5.0,
@@ -163,7 +163,7 @@ Material myradialItems(String heading, Color themeColor,
                                   const EdgeInsets.symmetric(horizontal: 20),
                               child: Center(
                                   child: Text(
-                                'Kalıp No: EK2540',
+                                'Kalıp No: EK'+mold,
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
@@ -182,7 +182,7 @@ Material myradialItems(String heading, Color themeColor,
                             padding: const EdgeInsets.symmetric(horizontal: 31),
                             child: Center(
                               child: Text(
-                                'Toplam Parça\nSayısı: 324',
+                                'Toplam Parça\nSayısı: '+partCount,
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
@@ -204,8 +204,8 @@ Material myradialItems(String heading, Color themeColor,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 6),
                               child: Center(
-                                  child: Text(
-                                'Ortalama Çevrim: 45s',
+                                  child: Text('Ortalama Çevrim:\n${averageMold}'
+                                ,
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
@@ -244,58 +244,12 @@ Material myradialItems(String heading, Color themeColor,
         ),
       ),
     ),
+    
   );
+  
 }
 
-Material myradialItemsP(String heading, Color themeColor,
-    Stack gaugechartdisplay, int situation, BuildContext ctx, String location) {
-  return Material(
-    color: Colors.white,
-    elevation: 5.0,
-    shadowColor: themeColor,
-    borderRadius: BorderRadius.circular(10.0),
-    child: Center(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                // text
-                Padding(
-                  padding: const EdgeInsets.all(1.0),
-                  child: Text(
-                    heading,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 14.0,
-                    ),
-                  ),
-                ),
-                //Icon
-
-                Center(
-                  child: new Container(
-                      padding: const EdgeInsets.fromLTRB(40, 10, 0, 0),
-                      height: 10,
-                      width:
-                          350, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay    donutchartdisplay   gaugechartdisplay
-                      child: energychartselector(location)),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-Material mypieItems(String heading, Color themeColor,
-    charts.PieChart piechartdisplay, int situation, ctx, String location) {
+Material productivityItems(String heading, Color themeColor, int situation, ctx, String location) {
   return Material(
     color: Colors.white,
     elevation: 5.0,
@@ -381,3 +335,18 @@ Material mypieItems(String heading, Color themeColor,
 }
 
 
+String mold = '2888';
+String averageMold = '113.51';
+String partCount = '232';
+_getData(location,sit) async {
+      final response = await http.get('http://flatformapi.herokuapp.com/users/fakeapi');
+        Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
+        if (sit == '2888') {
+        return map['fakeapi'][0]['T1']['machines'][location]['mold'].toString();
+        } else if (sit == '113.51'){
+                    
+        return map['fakeapi'][0]['T1']['machines'][location]['cycleMeanMold'].toString();
+        }else {
+        return map['fakeapi'][0]['T1']['machines'][location]['partCount']['mold'].toString();
+        }
+    }

@@ -9,10 +9,13 @@ class TabBars extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TabBar(
+            
             controller: tabController,
-            indicatorColor: themeColor,
-            labelColor: themeColor,
-            unselectedLabelColor: themeColor,
+            indicatorWeight: 2,
+            indicatorColor: Colors.blue,
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.blue,
+            
             tabs: <Widget>[
               Tab(
                 icon: Icon(Icons.home),

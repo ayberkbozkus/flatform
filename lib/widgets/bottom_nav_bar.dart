@@ -21,7 +21,10 @@ class CustomBottomNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(items: [
+      tabBar: CupertinoTabBar(
+        activeColor: Colors.blue,
+        items: [
+        
         _navItemCreater(TabItems.Home),
         _navItemCreater(TabItems.Notification),
         _navItemCreater(TabItems.Ticket),

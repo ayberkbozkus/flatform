@@ -44,7 +44,7 @@ class _PersonNotificationState extends State {
       child: Column(
         children:[ 
           Padding(
-            padding: const EdgeInsets.all(2.0),
+            padding: const EdgeInsets.fromLTRB(2,25,2,2),
             child: Card(
               
               color: Colors.white,
@@ -67,6 +67,9 @@ class _PersonNotificationState extends State {
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                               hintText: 'Konu',
+                              hoverColor: Colors.blue,
+                              fillColor: Colors.blue,
+                              focusColor: Colors.blue,
                               icon: new Icon(
                                 Icons.mail,
                                 color: Colors.grey,
@@ -121,16 +124,6 @@ class _PersonNotificationState extends State {
                               height: 10,
                             ),
 
-                            RaisedButton(
-                              elevation: 5.0,
-                              shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0)),
-                              child: new Text('Bildirim Gönder',
-                              style: new TextStyle(fontSize: 20.0, color: Colors.white)),
-                              color: Colors.blue,
-                              onPressed: fireStoreAdd,
-                            ),
-                            
                           ],
                         ),
                       ),

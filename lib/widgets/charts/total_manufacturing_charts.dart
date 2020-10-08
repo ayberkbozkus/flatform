@@ -10,16 +10,35 @@ class TotalManufacturingChart extends StatelessWidget {
 
   const TotalManufacturingChart({Key key, this.location}) : super(key: key);
 
-  static Map<dynamic, String> facilityModeName = {0: 'Bekleme', 1: 'Manuel', 2: 'Seri Üretim', 3: 'Setup', 4: 'Yarı Otomatik'} ;
+  static Map<dynamic, String> facilityModeName = {0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9'} ;
   static Map<dynamic, String> facilityModeCharacters = {0: 'B', 1: 'M', 2: 'S', 3: 'S', 4: 'Y'} ;
 
-  
+  static String facilty;
 
   _getData() async {
+
+    if (location.startsWith('Tür')|location.startsWith('Ro')) {
+    facilty = location;
     final response = await http.get(
-        'http://flatformapi.herokuapp.com/users/fakeapi');
+      'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    return map['fakeapi'][0]['T3']['facilityModePerc'];
+    debugPrint(map['fakeapi'][0][location]['hourlyPartCount'].toString());
+    return map['fakeapi'][0][location]['hourlyPartCount'];
+    }else if (location.startsWith('T')) {
+    facilty = location;
+    final response = await http.get(
+      'http://flatformapi.herokuapp.com/users/fakeapi');
+    Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
+    debugPrint(map['fakeapi'][0][location]['hourlyPartCount'].toString());
+    return map['fakeapi'][0][location]['hourlyPartCount'];
+    } else {
+      final response = await http.get(
+      'http://flatformapi.herokuapp.com/users/fakeapi');
+    Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
+    debugPrint(map['fakeapi'][0][facilty]['machines'][location]['hourlyPartCount'].toString());
+    return map['fakeapi'][0][facilty]['machines'][location]['hourlyPartCount'];
+    }
+    
   }
 
   @override
@@ -29,21 +48,9 @@ class TotalManufacturingChart extends StatelessWidget {
           future: _getData(),
           builder: (BuildContext context,AsyncSnapshot snapshot){
             if(snapshot.connectionState == ConnectionState.done)
-              return new charts.PieChart(
+              return new charts.BarChart(
                   dataList(snapshot.data),
-                  defaultRenderer: new charts.ArcRendererConfig(
-                      arcRendererDecorators: [new charts.ArcLabelDecorator()]),
-                      behaviors: [
-            new charts.DatumLegend(
-              desiredMaxRows: 5,
-              desiredMaxColumns: 2,
-              position: charts.BehaviorPosition.start,
-              entryTextStyle: charts.TextStyleSpec(
-                fontSize: 12,
-              ),
-              
-            )
-          ],
+          animationDuration: Duration(microseconds: 2000),
               );
             else
               return Center(child: CircularProgressIndicator());
@@ -54,19 +61,20 @@ class TotalManufacturingChart extends StatelessWidget {
 
   
 
-  static List<charts.Series<Productivity, dynamic>> dataList(Map<dynamic, dynamic> apiData) {
+        
+
+  static List<charts.Series<Productivity, String>> dataList(Map<dynamic, dynamic> apiData) {
     List<Productivity> list = new List();
 
-    for(int i=0; i<5; i++)
+    for(int i=0; i<9; i++)
       list.add(new Productivity(facilityModeName[i], apiData[facilityModeName[i]]));
 
     return [
-      new charts.Series<Productivity, dynamic>(
+      new charts.Series(
         id: 'Tesis Verimliligi',
         domainFn: (Productivity productivity, _) => productivity.name,
         measureFn: (Productivity productivity, _) => productivity.value,
         data: list,
-        labelAccessorFn: (Productivity row, _) => '${row.name}: ${row.value}',
       )
     ];
   }
@@ -74,7 +82,7 @@ class TotalManufacturingChart extends StatelessWidget {
 
 class Productivity {
   final String name;
-  final double value;
+  final int value;
   Productivity(this.name, this.value);
 }
 

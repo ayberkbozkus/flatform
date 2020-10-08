@@ -11,7 +11,7 @@ class EnergyChart extends StatelessWidget {
   const EnergyChart({Key key, this.location}) : super(key: key);
 
   static Map<dynamic, String> productivityModeName = {0: 'Günlük', 1: 'Haftalık'} ;
-  static Map<dynamic, String> productivityModeCharacters = {0: 'G', 1: 'H'} ;
+  static Map<dynamic, String> productivityModeCharacters = {0: 'D', 1: 'W'} ;
 
   static String facilty;
 
