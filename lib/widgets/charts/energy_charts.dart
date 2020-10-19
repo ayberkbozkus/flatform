@@ -14,6 +14,7 @@ class EnergyChart extends StatelessWidget {
   static Map<dynamic, String> productivityModeCharacters = {0: 'D', 1: 'W'} ;
 
   static String facilty;
+  static String daily;
 
   _getData() async {
 
@@ -23,6 +24,7 @@ class EnergyChart extends StatelessWidget {
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
     debugPrint(map['fakeapi'][0][location]['Energy'].toString());
+    daily = map['fakeapi'][0][location]['Energy']['Günlük'].toString();
     return map['fakeapi'][0][location]['Energy'];
     }else if (location.startsWith('T')) {
     facilty = location;
@@ -30,12 +32,14 @@ class EnergyChart extends StatelessWidget {
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
     debugPrint(map['fakeapi'][0][location]['Energy'].toString());
+    daily = map['fakeapi'][0][location]['Energy']['Günlük'].toString();
     return map['fakeapi'][0][location]['Energy'];
     } else {
       final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
     debugPrint(map['fakeapi'][0][facilty]['machines'][location]['Energy'].toString());
+    daily = map['fakeapi'][0][facilty]['machines'][location]['Energy']['Günlük'].toString();
     return map['fakeapi'][0][facilty]['machines'][location]['Energy'];
     }
     
@@ -48,9 +52,10 @@ class EnergyChart extends StatelessWidget {
           future: _getData(),
           builder: (BuildContext context,AsyncSnapshot snapshot){
             if(snapshot.connectionState == ConnectionState.done)
-              return new charts.PieChart(
+              return Stack(children: [
+                new charts.PieChart(
                   dataList(snapshot.data),
-                  defaultRenderer: new charts.ArcRendererConfig(
+                  defaultRenderer:  new charts.ArcRendererConfig(
                     arcWidth: 20,
                     startAngle: 9 / 10 * 3.14,
                     arcLength: 6 / 5 * 3.14,
@@ -66,7 +71,22 @@ class EnergyChart extends StatelessWidget {
               
             )
           ],
-              );
+              ),
+              Center(
+        child: Container(
+          margin: EdgeInsets.only(bottom:25),
+          child: Text(
+            daily,
+            style: TextStyle(
+              fontSize: 10.0,
+              color: Colors.blue,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+        ),
+      ),
+              ]);
+              
             else
               return Center(child: CircularProgressIndicator());
           }
