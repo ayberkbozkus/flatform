@@ -12,7 +12,7 @@ class WorkingSituationChart extends StatelessWidget {
   static Map<dynamic, String> productivityModeCharacters = {0: 'Ç', 1: 'T'} ;
 
   static String facilty;
-
+  static String machineNumber;
   _getData() async {
 
     if (location.startsWith('Tür')|location.startsWith('Ro')) {
@@ -20,20 +20,20 @@ class WorkingSituationChart extends StatelessWidget {
     final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    debugPrint(map['fakeapi'][0][location]['workmachines'].toString());
+    machineNumber = map['fakeapi'][0][location]['workmachines']['Çalışan'].toString();
     return map['fakeapi'][0][location]['workmachines'];
     }else if (location.startsWith('T')) {
     facilty = location;
     final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    debugPrint(map['fakeapi'][0][location]['workmachines'].toString());
+    machineNumber = map['fakeapi'][0][location]['workmachines']['Çalışan'].toString();
     return map['fakeapi'][0][location]['machines']['workmachines'];
     } else {
       final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    debugPrint(map['fakeapi'][0][facilty]['machines'][location]['modePerc'].toString());
+    machineNumber = map['fakeapi'][0][facilty]['machines'][location]['modePerc']['Çalışan'].toString();
     return map['fakeapi'][0]['Türkiye'];
     }
     
@@ -46,7 +46,8 @@ class WorkingSituationChart extends StatelessWidget {
           future: _getData(),
           builder: (BuildContext context,AsyncSnapshot snapshot){
             if(snapshot.connectionState == ConnectionState.done)
-              return new charts.PieChart(
+              return Stack(children: [
+                new charts.PieChart(
                   dataList(snapshot.data),
                   defaultRenderer: new charts.ArcRendererConfig(
                     arcWidth: 20,
@@ -64,7 +65,21 @@ class WorkingSituationChart extends StatelessWidget {
               
             )
           ],
-              );
+              ),
+              Center(
+        child: Container(
+          margin: EdgeInsets.only(bottom:25),
+          child: Text(
+            machineNumber,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: Colors.blue,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+        ),
+      ),
+              ]);
             else
               return Center(child: CircularProgressIndicator());
           }
