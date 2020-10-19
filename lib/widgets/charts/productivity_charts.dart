@@ -51,7 +51,7 @@ class ProductivityChart extends StatelessWidget {
               return new charts.PieChart(
                   dataList(snapshot.data),
                   defaultRenderer: new charts.ArcRendererConfig(
-                      arcRendererDecorators: [new charts.ArcLabelDecorator()]),
+                      ),
                       behaviors: [
             new charts.DatumLegend(
               desiredMaxRows: 5,

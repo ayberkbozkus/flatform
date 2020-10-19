@@ -54,14 +54,13 @@ class EnergyChart extends StatelessWidget {
                     arcWidth: 20,
                     startAngle: 9 / 10 * 3.14,
                     arcLength: 6 / 5 * 3.14,
-                      arcRendererDecorators: [new charts.ArcLabelDecorator()]),
+                      ),
                       behaviors: [
             new charts.DatumLegend(
-              desiredMaxRows: 5,
               desiredMaxColumns: 2,
               position: charts.BehaviorPosition.bottom,
               entryTextStyle: charts.TextStyleSpec(
-                fontSize: 12,
+                fontSize: 8,
               ),
               
               
@@ -80,8 +79,11 @@ class EnergyChart extends StatelessWidget {
   static List<charts.Series<Productivity, dynamic>> dataList(Map<dynamic, dynamic> apiData) {
     List<Productivity> list = new List();
 
-    for(int i=0; i<2; i++)
-      list.add(new Productivity(productivityModeName[i], apiData[productivityModeName[i]]));
+    for(int i=0; i<1; i++){
+      list.add(new Productivity(productivityModeName[i], apiData[productivityModeName[i]]) );
+      list.add(new Productivity(productivityModeName[i+1], 600-apiData[productivityModeName[i]]) );
+    }
+      
 
     return [
       new charts.Series<Productivity, dynamic>(

@@ -50,14 +50,15 @@ class WorkingSituationChart extends StatelessWidget {
                   dataList(snapshot.data),
                   defaultRenderer: new charts.ArcRendererConfig(
                     arcWidth: 20,
-                      arcRendererDecorators: [new charts.ArcLabelDecorator(labelPosition: charts.ArcLabelPosition.inside)]),
+                      ),
                       behaviors: [
+                        
             new charts.DatumLegend(
               desiredMaxRows: 5,
               desiredMaxColumns: 2,
               position: charts.BehaviorPosition.bottom,
               entryTextStyle: charts.TextStyleSpec(
-                fontSize: 12,
+                fontSize: 9,
               ),
               
               

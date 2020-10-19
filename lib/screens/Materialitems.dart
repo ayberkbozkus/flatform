@@ -7,7 +7,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 Material totalManufacturingItems(String heading, Color themeColor, int situation, BuildContext ctx, String location) {
   return Material(
-    color: Colors.white,
+    color: Colors.grey[50],
     elevation: 5.0,
     shadowColor: themeColor,
     borderRadius: BorderRadius.circular(10.0),
@@ -33,47 +33,7 @@ Material totalManufacturingItems(String heading, Color themeColor, int situation
                   ),
                 ),
                 //Icon
-
-                Column(
-                  children: [
-                    Row(children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 2.0, horizontal: 40),
-                        child: FlatButton(
-                          height: 25,
-                          minWidth: 60,
-                          color: themeColor,
-                          padding: EdgeInsets.all(0),
-                          onPressed: () {},
-                          child: Text(
-                            'Dün',
-                            style: TextStyle(
-                              fontSize: 10.0,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 2.0, horizontal: 40),
-                        child: FlatButton(
-                          height: 25,
-                          minWidth: 60,
-                          color: themeColor,
-                          padding: EdgeInsets.all(0),
-                          onPressed: () {},
-                          child: Text(
-                            'Bugün',
-                            style: TextStyle(
-                              fontSize: 10.0,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ]),
+  
                     Center(
                       child: new Container(
                           height: 140,
@@ -81,8 +41,6 @@ Material totalManufacturingItems(String heading, Color themeColor, int situation
                               340, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
                           child: totalmanufacturingChart(location)),
                     ),
-                  ],
-                ),
               ],
             ),
           ],
@@ -94,7 +52,7 @@ Material totalManufacturingItems(String heading, Color themeColor, int situation
 
 Material energyItems(String heading, Color themeColor, int situation, BuildContext ctx, String location) {
   return Material(
-    color: Colors.white,
+    color: Colors.grey[50],
     elevation: 5.0,
     shadowColor: themeColor,
     borderRadius: BorderRadius.circular(10.0),
@@ -139,7 +97,7 @@ Material energyItems(String heading, Color themeColor, int situation, BuildConte
 
 Material workingSituationItems(String heading, Color themeColor, int situation, BuildContext ctx, String location) {
   return Material(
-    color: situation == 4 ? Colors.transparent : Colors.white,
+    color: situation == 4 ? Colors.transparent : Colors.grey[50],
     elevation: situation == 4 ? 0 : 5.0,
     shadowColor: themeColor,
     borderRadius: BorderRadius.circular(10.0),
@@ -251,7 +209,7 @@ Material workingSituationItems(String heading, Color themeColor, int situation, 
 
 Material productivityItems(String heading, Color themeColor, int situation, ctx, String location) {
   return Material(
-    color: Colors.white,
+    color: Colors.grey[50],
     elevation: 5.0,
     shadowColor: themeColor,
     borderRadius: BorderRadius.circular(10.0),
@@ -278,44 +236,7 @@ Material productivityItems(String heading, Color themeColor, int situation, ctx,
                 ),
                 //Icon
 
-                Column(
-                  children: [
-                    Row(children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FlatButton(
-                          height: 25,
-                          minWidth: 60,
-                          color: themeColor,
-                          padding: EdgeInsets.all(0),
-                          onPressed: () {},
-                          child: Text(
-                            'Dün',
-                            style: TextStyle(
-                              fontSize: 10.0,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FlatButton(
-                          height: 25,
-                          minWidth: 60,
-                          color: themeColor,
-                          padding: EdgeInsets.all(0),
-                          onPressed: () {},
-                          child: Text(
-                            'Bugün',
-                            style: TextStyle(
-                              fontSize: 10.0,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ]),
+                
                     Center(
                       child: new Container(
                           height: 190,
@@ -323,8 +244,8 @@ Material productivityItems(String heading, Color themeColor, int situation, ctx,
                               350, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
                           child: productivitychartselector(location)),
                     ),
-                  ],
-                ),
+                  
+                
               ],
             ),
           ],

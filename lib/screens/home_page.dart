@@ -211,9 +211,9 @@ theme: ThemeData(
                     
                     StaggeredTile.extent(1, 220.0),
                     StaggeredTile.extent(1, 220.0),
-                    StaggeredTile.extent(2, 240.0),
+                    StaggeredTile.extent(2, 220.0),
                     // StaggeredTile.extent(2, 210.0),
-                    StaggeredTile.extent(2, 300.0),
+                    StaggeredTile.extent(2, 260.0),
                   ],
                 ),
               ),
