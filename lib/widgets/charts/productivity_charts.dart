@@ -19,6 +19,22 @@ class ProductivityChart extends StatelessWidget {
 
     if (location.startsWith('Tür')|location.startsWith('Ro')) {
     facilty = location;
+
+      String title;
+      final responsee = await http.post(
+          'http://45.130.13.92:4340/dash_api?section=5min&device=mobile',
+          headers: <String, String>{
+            'Content-Type':'application/json',
+            'fluster': 'fluster!2020',
+          },
+          body: jsonEncode(<String, String>{
+          'title': title,
+        }),
+      );
+
+      debugPrint(responsee.statusCode.toString());
+
+
     final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());

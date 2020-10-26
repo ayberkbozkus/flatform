@@ -81,7 +81,7 @@ Material energyItems(String heading, Color themeColor, int situation, BuildConte
 
                 Center(
                   child: new Container(
-                      height: 150,
+                      height: 160,
                       width: 150,
                       //piechartdisplay    barchartdisplay  wbarchartdisplay
                       child: energychartselector(location)),
@@ -118,14 +118,31 @@ Material workingSituationItems(String heading, Color themeColor, int situation, 
                             color: themeColor,
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
+                                  const EdgeInsets.symmetric(horizontal: 10,vertical: 14),
                               child: Center(
-                                  child: Text(
-                                'Kalıp No: EK'+mold,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              )),
+                                  child: Column(
+                                children: [
+                                  Text(
+                                    'Kalıp No',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    'EK'+mold,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                                  
+                                  
+                                  ),
                             )),
                       ),
                     ),
@@ -137,14 +154,27 @@ Material workingSituationItems(String heading, Color themeColor, int situation, 
                           shadowColor: themeColor,
                           color: themeColor,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 31),
+                            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 14),
                             child: Center(
-                              child: Text(
-                                'Toplam Parça\nSayısı: '+partCount,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.center,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Toplam Parça Sayısı',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    partCount,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -160,14 +190,30 @@ Material workingSituationItems(String heading, Color themeColor, int situation, 
                             color: themeColor,
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 6),
+                                  const EdgeInsets.symmetric(horizontal: 10,vertical: 14),
                               child: Center(
-                                  child: Text('Ortalama Çevrim:\n${averageMold}'
-                                ,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              )),
+                                  child: Column(
+                                children: [
+                                  Text(
+                                    'Ortalama Çevrim',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    averageMold,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                                  
+                                  ),
                             )),
                       ),
                     ),

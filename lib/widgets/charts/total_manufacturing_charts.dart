@@ -11,6 +11,7 @@ class TotalManufacturingChart extends StatelessWidget {
   const TotalManufacturingChart({Key key, this.location}) : super(key: key);
 
   static Map<dynamic, String> facilityModeName = {0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9'} ;
+  static Map<dynamic, String> facilityModeNamee = {0: 'T1', 1: 'T2', 2: 'T3'} ;
   static Map<dynamic, String> facilityModeCharacters = {0: 'B', 1: 'M', 2: 'S', 3: 'S', 4: 'Y'} ;
 
   static String facilty;
@@ -22,20 +23,17 @@ class TotalManufacturingChart extends StatelessWidget {
     final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    debugPrint(map['fakeapi'][0][location]['hourlyPartCount'].toString());
     return map['fakeapi'][0][location]['hourlyPartCount'];
     }else if (location.startsWith('T')) {
     facilty = location;
     final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    debugPrint(map['fakeapi'][0][location]['hourlyPartCount'].toString());
     return map['fakeapi'][0][location]['hourlyPartCount'];
     } else {
       final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    debugPrint(map['fakeapi'][0][facilty]['machines'][location]['hourlyPartCount'].toString());
     return map['fakeapi'][0][facilty]['machines'][location]['hourlyPartCount'];
     }
     
@@ -65,9 +63,14 @@ class TotalManufacturingChart extends StatelessWidget {
 
   static List<charts.Series<Productivity, String>> dataList(Map<dynamic, dynamic> apiData) {
     List<Productivity> list = new List();
-
-    for(int i=0; i<9; i++)
+    if(apiData[facilityModeNamee[0]]!=null){
+      for(int i=0; i<3; i++)
+      list.add(new Productivity(facilityModeNamee[i], apiData[facilityModeNamee[i]]));
+    }else{
+      for(int i=0; i<9; i++)
       list.add(new Productivity(facilityModeName[i], apiData[facilityModeName[i]]));
+    }
+    
 
     return [
       new charts.Series(

@@ -23,7 +23,6 @@ class EnergyChart extends StatelessWidget {
     final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    debugPrint(map['fakeapi'][0][location]['Energy'].toString());
     daily = map['fakeapi'][0][location]['Energy']['Günlük'].toString();
     return map['fakeapi'][0][location]['Energy'];
     }else if (location.startsWith('T')) {
@@ -31,14 +30,12 @@ class EnergyChart extends StatelessWidget {
     final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    debugPrint(map['fakeapi'][0][location]['Energy'].toString());
     daily = map['fakeapi'][0][location]['Energy']['Günlük'].toString();
     return map['fakeapi'][0][location]['Energy'];
     } else {
       final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    debugPrint(map['fakeapi'][0][facilty]['machines'][location]['Energy'].toString());
     daily = map['fakeapi'][0][facilty]['machines'][location]['Energy']['Günlük'].toString();
     return map['fakeapi'][0][facilty]['machines'][location]['Energy'];
     }
@@ -61,28 +58,57 @@ class EnergyChart extends StatelessWidget {
                     arcLength: 6 / 5 * 3.14,
                       ),
                       behaviors: [
-            new charts.DatumLegend(
-              desiredMaxColumns: 2,
-              position: charts.BehaviorPosition.bottom,
-              entryTextStyle: charts.TextStyleSpec(
-                fontSize: 8,
-              ),
-              
-              
-            )
+            
           ],
               ),
               Center(
-        child: Container(
-          margin: EdgeInsets.only(bottom:25),
-          child: Text(
-            daily,
-            style: TextStyle(
-              fontSize: 10.0,
-              color: Colors.blue,
-              fontWeight: FontWeight.bold
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top:100),
+              child: Text(
+                'Günlük Ortalama',
+                style: TextStyle(
+                  fontSize: 11.0,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
             ),
-          ),
+            Container(
+              margin: EdgeInsets.only(top:0),
+              child: Text(
+                daily+' kwh/saat',
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.black38,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top:0),
+              child: Text(
+                'Haftalık Ortalama',
+                style: TextStyle(
+                  fontSize: 11.0,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top:0),
+              child: Text(
+                daily+' kwh/saat',
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.black38,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+          ],
         ),
       ),
               ]);

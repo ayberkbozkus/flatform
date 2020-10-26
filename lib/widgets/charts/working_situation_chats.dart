@@ -14,27 +14,31 @@ class WorkingSituationChart extends StatelessWidget {
   static String facilty;
   static String machineNumber;
   _getData() async {
-
+    debugPrint('-------------');
+    print(location);
+    debugPrint('-------------');
     if (location.startsWith('Tür')|location.startsWith('Ro')) {
-    facilty = location;
-    final response = await http.get(
-      'http://flatformapi.herokuapp.com/users/fakeapi');
-    Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    machineNumber = map['fakeapi'][0][location]['workmachines']['Çalışan'].toString();
-    return map['fakeapi'][0][location]['workmachines'];
-    }else if (location.startsWith('T')) {
-    facilty = location;
-    final response = await http.get(
-      'http://flatformapi.herokuapp.com/users/fakeapi');
-    Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    machineNumber = map['fakeapi'][0][location]['workmachines']['Çalışan'].toString();
+      facilty = location;
+      final response = await http.get('http://flatformapi.herokuapp.com/users/fakeapi');
+      Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
+      machineNumber = map['fakeapi'][0][location]['workmachines']['Çalışan'].toString();
+      return map['fakeapi'][0][location]['workmachines'];
+    }
+    else if (location.startsWith('T')) {
+      facilty = location;
+      final response = await http.get('http://flatformapi.herokuapp.com/users/fakeapi');
+      Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
+      machineNumber = map['fakeapi'][0][location]['workmachines']['Çalışan'].toString();
+    debugPrint('hello');
+    debugPrint(map['fakeapi'][0][location]['machines']['workmachines']);
+    debugPrint('hello');
     return map['fakeapi'][0][location]['machines']['workmachines'];
     } else {
       final response = await http.get(
       'http://flatformapi.herokuapp.com/users/fakeapi');
     Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
     machineNumber = map['fakeapi'][0][facilty]['machines'][location]['modePerc']['Çalışan'].toString();
-    return map['fakeapi'][0]['Türkiye'];
+    return map['fakeapi'][0]['Türkiye']['workmachines'];
     }
     
   }
