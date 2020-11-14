@@ -1,11 +1,13 @@
 # This is a generated file; do not edit or check into version control.
-cloud_firestore=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.14.0+2/
-cloud_firestore_web=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-0.2.0+1/
-firebase_auth=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.18.0+1/
-firebase_auth_web=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-0.3.0+1/
-firebase_core=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.5.0/
-firebase_core_web=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-0.2.0/
-firebase_messaging=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-7.0.0/
-flutter_local_notifications=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-1.4.4+4/
-google_sign_in=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-4.5.3/
-google_sign_in_web=/Users/ayberkbozkus/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_web-0.9.2/
+cloud_firestore=/Users/mobil/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.14.3/
+cloud_firestore_web=/Users/mobil/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-0.2.1/
+firebase_analytics=/Users/mobil/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-6.2.0/
+firebase_analytics_web=/Users/mobil/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_analytics_web-0.1.1/
+firebase_auth=/Users/mobil/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.18.3/
+firebase_auth_web=/Users/mobil/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-0.3.2/
+firebase_core=/Users/mobil/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.5.2/
+firebase_core_web=/Users/mobil/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-0.2.1/
+firebase_messaging=/Users/mobil/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-7.0.3/
+flutter_local_notifications=/Users/mobil/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-1.5.0+1/
+google_sign_in=/Users/mobil/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-4.5.6/
+google_sign_in_web=/Users/mobil/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_web-0.9.2/

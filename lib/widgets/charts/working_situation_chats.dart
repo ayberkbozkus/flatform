@@ -5,11 +5,14 @@ import 'dart:convert';
 
 class WorkingSituationChart extends StatelessWidget {
   final String location;
-  
+
   const WorkingSituationChart({Key key, this.location}) : super(key: key);
 
-  static Map<dynamic, String> productivityModeName = {0: 'Çalışan', 1: 'Toplam'} ;
-  static Map<dynamic, String> productivityModeCharacters = {0: 'Ç', 1: 'T'} ;
+  static Map<dynamic, String> productivityModeName = {
+    0: 'Çalışan',
+    1: 'Toplam'
+  };
+  static Map<dynamic, String> productivityModeCharacters = {0: 'Ç', 1: 'T'};
 
   static String facilty;
   static String machineNumber;
@@ -17,30 +20,34 @@ class WorkingSituationChart extends StatelessWidget {
     debugPrint('-------------');
     print(location);
     debugPrint('-------------');
-    if (location.startsWith('Tür')|location.startsWith('Ro')) {
+    if (location.startsWith('Tür') | location.startsWith('Ro')) {
       facilty = location;
-      final response = await http.get('http://flatformapi.herokuapp.com/users/fakeapi');
-      Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-      machineNumber = map['fakeapi'][0][location]['workmachines']['Çalışan'].toString();
+      final response =
+          await http.get('http://flatformapi.herokuapp.com/users/fakeapi');
+      Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
+      machineNumber =
+          map['fakeapi'][0][location]['workmachines']['Çalışan'].toString();
       return map['fakeapi'][0][location]['workmachines'];
-    }
-    else if (location.startsWith('T')) {
+    } else if (location.startsWith('T')) {
       facilty = location;
-      final response = await http.get('http://flatformapi.herokuapp.com/users/fakeapi');
-      Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-      machineNumber = map['fakeapi'][0][location]['workmachines']['Çalışan'].toString();
-    debugPrint('hello');
-    debugPrint(map['fakeapi'][0][location]['machines']['workmachines']);
-    debugPrint('hello');
-    return map['fakeapi'][0][location]['machines']['workmachines'];
+      final response =
+          await http.get('http://flatformapi.herokuapp.com/users/fakeapi');
+      Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
+      machineNumber =
+          map['fakeapi'][0][location]['workmachines']['Çalışan'].toString();
+      debugPrint('hello');
+      debugPrint(map['fakeapi'][0][location]['machines']['workmachines']);
+      debugPrint('hello');
+      return map['fakeapi'][0][location]['machines']['workmachines'];
     } else {
-      final response = await http.get(
-      'http://flatformapi.herokuapp.com/users/fakeapi');
-    Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    machineNumber = map['fakeapi'][0][facilty]['machines'][location]['modePerc']['Çalışan'].toString();
-    return map['fakeapi'][0]['Türkiye']['workmachines'];
+      final response =
+          await http.get('http://flatformapi.herokuapp.com/users/fakeapi');
+      Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
+      machineNumber = map['fakeapi'][0][facilty]['machines'][location]
+              ['modePerc']['Çalışan']
+          .toString();
+      return map['fakeapi'][0]['Türkiye']['workmachines'];
     }
-    
   }
 
   @override
@@ -48,56 +55,51 @@ class WorkingSituationChart extends StatelessWidget {
     return Scaffold(
       body: FutureBuilder(
           future: _getData(),
-          builder: (BuildContext context,AsyncSnapshot snapshot){
-            if(snapshot.connectionState == ConnectionState.done)
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.done)
               return Stack(children: [
                 new charts.PieChart(
                   dataList(snapshot.data),
                   defaultRenderer: new charts.ArcRendererConfig(
                     arcWidth: 20,
+                  ),
+                  behaviors: [
+                    new charts.DatumLegend(
+                      desiredMaxRows: 5,
+                      desiredMaxColumns: 2,
+                      position: charts.BehaviorPosition.bottom,
+                      entryTextStyle: charts.TextStyleSpec(
+                        fontSize: 9,
                       ),
-                      behaviors: [
-                        
-            new charts.DatumLegend(
-              desiredMaxRows: 5,
-              desiredMaxColumns: 2,
-              position: charts.BehaviorPosition.bottom,
-              entryTextStyle: charts.TextStyleSpec(
-                fontSize: 9,
-              ),
-              
-              
-            )
-          ],
-              ),
-              Center(
-        child: Container(
-          margin: EdgeInsets.only(bottom:25),
-          child: Text(
-            machineNumber,
-            style: TextStyle(
-              fontSize: 20.0,
-              color: Colors.blue,
-              fontWeight: FontWeight.bold
-            ),
-          ),
-        ),
-      ),
+                    )
+                  ],
+                ),
+                Center(
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 25),
+                    child: Text(
+                      machineNumber,
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
               ]);
             else
               return Center(child: CircularProgressIndicator());
-          }
-      ),
+          }),
     );
   }
 
-  
-
-  static List<charts.Series<Productivity, dynamic>> dataList(Map<dynamic, dynamic> apiData) {
+  static List<charts.Series<Productivity, dynamic>> dataList(
+      Map<dynamic, dynamic> apiData) {
     List<Productivity> list = new List();
 
-    for(int i=0; i<2; i++)
-      list.add(new Productivity(productivityModeName[i], apiData[productivityModeName[i]]));
+    for (int i = 0; i < 2; i++)
+      list.add(new Productivity(
+          productivityModeName[i], apiData[productivityModeName[i]]));
 
     return [
       new charts.Series<Productivity, dynamic>(
@@ -110,8 +112,6 @@ class WorkingSituationChart extends StatelessWidget {
     ];
   }
 }
-
-
 
 class Productivity {
   final String name;
