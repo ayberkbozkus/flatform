@@ -1,11 +1,11 @@
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flatform/functions/function.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-Material totalManufacturingItems(String heading, Color themeColor, int situation, BuildContext ctx, String location) {
+Material totalManufacturingItems(String heading, Color themeColor,
+    int situation, BuildContext ctx, String location) {
   return Material(
     color: Colors.grey[50],
     elevation: 5.0,
@@ -33,14 +33,14 @@ Material totalManufacturingItems(String heading, Color themeColor, int situation
                   ),
                 ),
                 //Icon
-  
-                    Center(
-                      child: new Container(
-                          height: 140,
-                          width:
-                              340, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
-                          child: totalmanufacturingChart(location)),
-                    ),
+
+                Center(
+                  child: new Container(
+                      height: 140,
+                      width:
+                          340, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
+                      child: totalmanufacturingChart(location)),
+                ),
               ],
             ),
           ],
@@ -50,7 +50,8 @@ Material totalManufacturingItems(String heading, Color themeColor, int situation
   );
 }
 
-Material energyItems(String heading, Color themeColor, int situation, BuildContext ctx, String location) {
+Material energyItems(String heading, Color themeColor, int situation,
+    BuildContext ctx, String location) {
   return Material(
     color: Colors.grey[50],
     elevation: 5.0,
@@ -95,7 +96,8 @@ Material energyItems(String heading, Color themeColor, int situation, BuildConte
   );
 }
 
-Material workingSituationItems(String heading, Color themeColor, int situation, BuildContext ctx, String location) {
+Material workingSituationItems(String heading, Color themeColor, int situation,
+    BuildContext ctx, String location) {
   return Material(
     color: situation == 4 ? Colors.transparent : Colors.grey[50],
     elevation: situation == 4 ? 0 : 5.0,
@@ -117,32 +119,29 @@ Material workingSituationItems(String heading, Color themeColor, int situation, 
                             shadowColor: themeColor,
                             color: themeColor,
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10,vertical: 14),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 14),
                               child: Center(
-                                  child: Column(
-                                children: [
-                                  Text(
-                                    'Kalıp No',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Kalıp No',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.center,
                                     ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Text(
-                                    'EK'+mold,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17,
+                                    Text(
+                                      'EK' + mold,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                      ),
+                                      textAlign: TextAlign.center,
                                     ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                                  
-                                  
-                                  ),
                             )),
                       ),
                     ),
@@ -154,7 +153,8 @@ Material workingSituationItems(String heading, Color themeColor, int situation, 
                           shadowColor: themeColor,
                           color: themeColor,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 14),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 14),
                             child: Center(
                               child: Column(
                                 children: [
@@ -162,7 +162,6 @@ Material workingSituationItems(String heading, Color themeColor, int situation, 
                                     'Toplam Parça Sayısı',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -189,31 +188,29 @@ Material workingSituationItems(String heading, Color themeColor, int situation, 
                             shadowColor: themeColor,
                             color: themeColor,
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10,vertical: 14),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 14),
                               child: Center(
-                                  child: Column(
-                                children: [
-                                  Text(
-                                    'Ortalama Çevrim',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Ortalama Çevrim',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.center,
                                     ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Text(
-                                    averageMold,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17,
+                                    Text(
+                                      averageMold,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                      ),
+                                      textAlign: TextAlign.center,
                                     ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                                  
-                                  ),
                             )),
                       ),
                     ),
@@ -248,12 +245,11 @@ Material workingSituationItems(String heading, Color themeColor, int situation, 
         ),
       ),
     ),
-    
   );
-  
 }
 
-Material productivityItems(String heading, Color themeColor, int situation, ctx, String location) {
+Material productivityItems(
+    String heading, Color themeColor, int situation, ctx, String location) {
   return Material(
     color: Colors.grey[50],
     elevation: 5.0,
@@ -282,16 +278,13 @@ Material productivityItems(String heading, Color themeColor, int situation, ctx,
                 ),
                 //Icon
 
-                
-                    Center(
-                      child: new Container(
-                          height: 190,
-                          width:
-                              350, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
-                          child: productivitychartselector(location)),
-                    ),
-                  
-                
+                Center(
+                  child: new Container(
+                      height: 190,
+                      width:
+                          350, //piechartdisplay    barchartdisplay     sfRadialGaugedisplay
+                      child: productivitychartselector(location)),
+                ),
               ],
             ),
           ],
@@ -301,19 +294,22 @@ Material productivityItems(String heading, Color themeColor, int situation, ctx,
   );
 }
 
-
 String mold = '2888';
 String averageMold = '113.51';
 String partCount = '232';
-_getData(location,sit) async {
-      final response = await http.get('http://flatformapi.herokuapp.com/users/fakeapi');
-        Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-        if (sit == '2888') {
-        return map['fakeapi'][0]['T1']['machines'][location]['mold'].toString();
-        } else if (sit == '113.51'){
-                    
-        return map['fakeapi'][0]['T1']['machines'][location]['cycleMeanMold'].toString();
-        }else {
-        return map['fakeapi'][0]['T1']['machines'][location]['partCount']['mold'].toString();
-        }
-    }
+_getData(location, sit) async {
+  String url = "http://45.130.13.92:4340/dash_api?section=5min&device=mobile";
+  var response = await http.get(url, headers: {"fluster": "fluster!2020"});
+  Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
+
+  if (sit == '2888') {
+    return map["Turkey"]['facilities']["T1"]['machines'][location]["lastMold"]
+        .toString();
+  } else if (sit == '113.51') {
+    return map['fakeapi'][0]['T1']['machines'][location]['cycleMeanMold']
+        .toString();
+  } else {
+    return map['fakeapi'][0]['T1']['machines'][location]['partCount']['mold']
+        .toString();
+  }
+}

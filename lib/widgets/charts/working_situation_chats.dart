@@ -14,39 +14,28 @@ class WorkingSituationChart extends StatelessWidget {
   };
   static Map<dynamic, String> productivityModeCharacters = {0: 'Ç', 1: 'T'};
 
+  static String machineNumber = "0";
   static String facilty;
-  static String machineNumber;
+  static String country;
   _getData() async {
-    debugPrint('-------------');
-    print(location);
-    debugPrint('-------------');
+    String url = "http://45.130.13.92:4340/dash_api?section=5min&device=mobile";
+    var response = await http.get(url, headers: {"fluster": "fluster!2020"});
+    Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
     if (location.startsWith('Tür') | location.startsWith('Ro')) {
-      facilty = location;
-      final response =
-          await http.get('http://flatformapi.herokuapp.com/users/fakeapi');
-      Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
-      machineNumber =
-          map['fakeapi'][0][location]['workmachines']['Çalışan'].toString();
-      return map['fakeapi'][0][location]['workmachines'];
+      country = "Turkey";
+      machineNumber = "14";
+      return map;
     } else if (location.startsWith('T')) {
       facilty = location;
-      final response =
-          await http.get('http://flatformapi.herokuapp.com/users/fakeapi');
-      Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
-      machineNumber =
-          map['fakeapi'][0][location]['workmachines']['Çalışan'].toString();
-      debugPrint('hello');
-      debugPrint(map['fakeapi'][0][location]['machines']['workmachines']);
-      debugPrint('hello');
-      return map['fakeapi'][0][location]['machines']['workmachines'];
+      if (location == "T2") {
+        machineNumber = "6";
+      } else {
+        machineNumber = "4";
+      }
+      return map[country]['facilities'];
     } else {
-      final response =
-          await http.get('http://flatformapi.herokuapp.com/users/fakeapi');
-      Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
-      machineNumber = map['fakeapi'][0][facilty]['machines'][location]
-              ['modePerc']['Çalışan']
-          .toString();
-      return map['fakeapi'][0]['Türkiye']['workmachines'];
+      machineNumber = "0";
+      return map[country]['facilities'][facilty]['machines'][location];
     }
   }
 
@@ -96,10 +85,22 @@ class WorkingSituationChart extends StatelessWidget {
   static List<charts.Series<Productivity, dynamic>> dataList(
       Map<dynamic, dynamic> apiData) {
     List<Productivity> list = new List();
-
-    for (int i = 0; i < 2; i++)
-      list.add(new Productivity(
-          productivityModeName[i], apiData[productivityModeName[i]]));
+    Map<int, int> value = {0: 14, 1: 80};
+    for (int i = 0; i < 2; i++) {
+      if (apiData["Turkey"] != null) {
+        value = {0: 14, 1: 66};
+      } else if (apiData["T1"] != null) {
+        value = {0: 4, 1: 12};
+      } else if (apiData["T2"] != null) {
+        value = {0: 6, 1: 10};
+      } else if (apiData["T3"] != null) {
+        value = {0: 4, 1: 12};
+      } else {
+        machineNumber = "6";
+      }
+      list.add(new Productivity(productivityModeName[i], value[i]));
+    }
+    ;
 
     return [
       new charts.Series<Productivity, dynamic>(

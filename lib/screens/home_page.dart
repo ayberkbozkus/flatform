@@ -1,16 +1,17 @@
 import 'dart:convert';
 import 'package:flatform/widgets/tabBar/tabbar.dart';
 import 'package:flatform/viewmodel/user_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'notification.dart';
 import 'user_transactions.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'MaterialItems.dart';
 
 class HomePage extends StatefulWidget {
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -19,56 +20,79 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   String mold;
   String moldaverage;
   String moldnumber;
-  
+  _getData<StringProperty>(facility, location) async {
+    String url = "http://45.130.13.92:4340/dash_api?section=5sec&device=mobile";
+    var response = await http.get(url, headers: {"fluster": "fluster!2020"});
+    Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
+    return map[facility]["machines"][location]["mode"].toString();
+  }
+
+  _colorSelect<Colors>(value) {
+    String mode = value.toString();
+    if (mode == "Seri Üretim") {
+      return Color(0xFF32cd32);
+    } else if (mode == "Yarı Otomatik") {
+      return Color(0xFFff8c00);
+    } else if (mode == "Manuel") {
+      return Color(0xFFccff00);
+    } else if (mode == "Setup") {
+      return Color(0xFF1e90ff);
+    } else if (mode == "Bekleme") {
+      return Color(0xFF21d6ff);
+    } else if (mode == "Bakım") {
+      return Color(0xFFff9292);
+    } else {
+      return Color(0xFF2196f3);
+    }
+  }
+
   String location = "Türkiye";
   String tesis = 'Tesis Seçin';
   String makine = 'Makine Seçin';
-  String energyValue ='';
+  String energyValue = '';
   int situation = 0;
   Color themeColor = Colors.blue;
   bool selected;
   TabController tabController;
 
-
   var headerAppBar;
-
-  
-    
-   
+  _colorChanger() {
+    setState(() {
+      var temp = _colorSelect(_getData(tesis, makine).toString()) == null
+          ? Colors.red
+          : _colorSelect(_getData(tesis, makine));
+      themeColor = temp;
+    });
+  }
 
   void initState() {
-    
-    
-        
     super.initState();
-    
-    
+
     tabController = TabController(length: 3, vsync: this);
   }
 
-  
   int _currentIndex = 0;
-
-  
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: MaterialApp(
-theme: ThemeData(
-
-    primaryColor: themeColor,
-    accentColor: themeColor,),
-              home: Scaffold(
+        theme: ThemeData(
+          primaryColor: themeColor,
+          accentColor: themeColor,
+        ),
+        home: Scaffold(
           appBar: headerAppBar = AppBar(
             title: Text('$location'),
             centerTitle: true,
-            actions: [IconButton(icon: Icon(Icons.exit_to_app), onPressed: () {
-
-              _logOut();
-               
-            })],
+            actions: [
+              IconButton(
+                  icon: Icon(Icons.exit_to_app),
+                  onPressed: () {
+                    _logOut();
+                  })
+            ],
           ),
           drawer: new Drawer(
             child: ListView(
@@ -83,112 +107,107 @@ theme: ThemeData(
                     ),
                   ),
                 ),
-                
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      FlatButton(onPressed: () {
-                        location = 'Türkiye';
-                        setState(() {
-                          selected = false;
-                          tesis = 'Tesis Seçiniz';
-                          situation = 1;
-                          themeColor = Colors.blue;
-                        });
-                      }, child: Image.asset('assets/icons/turkey.png', width: 50,),),
-                      FlatButton(onPressed: () {
-                        location = 'Romanya';
-                        print(energyValue);
+                      FlatButton(
+                        onPressed: () {
+                          location = 'Türkiye';
+                          setState(() {
+                            selected = false;
+                            tesis = 'Tesis Seçiniz';
+                            situation = 1;
+                            themeColor = Colors.blue;
+                          });
+                        },
+                        child: Image.asset(
+                          'assets/icons/turkey.png',
+                          width: 50,
+                        ),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          location = 'Romanya';
+                          print(energyValue);
 
-                        setState(() {
-                          selected = null;
-                          tesis = 'Tesis Seçiniz';
-                          situation = 2;
-                          themeColor = Colors.blue;
-                        });
-                        
-                      }, child: Image.asset('assets/icons/romania.png', width: 50,),)
+                          setState(() {
+                            selected = null;
+                            tesis = 'Tesis Seçiniz';
+                            situation = 2;
+                            themeColor = Colors.blue;
+                          });
+                        },
+                        child: Image.asset(
+                          'assets/icons/romania.png',
+                          width: 50,
+                        ),
+                      )
                     ],
                   ),
                 ),
-                selected != null ? Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 5),
-                              child: DropdownButton(
-                                hint: Text(tesis),
-                                items: [
-                                  DropdownMenuItem(
-                                    child: Text("T1"),
-                                    value: "T1",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("T2"),
-                                    value: "T2",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("T3"),
-                                    value: "T3",
-                                  )
-                                ],
-                                onChanged: (String value) {
+                selected != null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                        child: DropdownButton(
+                          hint: Text(tesis),
+                          items: [
+                            DropdownMenuItem(
+                              child: Text("T1"),
+                              value: "T1",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("T2"),
+                              value: "T2",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("T3"),
+                              value: "T3",
+                            )
+                          ],
+                          onChanged: (String value) {
+                            setState(() {
+                              tesis = value;
+                              location = value;
 
-                                  setState(() {
-                                    tesis = value;
-                                    location = value;
-                                    
-                                    selected = true;
-                                    makine = 'Makine Seçiniz';
-                                    situation = 3;
-                                    themeColor = Colors.blue;
-                                  });
-                                },
-                              ),
-                            ): Padding(padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 5),),
-                selected == true ? Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 5),
-                              child: DropdownButton(
-                                hint: Text(makine),
-                                items: machines(location),
-                                onChanged: (String value) {
-                                  setState(() {
-                                    
-                                    makine = value;
-                                    location = value;
-                                    situation = 4;
-                                    switch(makine) { 
-                                      case 'E053': { 
-                                          themeColor = Colors.green;
-                                      } 
-                                      break; 
-                                      
-                                      case 'E053': { 
-                                          themeColor = Colors.grey;
-                                      } 
-                                      break; 
-
-                                      case 'E053': { 
-                                          themeColor = Colors.red;
-                                      } 
-                                      break; 
-                                          
-                                      default: { 
-                                          themeColor = Colors.blue;
-                                      }
-                                      break; 
-                                    } 
-                                  });
-                                },
-                              ),
-                            ): Padding(padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 5),),
-                
+                              selected = true;
+                              makine = 'Makine Seçiniz';
+                              situation = 3;
+                              themeColor = Colors.blue;
+                            });
+                          },
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                      ),
+                selected == true
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                        child: DropdownButton(
+                          hint: Text(makine),
+                          items: machines(location),
+                          onChanged: (String value) {
+                            setState(() {
+                              makine = value;
+                              location = value;
+                              situation = 4;
+                              debugPrint(makine + tesis);
+                              _colorChanger();
+                            });
+                          },
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                      ),
               ],
             ),
           ),
-          
           body: TabBarView(
             controller: tabController,
             children: <Widget>[
@@ -197,18 +216,21 @@ theme: ThemeData(
                   crossAxisCount: 2,
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
-                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   children: <Widget>[
-                   // String heading, Color themeColor, Stack piechartdisplay, int situation
-                    workingSituationItems(
-                        "Çalışan Makine Sayısı", themeColor, situation, context, location),
-                    energyItems("Enerji Tüketimi", themeColor, situation, context, location),
-                    totalManufacturingItems("Toplam Üretim", themeColor, situation, context, location),
+                    // String heading, Color themeColor, Stack piechartdisplay, int situation
+                    workingSituationItems("Çalışan Makine Sayısı", themeColor,
+                        situation, context, location),
+                    energyItems("Enerji Tüketimi", themeColor, situation,
+                        context, location),
+                    totalManufacturingItems("Toplam Üretim", themeColor,
+                        situation, context, location),
                     // myradialItemsP("Hatalı Parça", themeColor, gaugechartdisplay, situation, context),
-                    productivityItems("Tesis Verimliliği", themeColor, situation, context, location),
+                    productivityItems("Tesis Verimliliği", themeColor,
+                        situation, context, location),
                   ],
                   staggeredTiles: [
-                    
                     StaggeredTile.extent(1, 220.0),
                     StaggeredTile.extent(1, 220.0),
                     StaggeredTile.extent(2, 220.0),
@@ -239,86 +261,83 @@ theme: ThemeData(
       ),
     );
   }
-  Future<bool> _logOut( ) async {
+
+  Future<bool> _logOut() async {
     final _userModel = Provider.of<UserModel>(context, listen: false);
     bool result = await _userModel.signOut();
     _userModel.signOut();
-    print(result.toString() +'result');
+    print(result.toString() + 'result');
     return result;
   }
 
   List<DropdownMenuItem<String>> machines(String tesis) {
-    if(tesis == 'T1') {
+    if (tesis == 'T1') {
       return [
-                                DropdownMenuItem(
-                                    child: Text("E053"),
-                                    value: "E053",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("E114"),
-                                    value: "E114",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("E102"),
-                                    value: "E102",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("E117"),
-                                    value: "E117",
-                                  )
-                                ];
-    }else if (tesis == 'T2') {
+        DropdownMenuItem(
+          child: Text("E053"),
+          value: "E053",
+        ),
+        DropdownMenuItem(
+          child: Text("E114"),
+          value: "E114",
+        ),
+        DropdownMenuItem(
+          child: Text("E102"),
+          value: "E102",
+        ),
+        DropdownMenuItem(
+          child: Text("E117"),
+          value: "E117",
+        )
+      ];
+    } else if (tesis == 'T2') {
       return [
-                                  
-                                  DropdownMenuItem(
-                                    child: Text("E059"),
-                                    value: "E059",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("E083"),
-                                    value: "E083",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("E096"),
-                                    value: "E096",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("E104"),
-                                    value: "E104",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("E109"),
-                                    value: "E109",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("E115"),
-                                    value: "E115",
-                                  ),
-                                ];
-      
-    }else if (tesis == 'T3') {
+        DropdownMenuItem(
+          child: Text("E059"),
+          value: "E059",
+        ),
+        DropdownMenuItem(
+          child: Text("E083"),
+          value: "E083",
+        ),
+        DropdownMenuItem(
+          child: Text("E096"),
+          value: "E096",
+        ),
+        DropdownMenuItem(
+          child: Text("E104"),
+          value: "E104",
+        ),
+        DropdownMenuItem(
+          child: Text("E109"),
+          value: "E109",
+        ),
+        DropdownMenuItem(
+          child: Text("E115"),
+          value: "E115",
+        ),
+      ];
+    } else if (tesis == 'T3') {
       return [
-                                  DropdownMenuItem(
-                                    child: Text("E009"),
-                                    value: "E009",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("E018"),
-                                    value: "E018",
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("E034"),
-                                    value: "E034",
-                                  ),
-                                DropdownMenuItem(
-                                    child: Text("E080"),
-                                    value: "E080",
-                                  ),
-                                ];
+        DropdownMenuItem(
+          child: Text("E009"),
+          value: "E009",
+        ),
+        DropdownMenuItem(
+          child: Text("E018"),
+          value: "E018",
+        ),
+        DropdownMenuItem(
+          child: Text("E034"),
+          value: "E034",
+        ),
+        DropdownMenuItem(
+          child: Text("E080"),
+          value: "E080",
+        ),
+      ];
     }
-    
   }
-      
 }
 /*
 

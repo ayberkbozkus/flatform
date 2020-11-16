@@ -1,99 +1,88 @@
-
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ProductivityChart extends StatelessWidget {
-
   final String location;
-  
+
   const ProductivityChart({Key key, this.location}) : super(key: key);
 
-  static Map<dynamic, String> productivityModeName = {0: 'Bekleme', 1: 'Manuel', 2: 'Seri Üretim', 3: 'Setup', 4: 'Yarı Otomatik'} ;
-  static Map<dynamic, String> productivityModeCharacters = {0: 'B', 1: 'M', 2: 'S', 3: 'S', 4: 'Y'} ;
+  static Map<dynamic, String> productivityModeName = {
+    0: 'Manuel',
+    1: 'Setup',
+    2: 'Semi Automatic',
+    3: 'Automatic',
+    4: 'Hold to Run'
+  };
+  static Map<dynamic, String> productivityModeCharacters = {
+    0: 'B',
+    1: 'M',
+    2: 'S',
+    3: 'S',
+    4: 'Y'
+  };
 
   static String facilty;
-
+  static String country;
   _getData() async {
-
-    if (location.startsWith('Tür')|location.startsWith('Ro')) {
-    facilty = location;
-
-      String title;
-      final responsee = await http.post(
-          'http://45.130.13.92:4340/dash_api?section=5min&device=mobile',
-          headers: <String, String>{
-            'Content-Type':'application/json',
-            'fluster': 'fluster!2020',
-          },
-          body: jsonEncode(<String, String>{
-          'title': title,
-        }),
-      );
-
-      debugPrint(responsee.statusCode.toString());
-
-
-    final response = await http.get(
-      'http://flatformapi.herokuapp.com/users/fakeapi');
-    Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    debugPrint(map['fakeapi'][0]['T1']['facilityModePerc'].toString());
-    return map['fakeapi'][0]['T1']['facilityModePerc'];
-    }else if (location.startsWith('T')) {
-    facilty = location;
-    final response = await http.get(
-      'http://flatformapi.herokuapp.com/users/fakeapi');
-    Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    debugPrint(map['fakeapi'][0][location]['facilityModePerc'].toString());
-    return map['fakeapi'][0][location]['facilityModePerc'];
+    String url = "http://45.130.13.92:4340/dash_api?section=5min&device=mobile";
+    var response = await http.get(url, headers: {"fluster": "fluster!2020"});
+    if (location.startsWith('Tür') | location.startsWith('Ro')) {
+      country = location;
+      Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
+      return map["Turkey"]['statusPerc'];
+    } else if (location.startsWith('T')) {
+      facilty = location;
+      Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
+      return map["Turkey"]["facilities"]["T3"]["statusPerc"];
     } else {
-      final response = await http.get(
-      'http://flatformapi.herokuapp.com/users/fakeapi');
-    Map<dynamic,dynamic> map = jsonDecode(response.body.toString());
-    debugPrint(map['fakeapi'][0][facilty]['machines'][location]['modePerc'].toString());
-    return map['fakeapi'][0][facilty]['machines'][location]['modePerc'];
+      Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
+
+      return map["Turkey"]["facilities"][facilty]["machines"][location]
+          ['statusPerc'];
     }
-    
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder(
-          future: _getData(),
-          builder: (BuildContext context,AsyncSnapshot snapshot){
-            if(snapshot.connectionState == ConnectionState.done)
-              return new charts.PieChart(
-                  dataList(snapshot.data),
-                  defaultRenderer: new charts.ArcRendererConfig(
-                      ),
-                      behaviors: [
-            new charts.DatumLegend(
-              desiredMaxRows: 5,
-              desiredMaxColumns: 2,
-              position: charts.BehaviorPosition.start,
-              entryTextStyle: charts.TextStyleSpec(
-                fontSize: 12,
-              ),
-              
-            )
-          ],
-              );
-            else
-              return Center(child: CircularProgressIndicator());
-          }
-      ),
-    );
+    return FutureBuilder(
+        future: _getData(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done)
+            return new charts.PieChart(
+              dataList(snapshot.data),
+              defaultRenderer: new charts.ArcRendererConfig(),
+              behaviors: [
+                new charts.DatumLegend(
+                  desiredMaxRows: 5,
+                  desiredMaxColumns: 2,
+                  position: charts.BehaviorPosition.start,
+                  entryTextStyle: charts.TextStyleSpec(
+                    fontSize: 12,
+                  ),
+                )
+              ],
+            );
+          else
+            return Center(child: CircularProgressIndicator());
+        });
   }
 
-  
-
-  static List<charts.Series<Productivity, dynamic>> dataList(Map<dynamic, dynamic> apiData) {
+  static List<charts.Series<Productivity, dynamic>> dataList(
+      Map<dynamic, dynamic> apiData) {
     List<Productivity> list = new List();
 
-    for(int i=0; i<5; i++)
-      list.add(new Productivity(productivityModeName[i], apiData[productivityModeName[i]]));
+    for (int i = 0; i < 5; i++) {
+      double value = 0.0;
+      if (apiData[productivityModeName[i]] == null) {
+        value = 0.0;
+      } else {
+        value = apiData[productivityModeName[i]];
+      }
+      list.add(new Productivity(productivityModeName[i], value));
+    }
+    ;
 
     return [
       new charts.Series<Productivity, dynamic>(
@@ -107,16 +96,11 @@ class ProductivityChart extends StatelessWidget {
   }
 }
 
-
-
 class Productivity {
   final String name;
   final double value;
   Productivity(this.name, this.value);
 }
-
-
-
 
 /*
 class ChartApp extends StatelessWidget {
