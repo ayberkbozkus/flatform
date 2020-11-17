@@ -20,30 +20,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   String mold;
   String moldaverage;
   String moldnumber;
-  _getData<StringProperty>(facility, location) async {
-    String url = "http://45.130.13.92:4340/dash_api?section=5sec&device=mobile";
-    var response = await http.get(url, headers: {"fluster": "fluster!2020"});
+  _getData<StringProperty>(location, facility) async {
+    String url = "http://flatformapi.herokuapp.com/users/fakeapi";
+    var response = await http.get(url);
     Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
-    return map[facility]["machines"][location]["mode"].toString();
-  }
-
-  _colorSelect<Colors>(value) {
-    String mode = value.toString();
-    if (mode == "Seri Üretim") {
-      return Color(0xFF32cd32);
-    } else if (mode == "Yarı Otomatik") {
-      return Color(0xFFff8c00);
-    } else if (mode == "Manuel") {
-      return Color(0xFFccff00);
-    } else if (mode == "Setup") {
-      return Color(0xFF1e90ff);
-    } else if (mode == "Bekleme") {
-      return Color(0xFF21d6ff);
-    } else if (mode == "Bakım") {
-      return Color(0xFFff9292);
-    } else {
-      return Color(0xFF2196f3);
-    }
+    String tesis = facility.toString();
+    String makine = location.toString();
+    debugPrint(tesis);
+    debugPrint(makine);
+    _colorSelect(
+        map["fakeapi"][0][tesis]["machines"][makine]["mode"].toString());
   }
 
   String location = "Türkiye";
@@ -54,14 +40,27 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Color themeColor = Colors.blue;
   bool selected;
   TabController tabController;
-
   var headerAppBar;
-  _colorChanger() {
+  _colorSelect<Colors>(value) {
+    String mode = value.toString();
+    Color tempColor;
+    if (mode == "Seri Üretim") {
+      tempColor = Color(0xFF32cd32);
+    } else if (mode == "Yarı Otomatik") {
+      tempColor = Color(0xFFff8c00);
+    } else if (mode == "Manuel") {
+      tempColor = Color(0xFFccff00);
+    } else if (mode == "Setup") {
+      tempColor = Color(0xFF1e90ff);
+    } else if (mode == "Bekleme") {
+      tempColor = Color(0xFF21d6ff);
+    } else if (mode == "Bakım") {
+      tempColor = Color(0xFFff9292);
+    } else {
+      tempColor = Color(0xFF2196f3);
+    }
     setState(() {
-      var temp = _colorSelect(_getData(tesis, makine).toString()) == null
-          ? Colors.red
-          : _colorSelect(_getData(tesis, makine));
-      themeColor = temp;
+      themeColor = tempColor;
     });
   }
 
@@ -195,8 +194,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               makine = value;
                               location = value;
                               situation = 4;
-                              debugPrint(makine + tesis);
-                              _colorChanger();
+
+                              _getData(makine, tesis);
                             });
                           },
                         ),
