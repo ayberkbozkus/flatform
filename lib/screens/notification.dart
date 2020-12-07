@@ -14,14 +14,7 @@ class PersonNotification extends StatefulWidget {
 }
 
 class _PersonNotificationState extends State {
-  final List<NotificationModel> _notificationdata = [
-    NotificationModel(
-      title: 'Arıza',
-      message: 'E009 numaralı makina arızalandı',
-      toWho: 'Üretim Mühendisleri',
-      date: DateTime.now(),
-      id: DateTime.now().toString(),
-    ),];
+  final List<NotificationModel> _notificationdata = [];
   @override
   void initState() {
     super.initState();
@@ -30,9 +23,6 @@ class _PersonNotificationState extends State {
   }
 
   void _sendNotification(String txTitle, String txMessage, String txtoWho) {
-    
-  
-    
     final newTx = NotificationModel(
       title: txTitle,
       message: txMessage,
@@ -44,11 +34,6 @@ class _PersonNotificationState extends State {
     setState(() {
       _notificationdata.add(newTx);
     });
-
-  
-  
-  
-
   }
 
   @override
@@ -56,7 +41,6 @@ class _PersonNotificationState extends State {
     return ListView(
       children: <Widget>[
         NewNotification(_sendNotification),
-        NotificationList(_notificationdata),
       ],
     );
   }

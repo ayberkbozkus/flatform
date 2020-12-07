@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-
 class NewNotification extends StatefulWidget {
   final Function addTx;
 
@@ -29,32 +28,31 @@ class _NewNotificationState extends State<NewNotification> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             Padding(
-                                  padding: const EdgeInsets.symmetric( vertical: 5),
-                                  child: DropdownButton(
-                                    isExpanded: true,
-                                    hint: Text(toWho),
-                                    items: [
-                                      DropdownMenuItem(
-                                        child: Text("Tesis Sorumluları"),
-                                        value: "Tesis Sorumluları",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("Üretim Mühendisleri"),
-                                        value: "Üretim Mühendisleri",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("Takım"),
-                                        value: "Takım",
-                                      )
-                                    ],
-                                    onChanged: (String value) {
-                                      setState(() {
-                                        toWho = value;
-                                        
-                                      });
-                                    },
-                                  ),
-                                ),
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: DropdownButton(
+                isExpanded: true,
+                hint: Text(toWho),
+                items: [
+                  DropdownMenuItem(
+                    child: Text("Tesis Sorumluları"),
+                    value: "Tesis Sorumluları",
+                  ),
+                  DropdownMenuItem(
+                    child: Text("Üretim Mühendisleri"),
+                    value: "Üretim Mühendisleri",
+                  ),
+                  DropdownMenuItem(
+                    child: Text("Takım Liderleri"),
+                    value: "Takım Liderleri",
+                  )
+                ],
+                onChanged: (String value) {
+                  setState(() {
+                    toWho = value;
+                  });
+                },
+              ),
+            ),
             TextField(
               decoration: InputDecoration(labelText: 'Konu'),
               controller: title,
@@ -83,11 +81,7 @@ class _NewNotificationState extends State<NewNotification> {
   }
 
   void bildirimAtma() async {
-    widget.addTx(
-      title.text,
-      message.text,
-      toWho
-    );
+    widget.addTx(title.text, message.text, toWho);
 
     var url = 'http://flatformapi.herokuapp.com/users/notifications';
     var response = await http.post(url, body: {

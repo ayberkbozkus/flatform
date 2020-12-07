@@ -21,15 +21,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   String moldaverage;
   String moldnumber;
   _getData<StringProperty>(location, facility) async {
-    String url = "http://flatformapi.herokuapp.com/users/fakeapi";
-    var response = await http.get(url);
+    String url = "http://45.130.13.92:4340/dash_api?section=5sec&device=mobile";
+    var response = await http.get(url, headers: {"fluster": "fluster!2020"});
     Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
     String tesis = facility.toString();
     String makine = location.toString();
-    debugPrint(tesis);
-    debugPrint(makine);
-    _colorSelect(
-        map["fakeapi"][0][tesis]["machines"][makine]["mode"].toString());
+    debugPrint(map["Turkey"]["facilities"][tesis]["machines"][makine]
+            ["activeStatus"]
+        .toString());
+    _colorSelect(map["Turkey"]["facilities"][tesis]["machines"][makine]
+            ["activeStatus"]
+        .toString());
   }
 
   String location = "Türkiye";
@@ -44,9 +46,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   _colorSelect<Colors>(value) {
     String mode = value.toString();
     Color tempColor;
-    if (mode == "Seri Üretim") {
+    if (mode == "Automatic") {
       tempColor = Color(0xFF32cd32);
-    } else if (mode == "Yarı Otomatik") {
+    } else if (mode == "Semi Automatic") {
       tempColor = Color(0xFFff8c00);
     } else if (mode == "Manuel") {
       tempColor = Color(0xFFccff00);
@@ -220,14 +222,26 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   children: <Widget>[
                     // String heading, Color themeColor, Stack piechartdisplay, int situation
                     workingSituationItems("Çalışan Makine Sayısı", themeColor,
-                        situation, context, location),
+                        situation, context, location, tesis),
                     energyItems("Enerji Tüketimi", themeColor, situation,
                         context, location),
-                    totalManufacturingItems("Toplam Üretim", themeColor,
-                        situation, context, location),
+                    totalManufacturingItems(
+                        !location.startsWith("E")
+                            ? "Toplam Üretim"
+                            : "Saatlik Toplam Üretim",
+                        themeColor,
+                        situation,
+                        context,
+                        location),
                     // myradialItemsP("Hatalı Parça", themeColor, gaugechartdisplay, situation, context),
-                    productivityItems("Tesis Verimliliği", themeColor,
-                        situation, context, location),
+                    productivityItems(
+                        !location.startsWith("E")
+                            ? "Tesis Verimliliği"
+                            : "Makine Verimliliği",
+                        themeColor,
+                        situation,
+                        context,
+                        location),
                   ],
                   staggeredTiles: [
                     StaggeredTile.extent(1, 220.0),

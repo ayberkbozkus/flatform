@@ -97,7 +97,7 @@ Material energyItems(String heading, Color themeColor, int situation,
 }
 
 Material workingSituationItems(String heading, Color themeColor, int situation,
-    BuildContext ctx, String location) {
+    BuildContext ctx, String location, String facility) {
   return Material(
     color: situation == 4 ? Colors.transparent : Colors.grey[50],
     elevation: situation == 4 ? 0 : 5.0,
@@ -131,14 +131,26 @@ Material workingSituationItems(String heading, Color themeColor, int situation,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
-                                    Text(
-                                      'EK' + mold,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
+                                    FutureBuilder(
+                                        future: _getMData(location, facility),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.done) {
+                                            return Text(
+                                              'EK' + snapshot.data.toString(),
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 17,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            );
+                                          } else {
+                                            return Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          }
+                                        })
                                   ],
                                 ),
                               ),
@@ -165,14 +177,26 @@ Material workingSituationItems(String heading, Color themeColor, int situation,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
-                                  Text(
-                                    partCount,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                                  FutureBuilder(
+                                      future: _getNData(location, facility),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.done) {
+                                          return Text(
+                                            snapshot.data.toString(),
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 17,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          );
+                                        } else {
+                                          return Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        }
+                                      })
                                 ],
                               ),
                             ),
@@ -297,19 +321,44 @@ Material productivityItems(
 String mold = '2888';
 String averageMold = '113.51';
 String partCount = '232';
-_getData(location, sit) async {
-  String url = "http://45.130.13.92:4340/dash_api?section=5min&device=mobile";
+_getMData(location, facility) async {
+  debugPrint("\n\n\n Hello \n\n\n");
+  String url = "http://45.130.13.92:4340/dash_api?section=5sec&device=mobile";
   var response = await http.get(url, headers: {"fluster": "fluster!2020"});
   Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
+  debugPrint(map["Turkey"]["facilities"]["T1"]["machines"]["E102"]
+          ["activeCounter"]
+      .toString());
 
-  if (sit == '2888') {
-    return map["Turkey"]['facilities']["T1"]['machines'][location]["lastMold"]
-        .toString();
-  } else if (sit == '113.51') {
-    return map['fakeapi'][0]['T1']['machines'][location]['cycleMeanMold']
+  if (response.statusCode == 200) {
+    // map["Turkey"]["facilities"][facility]["machines"][location]["activeStatus"]
+    // map["Turkey"]["facilities"][facility]["machines"][location]["activeMold"]
+
+    return map["Turkey"]["facilities"][facility]["machines"][location]
+            ["activeMold"]
         .toString();
   } else {
-    return map['fakeapi'][0]['T1']['machines'][location]['partCount']['mold']
+    throw Exception("Not response ${response.statusCode}");
+  }
+}
+
+_getNData(location, facility) async {
+  debugPrint("\n\n\n Hello \n\n\n");
+  String url = "http://45.130.13.92:4340/dash_api?section=5sec&device=mobile";
+  var response = await http.get(url, headers: {"fluster": "fluster!2020"});
+  Map<dynamic, dynamic> map = jsonDecode(response.body.toString());
+  debugPrint(map["Turkey"]["facilities"]["T1"]["machines"]["E102"]
+          ["activeCounter"]
+      .toString());
+
+  if (response.statusCode == 200) {
+    // map["Turkey"]["facilities"][facility]["machines"][location]["activeStatus"]
+    // map["Turkey"]["facilities"][facility]["machines"][location]["activeMold"]
+
+    return map["Turkey"]["facilities"][facility]["machines"][location]
+            ["activeCounter"]
         .toString();
+  } else {
+    throw Exception("Not response ${response.statusCode}");
   }
 }
